@@ -1,0 +1,74 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.text-pink {
+    color: #03396c;
+}
+
+.btn-pink {
+    background-color: #03396c;
+    color: white;
+    border: none;
+}
+
+    .btn-pink:hover {
+        background-color: white;
+        color: #03396c;
+    }
+
+.ship-card {
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+    .ship-card:hover {
+        transform: scale(1.03);
+    }
+
+.ship-img {
+    height: 220px;
+    object-fit: cover;
+}
+
+#vessel {
+    color: #03396c;
+}
+
+#view {
+    border-color: #03396c;
+
+}
+    #view:hover {
+        background-color: #03396c;
+        color: white;
+    }
+
+#backfleet {
+    color: white;
+    background-color: #03396c;
+}
+    #backfleet:hover {
+        background-color: white;
+        color: #03396c;
+    }   

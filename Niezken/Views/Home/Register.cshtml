@@ -1,0 +1,172 @@
+﻿@model Niezken.Models.RegisterViewModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Register - Niezken Sea Ferry";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        .bg-overlay {
+            background: linear-gradient(rgba(3, 57, 108, 0.7), rgba(0, 119, 182, 0.5)), url('https://images.unsplash.com/photo-1500514966906-fe245eea9344?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .register-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            color: white;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-logo {
+            height: 55px;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4)) drop-shadow(0 0 15px rgba(0, 180, 216, 0.3));
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.9) !important;
+            border: none;
+            border-radius: 12px;
+            padding: 10px 20px;
+            color: #03396c;
+        }
+
+        .form-floating label {
+            color: #666;
+        }
+
+        .btn-register {
+            background: #fdfdfd;
+            color: #03396c;
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            width: 100%;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+            .btn-register:hover {
+                background: #00b4d8;
+                color: white;
+                transform: scale(1.02);
+            }
+        #eyee{
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: royalblue;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-overlay">
+        <div class="register-card">
+            <div class="text-center">
+                <img src="~/image/LOG.png" alt="Logo" class="login-logo" />
+                <h2 class="fw-bold">CREATE ACCOUNT</h2>
+                <p class="small text-white-50 mb-2">Start your journey with Niezken Sea Ferry.</p>
+
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success py-2 small">@TempData["SuccessMessage"]</div>
+                }
+            </div>
+
+            <form asp-controller="Home" asp-action="Register" method="post">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="form-floating">
+                            <input asp-for="FirstName" class="form-control" placeholder="First Name" />
+                            <label asp-for="FirstName">First Name</label>
+                            <span asp-validation-for="FirstName" class="text-warning @*custom-error*@" style="font-size: 0.75rem;"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="form-floating">
+                            <input asp-for="LastName" class="form-control" placeholder="Last Name" />
+                            <label asp-for="LastName">Last Name</label>
+                            <span asp-validation-for="LastName" class="text-warning" style="font-size: 0.75rem;"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Email" class="form-control" placeholder="name@example.com" />
+                    <label asp-for="Email">Email address</label>
+                    <span asp-validation-for="Email" class="text-warning" style="font-size: 0.75rem;"></span>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
+                    <label asp-for="Password">Password</label>
+                    <i class="fa fa-eye toggle-eye" id="eyee" data-target="Password"></i>
+                    <span asp-validation-for="Password"  class="text-warning" style="font-size: 0.75rem;"></span>
+                </div>
+
+                <div class="form-floating mb-4">
+                    <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm" />
+                    <label asp-for="ConfirmPassword">Confirm Password</label>
+                    <span asp-validation-for="ConfirmPassword" class="text-warning" style="font-size: 0.75rem;"></span>
+                    <i class="fa fa-eye toggle-eye" id="eyee" data-target="ConfirmPassword"></i>
+                </div>
+
+                <button type="submit" class="btn-register">Sign Up</button>
+
+                <div class="text-center mt-4">
+                    <p class="small mb-0">Already a traveler? <a asp-controller="Home" asp-action="Login" class="text-info fw-bold text-decoration-none">Login</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="~/js/site.js"></script>
+    @* Client-side validation to show errors without refreshing *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

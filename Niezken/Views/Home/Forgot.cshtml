@@ -1,0 +1,128 @@
+﻿@model Niezken.Models.ErrorViewModel // Change this to your actual ViewModel if you have one, or remove it
+@{
+    Layout = null;
+    ViewData["Title"] = "Forgot Password - Niezken Sea Ferry";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        .bg-overlay {
+            background: linear-gradient(rgba(3, 57, 108, 0.7), rgba(0, 119, 182, 0.5)), url('https://images.unsplash.com/photo-1500514966906-fe245eea9344?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .forgot-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 50px 40px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            color: white;
+            text-align: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-logo {
+            height: 60px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4)) drop-shadow(0 0 15px rgba(0, 180, 216, 0.3));
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.9) !important;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 20px;
+            color: #03396c;
+        }
+
+        .form-floating label {
+            color: #666;
+        }
+
+        .btn-reset {
+            background: #fdfdfd;
+            color: #03396c;
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            width: 100%;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+
+            .btn-reset:hover {
+                background: #00b4d8;
+                color: white;
+                transform: scale(1.02);
+            }
+
+        .back-link {
+            color: white;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-overlay">
+        <div class="forgot-card">
+            <img src="~/image/LOG.png" alt="Logo" class="login-logo" />
+            <h3 class="fw-bold">PASSWORD RECOVERY</h3>
+            <p class="small mb-4 text-white-50">Enter your email for reset instructions.</p>
+
+            <form method="post">
+                <div class="form-floating mb-4">
+                    <input type="email" class="form-control" id="emailInput" placeholder="name@example.com" required />
+                    <label for="emailInput">Email Address</label>
+                </div>
+
+                <button type="submit" class="btn-reset">Send Reset Link</button>
+
+                <div class="mt-4">
+                    <a asp-controller="Home" asp-action="Login" class="back-link">
+                        <i class="fas fa-arrow-left me-2"></i> Back to Login
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
