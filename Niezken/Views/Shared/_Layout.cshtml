@@ -7,16 +7,14 @@
     <title>Seaphaerys - @ViewData["Title"]</title>
 
     <link rel="icon" href="~/favicons.ico" />
-
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
     <style>
-
         body {
             background: #f5fbff;
-            font-family: 'Segoe UI',sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -29,57 +27,141 @@
         }
 
         .navbar {
-            padding: 12px 20px;
+            padding: 8px 20px; 
         }
 
         .navbar-brand img {
-            height: 50px;
+            height: 38px;
         }
 
         .nav-link {
             color: #03396c !important;
             font-weight: 600;
-            margin-right: 30px;
+            margin: 24px; 
+            font-size: 0.95rem;
             position: relative;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
         }
 
-            .nav-link::after {
-                content: "";
-                position: absolute;
-                left: 0;
-                bottom: -6px;
-                width: 0;
-                height: 3px;
-                background: #0077b6;
-                transition: .3s;
-            }
+        /* Underline animation on hover */
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0;
+            height: 3px;
+            background: #0077b6;
+            transition: .3s;
+        }
 
-            .nav-link:hover::after {
-                width: 100%;
-            }
-
-        .active-link::after {
+        .nav-link:hover::after {
             width: 100%;
         }
 
+        /* Active page link — underline stays visible */
+        .active-link::after {
+            width: 100% !important;
+        }
+
+        /* Login button (shown when not logged in) — pill shaped */
         .login-btn {
             background: #0077b6;
             color: white;
             border-radius: 25px;
-            padding: 8px 22px;
+            padding: 7px 20px;
             font-weight: 600;
+            font-size: 0.9rem;
             text-decoration: none;
+            transition: 0.3s;
         }
 
-            .login-btn:hover {
-                background: #023e8a;
-                color: white;
-            }
+        .login-btn:hover {
+            background: #023e8a;
+            color: white;
+        }
+
+        /* Book Now — now a plain nav link, no more orange bubble */
+        .booknow-link {
+            color: #0077b6 !important;
+            font-weight: 700;
+        }
+
+        .booknow-link::after {
+            background: #0077b6 !important;
+        }
+
+        /* User dropdown button — looks like a pill with avatar icon */
+        .user-dropdown-btn {
+            background: #0077b6;
+            color: white !important;
+            border: none;
+            border-radius: 25px;
+            padding: 7px 16px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            /* Remove the underline animation inherited from .nav-link */
+        }
+
+        .user-dropdown-btn::after {
+            display: none !important; /* Hide the underline pseudo-element */
+        }
+
+        .user-dropdown-btn:hover {
+            background: #023e8a;
+            color: white !important;
+        }
+
+        /* Dropdown menu styling */
+        .user-dropdown-menu {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            padding: 8px 0;
+            min-width: 190px;
+        }
+
+        .user-dropdown-menu .dropdown-item {
+            padding: 9px 18px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #03396c;
+            transition: 0.2s;
+        }
+
+        .user-dropdown-menu .dropdown-item:hover {
+            background: #f0f8ff;
+            color: #0077b6;
+        }
+
+        /* Divider line inside the dropdown */
+        .user-dropdown-menu .dropdown-divider {
+            margin: 4px 0;
+            border-color: #e0f0ff;
+        }
+
+        /* Logout item in red */
+        .user-dropdown-menu .dropdown-item.logout-item {
+            color: #e63946;
+        }
+
+        .user-dropdown-menu .dropdown-item.logout-item:hover {
+            background: #fff0f1;
+            color: #c1121f;
+        }
 
         .content-wrapper {
             flex: 1;
         }
-        /* WAVING TRANSITION */
+
+        /* Wave decoration under the navbar */
         .ocean {
             position: relative;
             width: 100%;
@@ -92,9 +174,9 @@
             height: 80px;
         }
 
-        /* footer*/
+        /* Footer styles */
         .footer-dark {
-            padding: 20px ;
+            padding: 20px;
             color: #f0f9ff;
             background-color: #282d32;
         }
@@ -127,14 +209,10 @@
                         opacity: 0.8;
                     }
 
-            .footer-dark .item.text {
-                margin-bottom: 36px;
+            .footer-dark .item.text p {
+                opacity: 0.6;
+                margin-bottom: 0;
             }
-
-                .footer-dark .item.text p {
-                    opacity: 0.6;
-                    margin-bottom: 0;
-                }
 
             .footer-dark .item.social {
                 text-align: center;
@@ -145,7 +223,6 @@
                     font-size: 18px;
                     width: 40px;
                     height: 40px;
-                    /* Use flexbox to center the icon perfectly inside the circle */
                     display: inline-flex;
                     align-items: center;
                     justify-content: center;
@@ -155,7 +232,7 @@
                     color: #fff;
                     opacity: 0.75;
                     transition: 0.3s;
-                    text-decoration: none; /* Removes underline if any */
+                    text-decoration: none;
                 }
 
                     .footer-dark .item.social > a:hover {
@@ -171,37 +248,13 @@
                 font-size: 13px;
                 margin-bottom: 0;
             }
-
-        .nav-link {
-            position: relative;
-        }
-
-            .nav-link::after {
-                content: "";
-                position: absolute;
-                left: 0;
-                bottom: -5px;
-                width: 0%;
-                height: 3px;
-                background-color: #0077b6;
-                transition: width 0.3s ease;
-            }
-
-            .nav-link:hover::after {
-                width: 100%;
-            }
-
-        .active-link::after {
-            width: 100%;
-        }
-
-    
     </style>
 </head>
 
 <body>
 
     @{
+        // Get the current action name so we can highlight the active nav link
         var currentAction = ViewContext.RouteData.Values["Action"]?.ToString();
     }
 
@@ -211,90 +264,131 @@
 
             <div class="container">
 
+                @* Logo — clicking it goes to the Home page *@
                 <a class="navbar-brand" asp-controller="Home" asp-action="Index" id="log">
-                    <img src="~/image/LOG.png">
+                    <img src="~/image/LOG.png" alt="Seaphaerys Logo">
                 </a>
 
+                @* Mobile hamburger button (for small screens) *@
                 <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbar">
 
+                    @* LEFT SIDE: Navigation Links *@
                     <ul class="navbar-nav me-auto">
 
                         <li class="nav-item">
                             <a class="nav-link @(currentAction == "Index" ? "active-link" : "")"
-                               asp-controller="Home"
-                               asp-action="Index">Home</a>
+                               asp-controller="Home" asp-action="Index">Home</a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link @(currentAction == "Accommodation" ? "active-link" : "")"
-                               asp-controller="Home"
-                               asp-action="Accommodation">Accommodation</a>
+                               asp-controller="Home" asp-action="Accommodation">Accommodation</a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link @(currentAction == "Outlets" ? "active-link" : "")"
-                               asp-controller="Home"
-                               asp-action="Outlets">Outlets</a>
+                               asp-controller="Home" asp-action="Outlets">Outlets</a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link @(currentAction == "Contact" ? "active-link" : "")"
-                               asp-controller="Home"
-                               asp-action="Contact">Contact</a>
+                               asp-controller="Home" asp-action="Contact">Contact</a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link @(currentAction == "faq" ? "active-link" : "")"
-                               asp-controller="Home"
-                               asp-action="faq">FAQs</a>
+                               asp-controller="Home" asp-action="faq">FAQs</a>
                         </li>
 
-                        @if (User.Identity.IsAuthenticated)
+                        @* Book Now is ALWAYS visible — logged in or not.
+                           If not logged in, clicking it will redirect to login
+                           (handled by [Authorize] in BookingController) *@
+                        <li class="nav-item">
+                            <a class="nav-link booknow-link @(currentAction == "BookNow" ? "active-link" : "")"
+                               asp-controller="Booking" asp-action="BookNow">Book Now</a>
+                        </li>
+
+                        @* Admin gets an extra "Admin Panel" nav link *@
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
                         {
-                            if (User.IsInRole("Admin"))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link @(currentAction == "Dashboard" ? "active-link" : "")"
-                                       asp-controller="Admin"
-                                       asp-action="Dashboard">
-                                        Admin Panel
-                                    </a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link @(currentAction == "Dashboard" ? "active-link" : "")"
-                                       asp-controller="User"
-                                       asp-action="Dashboard">
-                                        Account
-                                    </a>
-                                </li>
-                            }
+                            <li class="nav-item">
+                                <a class="nav-link @(currentAction == "AdminDashboard" ? "active-link" : "")"
+                                   asp-controller="Admin" asp-action="AdminDashboard">Admin Panel</a>
+                            </li>
                         }
+
                     </ul>
 
-                    <div>
+                    @* RIGHT SIDE: Login button OR user dropdown *@
+                    <div class="d-flex align-items-center">
 
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <span class="me-3 fw-semibold">
-                                <i class="fa fa-user"></i> @User.Identity.Name
-                            </span>
+                            @* DROPDOWN — shows username as the toggle button *@
+                            <div class="dropdown">
 
-                            <a asp-controller="Home"
-                               asp-action="Logout"
-                               class="login-btn">Logout</a>
+                                @* Toggle button — shows just the name before @ *@
+                                <a class="user-dropdown-btn dropdown-toggle"
+                                   href="#"
+                                   role="button"
+                                   data-bs-toggle="dropdown"
+                                   aria-expanded="false">
+                                    @User.Identity.Name?.Split('@')[0]
+                                </a>
+
+                                @* Dropdown menu *@
+                                <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu">
+
+                                    @* Full email shown at top — info only, not clickable *@
+                                    <li>
+                                        <span class="dropdown-item-text text-muted small px-3 py-1">
+                                            @User.Identity.Name
+                                        </span>
+                                    </li>
+
+                                    <li><hr class="dropdown-divider" /></li>
+
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <li>
+                                            <a class="dropdown-item"
+                                               asp-controller="Admin" asp-action="MyAccount">My Account</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item"
+                                               asp-controller="Admin" asp-action="AdminDashboard">Admin Dashboard</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a class="dropdown-item"
+                                               asp-controller="User" asp-action="Dashboard">My Dashboard</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item"
+                                               asp-controller="User" asp-action="EditProfile">Edit Profile</a>
+                                        </li>
+                                    }
+
+                                    <li><hr class="dropdown-divider" /></li>
+
+                                    <li>
+                                        <a class="dropdown-item logout-item"
+                                           asp-controller="Home" asp-action="Logout">Logout</a>
+                                    </li>
+
+                                </ul>
+                            </div>
                         }
                         else
                         {
-                            <a asp-controller="Home"
-                               asp-action="Login"
-                               class="login-btn">Login</a>
+                            @* Not logged in — show Login button only *@
+                            <a asp-controller="Home" asp-action="Login" class="login-btn">Login</a>
                         }
 
                     </div>
@@ -304,6 +398,8 @@
             </div>
 
         </nav>
+
+        @* Decorative wave below the navbar *@
         <div class="ocean">
             <svg class="wave-svg" viewBox="0 0 1440 120" preserveAspectRatio="none">
                 <path fill="#f5fbff" fill-opacity="1"
@@ -311,27 +407,26 @@
                 </path>
             </svg>
         </div>
+
     </header>
 
+    @* MAIN CONTENT: each page's content is injected here *@
     <div class="content-wrapper">
-
         <main class="container pb-5">
-
             @RenderBody()
-
         </main>
-
     </div>
 
+    @* FOOTER *@
     <footer class="footer-dark">
         <div class="container">
             <div class="row">
                 <div class="col-sm-6 col-md-3 item">
                     <h3>Services</h3>
                     <ul>
-                        <li><a href="#">Ticket Booking</a></li>
+                        <li><a asp-controller="Booking" asp-action="BookNow">Ticket Booking</a></li>
                         <li><a href="#">Ferry Schedule</a></li>
-                        <li><a href="#">Accommodation</a></li>
+                        <li><a asp-controller="Home" asp-action="Accommodation">Accommodation</a></li>
                     </ul>
                 </div>
                 <div class="col-sm-6 col-md-3 item">
@@ -344,7 +439,7 @@
                 </div>
                 <div class="col-md-6 item text">
                     <h3>Seaphaerys</h3>
-                    <p>Praesent sed lobortis mi. Suspendisse vel plo.</p>
+                    <p>Connecting the Philippine islands through safe, reliable, and comfortable sea travel.</p>
                 </div>
                 <div class="col item social">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -357,8 +452,10 @@
         </div>
     </footer>
 
+    @* Bootstrap JS (needed for the hamburger menu, modals, etc.) *@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
+    @* Each page can inject its own scripts here using @section Scripts *@
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>
