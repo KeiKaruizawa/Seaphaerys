@@ -11,5 +11,8 @@ namespace Niezken.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
+        public DbSet<ActivityLog> ActivityLogs { get; set; }
+        public DbSet<Ship> Ships { get; set; }
     }
 }

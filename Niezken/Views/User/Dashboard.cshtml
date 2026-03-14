@@ -1,0 +1,62 @@
+﻿@model Niezken.Models.User
+@{
+    ViewData["Title"] = "User Account";
+}
+
+<h4>@Model.FirstName @Model.LastName</h4>
+
+<a asp-action="EditProfile" class="btn btn-primary mb-3">
+    Edit Profile
+</a>
+
+<h3>My Bookings</h3>
+
+<table class="table">
+
+    <thead>
+        <tr>
+            <th>Ship</th>
+            <th>Route</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        @foreach (var booking in Model.Bookings)
+        {
+            <tr>
+
+                <td>@booking.ShipName</td>
+                <td>@booking.Route</td>
+                <td>@booking.TravelDate</td>
+                <td>@booking.Status</td>
+
+              
+
+                <td>
+                    @if (booking.Status == "Cancelled")
+                    {
+                        <span class="badge bg-danger">Cancelled</span>
+                    }
+                    else
+                    {
+                        <a asp-controller="User"
+                           asp-action="Cancel"
+                           asp-route-id="@booking.Id"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('Are you sure you want to cancel this booking?');">
+                            Cancel
+                        </a>
+                    }
+                </td>
+            
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>

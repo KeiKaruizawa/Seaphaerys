@@ -21,17 +21,17 @@ body {
   margin-bottom: 60px;
 }
 
-.text-pink {
+.text-blue {
     color: #03396c;
 }
 
-.btn-pink {
+.btn-blue {
     background-color: #03396c;
     color: white;
     border: none;
 }
 
-    .btn-pink:hover {
+    .btn-blue:hover {
         background-color: white;
         color: #03396c;
     }
@@ -56,7 +56,7 @@ body {
 }
 
 #view {
-    border-color: #03396c;
+    border-color: white;
 
 }
     #view:hover {
@@ -71,4 +71,95 @@ body {
     #backfleet:hover {
         background-color: white;
         color: #03396c;
-    }   
+    }
+
+#canceledit {
+    color: white;
+    background-color: #03396c;
+    margin-bottom: 15px;
+}
+
+
+/*Home Page UI*/
+/* Hero Carousel Adjustments */
+.carousel-item {
+    height: 50vh;
+    min-height: 400px;
+    background: #03396c;
+}
+
+.carousel-caption {
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 15px;
+    padding: 20px;
+    bottom: 20%;
+}
+
+.carousel-item img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    opacity: 0.8;
+}
+
+/* Section Headers */
+.section-title {
+    color: #0077b6;
+    font-weight: 700;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    position: relative;
+    display: inline-block;
+}
+
+    .section-title::after {
+        content: '';
+        width: 50%;
+        height: 3px;
+        background: #ffd166;
+        position: absolute;
+        bottom: -10px;
+        left: 25%;
+    }
+
+/* Accommodation Cards */
+.feature-card {
+    border: none;
+    transition: 0.3s;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+/* Reduces the space inside the columns so cards can get closer to each other */
+.tight-gutter > [class*='col-'] {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+/*Home Page UI*/
+
+
+/*Accommodation Details UI*/
+.detail-img {
+    height: 400px;
+    object-fit: cover;
+}
+
+#bcolor {
+    background-color: transparent;
+    color: white;
+    padding: 10px;
+    margin-left: 120px;
+    margin-right: 120px;
+}
+/*Accommodation Details UI*/
+

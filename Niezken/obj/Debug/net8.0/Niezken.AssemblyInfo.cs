@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Niezken")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9e69b9232fb25d574c43f27901cbc2bf00e1a24d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8aa34b2f41167d200db5129df75f8ca0c7f744a1")]
 [assembly: System.Reflection.AssemblyProductAttribute("Niezken")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Niezken")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

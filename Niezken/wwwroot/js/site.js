@@ -29,5 +29,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
+// Function that confirms before activating or deactivating a user
+function confirmStatusChange(checkbox) {
 
+    let message = checkbox.checked
+        ? "Are you sure you want to ACTIVATE this user?"
+        : "Are you sure you want to DEACTIVATE this user?";
+
+    let confirmAction = confirm(message);
+
+    if (!confirmAction) {
+        checkbox.checked = !checkbox.checked;
+    }
+}
 

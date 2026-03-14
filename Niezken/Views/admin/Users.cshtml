@@ -1,0 +1,128 @@
+﻿@model IEnumerable<Niezken.Models.User> 
+@*  IEnumerable means a collection or list of items. where objects is stored *@
+
+@{
+    ViewData["Title"] = "User Management";   @* Page title displayed in the browser *@
+    Layout = "_AdminLayout";                 @* Uses the admin layout template *@
+}
+
+<div class="container mt-4">
+
+    <h2 class="text-primary mb-4">User Management</h2>
+
+    @* Search form for filtering users by email or name *@
+    <form asp-action="Users" method="get" class="mb-3">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <!-- LEFT SIDE (Search) -->
+            <div class="d-flex gap-2" style="width:400px;">
+                <input type="text"
+                       name="query"
+                       class="form-control"
+                       placeholder="Search email or name"
+                       value="@ViewBag.SearchQuery" />@* ViewBag = a temporary container to send small data from Controller to View. without using model *@
+                                                      @* ViewBag.SearchQuery = remembers the last search. *@
+                <button class="btn btn-primary">
+                    Search
+                </button>
+            </div>
+
+            <!-- RIGHT SIDE (Add User Button) -->
+            <a asp-action="Create" class="btn btn-success">
+                + Add User
+            </a>
+
+        </div>
+
+    </form>
+
+    <div class="card shadow p-3">
+
+        @* Table displaying the list of users *@
+        <table class="table table-striped">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th width="250">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @* If there are no users in the database *@
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">
+                            No users found.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    @* Loop through all users in the model *@
+                    @foreach (var user in Model)
+                    {
+                        <tr class="@(ViewBag.SearchQuery != null &&
+                           (user.Email.ToLower().Contains(ViewBag.SearchQuery) ||
+                            user.FirstName.ToLower().Contains(ViewBag.SearchQuery) ||
+                             user.LastName.ToLower().Contains(ViewBag.SearchQuery))
+                             ? "table-warning" : "")">  @*  check search and higlight, if null show warning or no user found *@
+
+                    @* Display user's full name *@
+                    <td>@user.FirstName @user.LastName</td>
+
+                            @* Display user's email *@
+                            <td>@user.Email</td>
+
+                            <td>
+                                @* Show active/inactive badge based on user status *@
+                        @if (user.IsActive)
+                                {
+                                    <span class="badge bg-success">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Inactive</span>
+                                }
+                            </td>
+
+                            <td>
+                                @* Button to view user's bookings *@
+                                <a asp-action="UserBookings"
+                                   asp-route-id="@user.Id"
+                                   class="btn btn-info btn-sm">
+                                    Bookings
+                                </a>
+
+                                @* Button to edit user information *@
+                                <a asp-action="Edit"
+                                   asp-route-id="@user.Id"
+                                   class="btn btn-primary btn-sm">
+                                    Edit
+                                </a>
+
+                                @* Button to delete a user with confirmation *@
+                                <a asp-action="DeleteUser"
+                                   asp-route-id="@user.Id"
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Delete user?');">
+                                    Delete
+                                </a>
+                            </td>
+
+                        </tr>
+                    }
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

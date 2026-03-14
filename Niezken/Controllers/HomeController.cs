@@ -1,10 +1,13 @@
-﻿using System.Diagnostics;
-using System.Security.Cryptography;  
-using System.Text;                  
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Niezken.Data;               
 using Niezken.Models;               
+using System.Diagnostics;
+using System.Security.Claims;
+using System.Security.Cryptography;  
+using System.Text;                  
 
 namespace Niezken.Controllers
 {
@@ -76,13 +79,14 @@ namespace Niezken.Controllers
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Email = model.Email,
+                Role = "Passenger",
                 PasswordHash = HashPassword(model.Password) // Hash password before saving
             };
 
             _context.Users.Add(user);           // Add user to the DbSet
             await _context.SaveChangesAsync();  // Commit changes to the database
 
-            TempData["SuccessMessage"] = "Registration successful! You can now log in.";
+            /*TempData["SuccessMessage"] = "Registration successful! You can now log in."*/;
 
             // Redirect to Login page after successful registration
             return RedirectToAction("Login");
@@ -98,9 +102,9 @@ namespace Niezken.Controllers
             return View();
         }
 
-      
+
         // LOGIN (POST)
-       
+
         [HttpPost]
         public async Task<IActionResult> Login(string email, string password)
         {
@@ -111,6 +115,8 @@ namespace Niezken.Controllers
                 return View();
             }
 
+
+
             // Hash the input password to compare with database
             string hashedPassword = HashPassword(password);
 
@@ -118,21 +124,66 @@ namespace Niezken.Controllers
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.Email == email && u.PasswordHash == hashedPassword);
 
+            // Check if the user exists in the database
             if (user == null)
             {
+                // If no user matches the credentials, show an error message
                 ViewBag.Error = "Invalid email or password.";
                 return View();
             }
 
-            // Optional: you can create a session/cookie here for authentication
+            // Check if the user account is active
+            if (!user.IsActive)
+            {
+                // If the account has been disabled by the admin, show a message
+                ViewBag.Error = "Your account has been disabled by admin.";
+                return View();
+            }
 
-            TempData["SuccessMessage"] = "Login successful!";
-            return RedirectToAction("Index");
+            // Log the login action in the database for auditing
+            _context.ActivityLogs.Add(new ActivityLog
+            {
+                UserEmail = user.Email,
+                Action = "User logged in" // Record what action the user performed
+            });
+
+            // Save the log to the database asynchronously
+            await _context.SaveChangesAsync();
+
+            // Optional: create claims for authentication
+            var claims = new List<Claim>
+                    {
+                        // Claim for the user's email (used as the Name)
+                        new Claim(ClaimTypes.Name, user.Email),
+                        // Claim for the user's role (used for role-based authorization)
+                        new Claim(ClaimTypes.Role, user.Role)
+                    };
+
+            // Create a ClaimsIdentity using the cookie authentication scheme
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            // Sign in the user and issue a cookie containing their claims
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity)
+            );
+
+            // Redirect based on the user's role
+            if (user.Role == "Admin")
+            {
+                // Admin users go to the AdminDashboard
+                return RedirectToAction("AdminDashboard", "Admin");
+            }
+            else
+            {
+                // Non-admin users go to the Home page
+                return RedirectToAction("Index", "Home");
+            }
         }
 
-       
+
         // PASSWORD HASHING METHOD
-        
+
         private string HashPassword(string password)
         {
             // Converts the plain password to SHA256 hash
@@ -152,6 +203,22 @@ namespace Niezken.Controllers
                 RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
             });
         }
+
+        public async Task<IActionResult> Logout()
+        {
+            _context.ActivityLogs.Add(new ActivityLog
+            {
+                UserEmail = User.Identity.Name,
+                Action = "User logged out"
+            });
+
+            await _context.SaveChangesAsync();
+
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Index");
+        }
+
 
         public IActionResult AccommodationDetails(int id)
         {

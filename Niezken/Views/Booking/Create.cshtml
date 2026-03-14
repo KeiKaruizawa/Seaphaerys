@@ -1,0 +1,29 @@
+﻿@model Niezken.Models.ShipViewModel
+
+<h2>Book Cruise</h2>
+
+<div class="card p-4 shadow">
+
+    <h4>@Model.Name</h4>
+    <p><strong>Route:</strong> @Model.Route</p>
+    <p><strong>Price:</strong> @Model.Price</p>
+
+    <form asp-action="Create" method="post">
+
+        <input type="hidden" name="shipId" value="@Model.Id" />
+        <input type="hidden" name="shipName" value="@Model.Name" />
+        <input type="hidden" name="route" value="@Model.Route" />
+        <input type="hidden" name="price" value="@Model.Price" />
+
+        <div class="mb-3">
+            <label>Travel Date</label>
+            <input type="date" name="travelDate" class="form-control" required />
+        </div>
+
+        <button class="btn btn-success">
+            Confirm Booking
+        </button>
+
+    </form>
+
+</div>

@@ -1,0 +1,71 @@
+﻿@* Model used in this view. It represents the User entity *@
+@model Niezken.Models.User
+
+@{
+    // Layout page for admin panel
+    Layout = "_AdminLayout";
+
+    // Title displayed in the browser tab
+    ViewData["Title"] = "Edit User";
+}
+<body>
+
+
+</body>
+<div class="container mt-4">
+
+    @* Page heading *@
+    <h2>Edit User</h2>
+
+    @* Form that sends updated user data to the Edit action in the controller *@
+    <form asp-action="Edit">
+
+        @* Hidden field to keep the user's ID when submitting the form *@
+        <input type="hidden" asp-for="Id" />
+
+        @* First Name input field *@
+        <div class="mb-3">
+            <label>First Name</label>
+            <input asp-for="FirstName" class="form-control" />
+        </div>
+
+        @* Last Name input field *@
+        <div class="mb-3">
+            <label>Last Name</label>
+            <input asp-for="LastName" class="form-control" />
+        </div>
+
+        @* Email input field *@
+        <div class="mb-3">
+            <label>Email</label>
+            <input asp-for="Email" class="form-control" />
+        </div>
+
+        @* Toggle switch to activate or deactivate the user account *@
+        <div class="form-check form-switch mb-3">
+
+            @* Checkbox bound to IsActive property *@
+            <input asp-for="IsActive"
+                   class="form-check-input"
+                   type="checkbox"
+                   id="statusToggle"
+                   onchange="confirmStatusChange(this)" />
+
+            @* Label for the toggle switch *@
+            <label class="form-check-label" for="statusToggle">
+                Active Account
+            </label>
+        </div>
+
+        @* Save button with confirmation dialog *@
+        <button class="btn btn-primary"
+                onclick="return confirm('Save changes to this user?');">
+            Save
+        </button>
+
+        @* Cancel button returns to the Users list *@
+        <a asp-action="Users" class="btn btn-secondary">Cancel</a>
+      
+    </form>
+  
+</div>

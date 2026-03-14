@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Aspire\\OneDrive\\Desktop\\pt\\Niezken\\Niezken.csproj": {}
+    "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Niezken.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Aspire\\OneDrive\\Desktop\\pt\\Niezken\\Niezken.csproj": {
+    "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Niezken.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Aspire\\OneDrive\\Desktop\\pt\\Niezken\\Niezken.csproj",
+        "projectUniqueName": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Niezken.csproj",
         "projectName": "Niezken",
-        "projectPath": "C:\\Users\\Aspire\\OneDrive\\Desktop\\pt\\Niezken\\Niezken.csproj",
-        "packagesPath": "C:\\Users\\Aspire\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Aspire\\OneDrive\\Desktop\\pt\\Niezken\\obj\\",
+        "projectPath": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Niezken.csproj",
+        "packagesPath": "C:\\Users\\Leah Marie Bolasco\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Aspire\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Leah Marie Bolasco\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

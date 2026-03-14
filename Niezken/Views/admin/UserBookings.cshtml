@@ -1,0 +1,61 @@
+﻿@* The view expects a collection (list) of Booking objects *@
+@model IEnumerable<Niezken.Models.Booking>
+
+@{
+    Layout = "_AdminLayout";               @* Uses the admin layout page *@
+    ViewData["Title"] = "User Bookings";   @* Sets the browser/page title *@
+}
+
+<h2>User Bookings</h2>
+
+<div class="container mt-4">
+
+    @* Table that displays all bookings made by a user *@
+    <table class="table table-striped">
+
+        <thead>
+            <tr>
+                <th>Ship</th>        @* Name of the ship *@
+                <th>Route</th>       @* Travel route *@
+                <th>Travel Date</th> @* Date of the trip *@
+                <th>Status</th>      @* Booking status (Confirmed, Pending, etc.) *@
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @* If there are no bookings in the model *@
+            @if (!Model.Any())
+            {
+                <tr>
+                    <td colspan="4" class="text-center text-muted">
+                        No reservations yet.
+                    </td>
+                </tr>
+            }
+            else
+            {
+                @* Loop through each booking in the list *@
+                @foreach (var b in Model)
+                {
+                    <tr>
+                        <td>@b.ShipName</td>                         @* Displays ship name *@
+                        <td>@b.Route</td>                            @* Displays travel route *@
+                        <td>@b.TravelDate.ToShortDateString()</td>   @* Formats the date *@
+                        <td>@b.Status</td>                           @* Displays booking status *@
+                    </tr>
+                }
+            }
+
+        </tbody>
+
+    </table>
+
+</div>
+
+@* Button to return to the Admin Users page *@
+<a asp-controller="admin"
+   asp-action="Users"
+   class="btn btn-secondary mt-3" id="backfleet">
+    Back
+</a>

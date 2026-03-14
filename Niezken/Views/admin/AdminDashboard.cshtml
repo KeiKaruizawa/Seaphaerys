@@ -1,0 +1,273 @@
+﻿@model IEnumerable<Niezken.Models.Booking>
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+ 
+    Layout = "_AdminLayout";
+
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+.admin-card{
+border:none;
+border-radius:15px;
+padding:25px;
+color:white;
+transition:.3s;
+box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+.admin-card:hover{
+transform:translateY(-5px);
+}
+
+.bg-users{
+background:linear-gradient(45deg,#0077b6,#00b4d8);
+}
+
+.bg-bookings{
+background:linear-gradient(45deg,#2a9d8f,#52b788);
+}
+
+.bg-active{
+background:linear-gradient(45deg,#f4a261,#e76f51);
+}
+
+    .bg-inactive {
+        background: linear-gradient(45deg,#e63946,#ff6b6b);
+    }
+
+.section-title{
+color:#0077b6;
+font-weight:700;
+margin-bottom:30px;
+}
+
+.table-container{
+background:white;
+border-radius:15px;
+padding:20px;
+box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+.chart-card{
+background:white;
+border-radius:15px;
+padding:20px;
+box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+</style>
+
+<div class="container mt-4">
+
+<h2 class="section-title">Admin Dashboard</h2>
+
+<!-- SYSTEM STATISTICS -->
+
+<div class="row g-4 mb-4">
+
+<div class="col-md-3">
+<div class="admin-card bg-users text-center">
+<h3>@ViewBag.TotalUsers</h3>
+<p>Total Users</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="admin-card bg-active text-center">
+<h3>@ViewBag.ActiveUsers</h3>
+<p>Active Passengers</p>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="admin-card bg-bookings text-center">
+<h3>@ViewBag.TotalBookings</h3>
+<p>Total Bookings</p>
+</div>
+</div>
+
+        <div class="col-md-3">
+            <div class="admin-card bg-inactive text-center">
+                <h3>@ViewBag.InactiveUsers</h3>
+                <p>Inactive Passengers</p>
+            </div>
+        </div>
+
+</div>
+
+
+
+
+<!-- ANALYTICS CHARTS -->
+
+<div class="row mb-5">
+
+<div class="col-md-6">
+
+<div class="chart-card">
+
+<h5 class="mb-3">Bookings Per Month</h5>
+
+<canvas id="bookingChart"></canvas>
+
+</div>
+
+</div>
+
+<div class="col-md-6">
+
+<div class="chart-card">
+
+<h5 class="mb-3">Users Registered Per Month</h5>
+
+<canvas id="userChart"></canvas>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- POPULAR ROUTES -->
+
+<div class="chart-card mb-5">
+
+<h5 class="mb-3"> Routes</h5>
+
+<table class="table table-striped">
+
+<thead class="table-dark">
+
+<tr>
+<th>Route</th>
+<th>Total Bookings</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+@foreach(var route in ViewBag.PopularRoutes)
+{
+<tr>
+
+<td>@route.Route</td>
+<td>@route.Count</td>
+
+</tr>
+}
+
+</tbody>
+
+</table>
+
+</div>
+
+<!-- RECENT BOOKINGS -->
+
+<div class="table-container">
+
+<h4 class="mb-3">Recent Bookings</h4>
+
+<table class="table table-striped">
+
+<thead class="table-dark">
+
+<tr>
+<th>Passenger</th>
+<th>Ship</th>
+<th>Travel Date</th>
+<th>Status</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+@foreach (var booking in Model)
+{
+
+<tr>
+
+<td>@booking.User.Email</td>
+
+<td>@booking.ShipName</td>
+
+<td>@booking.TravelDate.ToShortDateString()</td>
+
+<td>
+
+@if(booking.Status == "Booked")
+{
+<span class="badge bg-success"> Booked </span>
+}
+
+else
+{
+<span class="badge bg-danger">Cancelled</span>
+}
+
+</td>
+
+</tr>
+
+}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script>
+
+var bookingCtx = document.getElementById('bookingChart');
+
+new Chart(bookingCtx,{
+
+type:'bar',
+
+data:{
+labels:@Html.Raw(Json.Serialize(ViewBag.MonthLabels)),
+datasets:[{
+label:'Bookings',
+data:@Html.Raw(Json.Serialize(ViewBag.MonthBookings))
+}]
+}
+
+});
+
+
+var userCtx = document.getElementById('userChart');
+
+new Chart(userCtx,{
+
+type:'line',
+
+data:{
+labels:@Html.Raw(Json.Serialize(ViewBag.UserMonthLabels)),
+datasets:[{
+label:'Users',
+data:@Html.Raw(Json.Serialize(ViewBag.UsersPerMonth))
+}]
+}
+
+});
+
+</script>
+            </thead>
+
+         
+
+        </table>
+
+    </div>
+
+</div>

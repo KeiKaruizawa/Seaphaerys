@@ -2,68 +2,7 @@
     ViewData["Title"] = "Home Page";
 }
 
-<style>
-    /* Hero Carousel Adjustments */
-    .carousel-item {
-        height: 60vh;
-        min-height: 400px;
-        background: #03396c;
-    }
-
-    .carousel-caption {
-        background: rgba(0, 0, 0, 0.5);
-        border-radius: 15px;
-        padding: 20px;
-        bottom: 20%;
-    }
-
-    .carousel-item img {
-        object-fit: cover;
-        height: 100%;
-        width: 100%;
-        opacity: 0.8;
-    }
-
-    /* Section Headers */
-    .section-title {
-        color: #0077b6;
-        font-weight: 700;
-        margin-top: 50px;
-        margin-bottom: 30px;
-        position: relative;
-        display: inline-block;
-    }
-
-        .section-title::after {
-            content: '';
-            width: 50%;
-            height: 3px;
-            background: #ffd166;
-            position: absolute;
-            bottom: -10px;
-            left: 25%;
-        }
-
-    /* Accommodation Cards */
-    .feature-card {
-        border: none;
-        transition: 0.3s;
-        border-radius: 15px;
-        overflow: hidden;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-    .card-img-top {
-        height: 200px;
-        object-fit: cover;
-    }
-</style>
-
+<div class="container-fluid px-0">
 <div id="vesselCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-indicators">
         <button type="button" data-bs-target="#vesselCarousel" data-bs-slide-to="0" class="active"></button>
@@ -72,7 +11,7 @@
     </div>
     <div class="carousel-inner shadow-lg">
         <div class="carousel-item active">
-            <img src="~/image/homeship.jpg" class="d-block w-100" alt="Fast Craft">
+                <img src="https://images.unsplash.com/photo-1556224542-250166cc2285?q=80&w=1744&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="Suite">
             <div class="carousel-caption d-none d-md-block">
                 <h2>Elite Fast Craft</h2>
                 <p>Reach your destination in record time with our high-speed jet ferries.</p>
@@ -80,7 +19,7 @@
             </div>
         </div>
         <div class="carousel-item">
-            <img src="~/image/roro.jpg" class="d-block w-100" alt="RoRo Vessel">
+                <img src="https://images.unsplash.com/photo-1599640842225-85d111c60e6b?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="Suite">
             <div class="carousel-caption d-none d-md-block">
                 <h2>Ro-Ro Cargo Vessels</h2>
                 <p>Bringing your vehicles and heavy cargo safely across the sea.</p>
@@ -88,7 +27,7 @@
             </div>
         </div>
         <div class="carousel-item">
-            <img src="~/image/other.jpg" class="d-block w-100" alt="Luxury Liner">
+                <img src="https://images.unsplash.com/photo-1516495312540-a148643b22d3?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="Suite">
             <div class="carousel-caption d-none d-md-block">
                 <h2>Night Liners</h2>
                 <p>Enjoy a comfortable overnight stay while sailing to the islands.</p>
@@ -103,46 +42,58 @@
         <span class="carousel-control-next-icon"></span>
     </button>
 </div>
-
-<div class="container text-center mb-5">
+</div>
+<div class="container-fluid px-5 text-center mb-5">
     <h2 class="section-title">Premium Accommodations</h2>
 
-    <div class="row g-4 mt-2">
-        <div class="col-md-4">
+    <div class="row gx-0 gy-4 mt-4 justify-content-center tight-gutter">
+
+        <div class="col-md-3 col-sm-6">
             <div class="card feature-card h-100">
-                <img src="https://images.unsplash.com/photo-1517089596392-db215233441b?auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Economy">
+                <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=900&q=80" class="card-img-top" alt="Interior">
                 <div class="card-body">
-                    <h5 class="card-title">Economy Class</h5>
-                    <p class="card-text text-muted">Open-air seating with refreshing sea breezes. Best for short trips.</p>
+                    <h5 class="card-title">Interior</h5>
+                    <p class="card-text text-muted small">Open-air seating with refreshing sea breezes.</p>
                     <p class="fw-bold text-primary">Starts at $15.00</p>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3 col-sm-6">
             <div class="card feature-card h-100">
-                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Tourist">
+                <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=900&q=80" class="card-img-top" alt="Ocean View">
                 <div class="card-body">
-                    <h5 class="card-title">Tourist Class</h5>
-                    <p class="card-text text-muted">Fully air-conditioned cabins with comfortable reclining seats and entertainment.</p>
+                    <h5 class="card-title">Ocean View</h5>
+                    <p class="card-text text-muted small">AC cabins with reclining seats.</p>
                     <p class="fw-bold text-primary">Starts at $25.00</p>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-3 col-sm-6">
             <div class="card feature-card h-100">
-                <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=500&q=60" class="card-img-top" alt="Suite">
+                <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80" class="card-img-top" alt="Balcony">
                 <div class="card-body">
-                    <h5 class="card-title">VIP Suite</h5>
-                    <p class="card-text text-muted">Private cabins with en-suite bathrooms, TV, and premium meal service.</p>
+                    <h5 class="card-title">Balcony</h5>
+                    <p class="card-text text-muted small">Private cabins with en-suite bathrooms.</p>
                     <p class="fw-bold text-primary">Starts at $75.00</p>
                 </div>
             </div>
         </div>
+
+        <div class="col-md-3 col-sm-6">
+            <div class="card feature-card h-100">
+                <img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=900&q=80" class="card-img-top" alt="Suite">
+                <div class="card-body">
+                    <h5 class="card-title">Suite</h5>
+                    <p class="card-text text-muted small">Premium cabins with meal service.</p>
+                    <p class="fw-bold text-primary">Starts at $75.00</p>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
-
 <div class="bg-white py-5 shadow-sm rounded-4 mb-5">
     <div class="row text-center px-4">
         <div class="col-md-4 border-end">

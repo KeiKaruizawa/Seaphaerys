@@ -1,7 +1,7 @@
 ﻿@{
     // This removes the Navbar and Footer by disabling the layout
     Layout = null;
-    ViewData["Title"] = "Login - Niezken Sea Ferry";
+    ViewData["Title"] = "Login - Seaphaerys";
 }
 
 <!DOCTYPE html>
@@ -12,7 +12,8 @@
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-
+    <link rel="icon" type="image/x-icon" href="~/favicons.ico" asp-append-version="true" />
+    <link rel="icon" href="~/favicons.ico" />
     <style>
         body, html {
             height: 100%;
@@ -135,15 +136,19 @@
             border-radius: 12px;
             padding: 12px 20px;
             color: #03396c;
+            padding-top: 30px;
+            padding-left: 14px;
    }
 
-   #eye{
+   #eye1{
+
             position: absolute;
             right: 15px;
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
             color: royalblue;
+            margin-top: 7px;
    }
     </style>
 </head>
@@ -172,9 +177,9 @@
                     <i class="fa fa-eye toggle-eye" id="eye" data-target="Password"></i>
                 </div> *@
                 <div class="form-floating mb-3">
-                    <input type="password" id="Password "class="form-control" name="password" placeholder="Password" required/>
+                    <input type="password" id="Password" class="form-control" name="password" placeholder="Password" required/>
                     <label for="emailInput">Password</label>
-                    <i class="fa fa-eye toggle-eye" id="eye" data-target="Password"></i>
+                    <i class="fa fa-eye toggle-eye" id="eye1" data-target="Password"></i>
                    
                 </div>
 

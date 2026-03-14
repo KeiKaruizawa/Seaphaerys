@@ -1,0 +1,66 @@
+﻿@* Model used for this page. It contains the user registration fields *@
+@model Niezken.Models.RegisterViewModel
+
+@{
+    // Page title shown in browser/tab
+    ViewData["Title"] = "Add User";
+
+    // Layout page used for admin pages
+    Layout = "_AdminLayout";
+}
+
+<div class="container mt-4">
+
+    @* Page heading *@
+    <h2 class="text-primary mb-4">Add New User</h2>
+
+    @* Form that submits data to the Create action in the controller *@
+    <form asp-action="Create" method="post">
+
+        @* First Name Field *@
+        <div class="mb-3">
+            <label>First Name</label>
+            <input asp-for="FirstName" class="form-control" />
+            @* Validation message if the field is invalid *@
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+
+        @* Last Name Field *@
+        <div class="mb-3">
+            <label>Last Name</label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+
+        @* Email Field *@
+        <div class="mb-3">
+            <label>Email</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        @* Password Field *@
+        <div class="mb-3">
+            <label>Password</label>
+            <input asp-for="Password" type="password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        @* Confirm Password Field to ensure passwords match *@
+        <div class="mb-3">
+            <label>Confirm Password</label>
+            <input asp-for="ConfirmPassword" type="password" class="form-control" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        </div>
+
+        @* Submit button with confirmation popup *@
+        <button class="btn btn-success" onclick="return confirm('Add this user?');">
+            Create User
+        </button>
+
+        @* Cancel button redirects back to Users list *@
+        <a asp-action="Users" class="btn btn-secondary">Cancel</a>
+
+    </form>
+
+</div>

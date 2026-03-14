@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Niezken.Models.ActivityLog>
+
+@{
+    ViewData["Title"] = "Activity Logs";
+    Layout = "_AdminLayout";
+}
+
+<div class="container mt-4">
+
+    <h2 class="text-primary mb-4">System Activity Logs</h2>
+
+    <form method="get" asp-action="ActivityLogs" class="mb-3">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <!-- LEFT SIDE (Search) -->
+            <div class="d-flex">
+
+                <input type="text"
+                       name="search"
+                       class="form-control me-2"
+                       style="width:300px;"
+                       placeholder="Search user or action" />
+
+                <button class="btn btn-primary me-2">
+                    Search
+                </button>
+
+            </div>
+
+            <!-- RIGHT SIDE (Clear Logs) -->
+            <div>
+                <a asp-action="ClearLogs"
+                   class="btn btn-danger"
+                   onclick="return confirm ('Clear Logs?' )">
+                    Clear Logs
+                </a>
+            </div>
+
+        </div>
+
+    </form>
+
+    <div class="card shadow p-3">
+
+        <table class="table table-hover">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>User</th>
+                    <th>Action</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @foreach (var log in Model)
+                {
+                    <tr>
+                        <td>@log.UserEmail</td>
+                        <td>@log.Action</td>
+                        <td>@log.Date.ToString("MMM dd yyyy HH:mm")</td>
+                    </tr>
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

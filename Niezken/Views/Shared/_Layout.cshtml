@@ -3,71 +3,82 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Niezken Sea Ferry</title>
+
+    <title>Seaphaerys - @ViewData["Title"]</title>
+
+    <link rel="icon" href="~/favicons.ico" />
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        /* LIGHTER PROFESSIONAL SEA THEME */
+
         body {
-            background-color: #f5fbff;
-            color: #03396c;
-            font-family: 'Segoe UI', sans-serif;
+            background: #f5fbff;
+            font-family: 'Segoe UI',sans-serif;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            color: #03396c;
+            margin: 0;
         }
 
-        /* HEADER & NAVIGATION */
         header {
-            background: #e3f2fd; /* Light Blue Background */
-            padding-top: 10px;
+            background: #e3f2fd;
         }
 
         .navbar {
-            background: transparent !important; /* Transparent to show header bg */
-            box-shadow: none;
-            padding: 10px 20px;
+            padding: 12px 20px;
         }
 
         .navbar-brand img {
             height: 50px;
-            transition: 0.3s;
-            margin-right: 200px;
         }
 
         .nav-link {
-            color: #03396c !important; /* Darker text for light background */
-            margin-right: 45px;
+            color: #03396c !important;
             font-weight: 600;
+            margin-right: 30px;
             position: relative;
         }
 
-            .nav-link:hover {
-                color: #0077b6 !important;
+            .nav-link::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: -6px;
+                width: 0;
+                height: 3px;
+                background: #0077b6;
+                transition: .3s;
             }
 
-        /* LOGIN BUTTON */
+            .nav-link:hover::after {
+                width: 100%;
+            }
+
+        .active-link::after {
+            width: 100%;
+        }
+
         .login-btn {
             background: #0077b6;
-            color: #fff !important;
+            color: white;
             border-radius: 25px;
-            padding: 8px 25px;
+            padding: 8px 22px;
             font-weight: 600;
             text-decoration: none;
-            transition: 0.3s;
-            display: inline-block;
         }
 
             .login-btn:hover {
-                background: #03396c;
-                transform: translateY(-2px);
-                color: #fff !important;
+                background: #023e8a;
+                color: white;
             }
 
+        .content-wrapper {
+            flex: 1;
+        }
         /* WAVING TRANSITION */
         .ocean {
             position: relative;
@@ -81,14 +92,9 @@
             height: 80px;
         }
 
-        /* MAIN CONTENT */
-        .content-wrapper {
-            flex: 1;
-        }
-
-        /* MODERN DARK FOOTER (Inspired by Image) */
+        /* footer*/
         .footer-dark {
-            padding: 60px 0;
+            padding: 20px ;
             color: #f0f9ff;
             background-color: #282d32;
         }
@@ -136,22 +142,26 @@
             }
 
                 .footer-dark .item.social > a {
-                    font-size: 20px;
-                    width: 36px;
-                    height: 36px;
-                    line-height: 36px;
-                    display: inline-block;
-                    text-align: center;
+                    font-size: 18px;
+                    width: 40px;
+                    height: 40px;
+                    /* Use flexbox to center the icon perfectly inside the circle */
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
                     border-radius: 50%;
                     box-shadow: 0 0 0 1px rgba(255,255,255,0.4);
                     margin: 0 8px;
                     color: #fff;
                     opacity: 0.75;
                     transition: 0.3s;
+                    text-decoration: none; /* Removes underline if any */
                 }
 
                     .footer-dark .item.social > a:hover {
                         opacity: 0.9;
+                        box-shadow: 0 0 0 1px rgba(255,255,255,1);
+                        transform: translateY(-3px);
                     }
 
             .footer-dark .copyright {
@@ -161,47 +171,139 @@
                 font-size: 13px;
                 margin-bottom: 0;
             }
+
+        .nav-link {
+            position: relative;
+        }
+
+            .nav-link::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: -5px;
+                width: 0%;
+                height: 3px;
+                background-color: #0077b6;
+                transition: width 0.3s ease;
+            }
+
+            .nav-link:hover::after {
+                width: 100%;
+            }
+
+        .active-link::after {
+            width: 100%;
+        }
+
+    
     </style>
 </head>
+
 <body>
 
+    @{
+        var currentAction = ViewContext.RouteData.Values["Action"]?.ToString();
+    }
+
     <header>
-        <nav class="navbar navbar-expand-sm">
+
+        <nav class="navbar navbar-expand-lg">
+
             <div class="container">
-                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                    <img src="~/image/LOG.png" alt="Logo" />
+
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index" id="log">
+                    <img src="~/image/LOG.png">
                 </a>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <div class="navbar-collapse collapse d-sm-flex justify-content-between">
-                    <ul class="navbar-nav">
+                <div class="collapse navbar-collapse" id="navbar">
+
+                    <ul class="navbar-nav me-auto">
+
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link @(currentAction == "Index" ? "active-link" : "")"
+                               asp-controller="Home"
+                               asp-action="Index">Home</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Accommodation">Accommodation</a>
+                            <a class="nav-link @(currentAction == "Accommodation" ? "active-link" : "")"
+                               asp-controller="Home"
+                               asp-action="Accommodation">Accommodation</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Outlets">Outlets</a>
+                            <a class="nav-link @(currentAction == "Outlets" ? "active-link" : "")"
+                               asp-controller="Home"
+                               asp-action="Outlets">Outlets</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Contact">Contact Us</a>
+                            <a class="nav-link @(currentAction == "Contact" ? "active-link" : "")"
+                               asp-controller="Home"
+                               asp-action="Contact">Contact</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="faq">FAQs</a>
+                            <a class="nav-link @(currentAction == "faq" ? "active-link" : "")"
+                               asp-controller="Home"
+                               asp-action="faq">FAQs</a>
                         </li>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link @(currentAction == "Dashboard" ? "active-link" : "")"
+                                       asp-controller="Admin"
+                                       asp-action="Dashboard">
+                                        Admin Panel
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link @(currentAction == "Dashboard" ? "active-link" : "")"
+                                       asp-controller="User"
+                                       asp-action="Dashboard">
+                                        Account
+                                    </a>
+                                </li>
+                            }
+                        }
                     </ul>
 
                     <div>
-                        <a asp-controller="Home" asp-action="Login" class="login-btn">Login</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
 
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <span class="me-3 fw-semibold">
+                                <i class="fa fa-user"></i> @User.Identity.Name
+                            </span>
+
+                            <a asp-controller="Home"
+                               asp-action="Logout"
+                               class="login-btn">Logout</a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Home"
+                               asp-action="Login"
+                               class="login-btn">Login</a>
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </nav>
         <div class="ocean">
             <svg class="wave-svg" viewBox="0 0 1440 120" preserveAspectRatio="none">
                 <path fill="#f5fbff" fill-opacity="1"
@@ -211,10 +313,14 @@
         </div>
     </header>
 
-    <div class="container content-wrapper">
-        <main role="main" class="pb-5">
+    <div class="content-wrapper">
+
+        <main class="container pb-5">
+
             @RenderBody()
+
         </main>
+
     </div>
 
     <footer class="footer-dark">
@@ -238,7 +344,7 @@
                 </div>
                 <div class="col-md-6 item text">
                     <h3>Seaphaerys</h3>
-                    <p>Praesent sed lobortis mi. Suspendisse vel placerat ligula. Vivamus ac sem lacus. Ut vehicula rhoncus elementum. Etiam quis tristique lectus. Aliquam in arcu eget velit pulvinar dictum vel in justo.</p>
+                    <p>Praesent sed lobortis mi. Suspendisse vel plo.</p>
                 </div>
                 <div class="col item social">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -250,10 +356,10 @@
             <p class="copyright">Niezken Sea Ferry © 2026</p>
         </div>
     </footer>
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 
-
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
