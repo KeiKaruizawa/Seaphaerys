@@ -1,0 +1,297 @@
+﻿@* ============================================================
+   Confirmation.cshtml
+
+   STEP 3 — Final step of the booking flow.
+   Shown after a booking is successfully saved.
+   Displays a summary of:
+     - Booking reference number
+     - Ship, route, date, accommodation, price
+     - Contact info
+     - Passenger list
+   ============================================================ *@
+
+@model Niezken.Models.Booking
+@using Niezken.Models
+
+@{
+    ViewData["Title"] = "Booking Confirmed";
+    Layout = "_Layout";
+
+    @* Get the deserialized passenger list passed from the controller *@
+    var passengers = ViewBag.Passengers as List<PassengerDetail> ?? new List<PassengerDetail>();
+}
+
+<style>
+    /* Max width wrapper to center the confirmation card */
+    .confirm-wrapper {
+        max-width: 700px;
+        margin: 40px auto 60px;
+    }
+
+    /* Green success banner at the top */
+    .confirm-banner {
+        background-color: #03396c;
+        color: white;
+        border-radius: 15px;
+        padding: 35px;
+        text-align: center;
+        margin-bottom: 28px;
+    }
+
+        .confirm-banner h4 {
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+    /* Booking reference pill */
+    .booking-ref {
+        background: rgba(255,255,255,0.15);
+        border-radius: 20px;
+        padding: 6px 20px;
+        display: inline-block;
+        font-size: 0.9rem;
+        margin-top: 10px;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    /* White detail cards matching site card style */
+    .detail-card {
+        background: white;
+        border-radius: 15px;
+        padding: 24px 28px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+        margin-bottom: 20px;
+    }
+
+        /* Card section title */
+        .detail-card h6 {
+            font-weight: 700;
+            color: #03396c;
+            border-bottom: 2px solid #e3f2fd;
+            padding-bottom: 10px;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+    /* Each row of detail info */
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 7px 0;
+        border-bottom: 1px solid #f0f8ff;
+        font-size: 0.92rem;
+    }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-row .label {
+            color: #888;
+            font-weight: 500;
+        }
+
+        .detail-row .value {
+            font-weight: 600;
+            color: #03396c;
+        }
+
+    /* Booked status badge — green */
+    .status-badge {
+        background: #d1f5ea;
+        color: #1a7a56;
+        border-radius: 20px;
+        padding: 3px 14px;
+        font-size: 0.82rem;
+        font-weight: 700;
+    }
+
+    /* Individual passenger row */
+    .passenger-row {
+        background: #f8fbff;
+        border-radius: 10px;
+        padding: 10px 14px;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    /* Passenger number circle */
+    .pax-num {
+        background: #03396c;
+        color: white;
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    .pax-info strong {
+        display: block;
+        color: #03396c;
+        font-size: 0.9rem;
+    }
+
+    .pax-info small {
+        color: #888;
+        font-size: 0.82rem;
+    }
+
+    /* Reminder note box */
+    .note-box {
+        background: #fff8e1;
+        border-left: 4px solid #f4a261;
+        border-radius: 0 10px 10px 0;
+        padding: 12px 16px;
+        font-size: 0.87rem;
+        color: #7a5c1e;
+        margin-bottom: 24px;
+    }
+
+    /* Action buttons */
+    .btn-dashboard {
+        background-color: #03396c;
+        color: white;
+        border: 1.5px solid #03396c;
+        border-radius: 10px;
+        padding: 11px 30px;
+        font-weight: 700;
+        font-size: 0.92rem;
+        text-decoration: none;
+        display: inline-block;
+        transition: 0.3s;
+    }
+
+        .btn-dashboard:hover {
+            background-color: white;
+            color: #03396c;
+        }
+
+    .btn-book-again {
+        background-color: white;
+        color: #03396c;
+        border: 1.5px solid #03396c;
+        border-radius: 10px;
+        padding: 11px 30px;
+        font-weight: 700;
+        font-size: 0.92rem;
+        text-decoration: none;
+        display: inline-block;
+        transition: 0.3s;
+    }
+
+        .btn-book-again:hover {
+            background-color: #03396c;
+            color: white;
+        }
+</style>
+
+<div class="confirm-wrapper">
+
+    @* ---- SUCCESS BANNER ---- *@
+    <div class="confirm-banner">
+        <h4>Booking Confirmed!</h4>
+        <p class="mb-0 opacity-75">Your trip has been successfully booked. See you on board!</p>
+        @* Booking reference — padded to 6 digits e.g. #000012 *@
+        <div class="booking-ref">Booking Ref #@Model.Id.ToString("D6")</div>
+    </div>
+
+    @* ---- TRIP DETAILS ---- *@
+    <div class="detail-card">
+        <h6>Trip Details</h6>
+
+        <div class="detail-row">
+            <span class="label">Ship</span>
+            <span class="value">@Model.ShipName</span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Route</span>
+            <span class="value">@Model.Route</span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Travel Date</span>
+            <span class="value">@Model.TravelDate.ToString("MMMM dd, yyyy")</span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Accommodation</span>
+            <span class="value">@Model.AccommodationType</span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Base Price</span>
+            <span class="value" style="color:#0077b6;">₱@Model.Price.ToString("N2")</span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Status</span>
+            <span class="value"><span class="status-badge">@Model.Status</span></span>
+        </div>
+    </div>
+
+    @* ---- CONTACT DETAILS ---- *@
+    <div class="detail-card">
+        <h6>Contact Information</h6>
+
+        <div class="detail-row">
+            <span class="label">Booked By</span>
+            <span class="value">@Model.User.FirstName @Model.User.LastName</span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Email</span>
+            <span class="value">@Model.User.Email</span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Contact Number</span>
+            <span class="value">@Model.ContactNumber</span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Total Passengers</span>
+            <span class="value">@Model.PassengerCount</span>
+        </div>
+    </div>
+
+    @* ---- PASSENGER LIST ---- *@
+    @if (passengers.Any())
+    {
+        <div class="detail-card">
+            <h6>Passengers</h6>
+
+            @* Loop through each passenger and display their info *@
+            @for (int i = 0; i < passengers.Count; i++)
+            {
+                <div class="passenger-row">
+                    <div class="pax-num">@(i + 1)</div>
+                    <div class="pax-info">
+                        <strong>@passengers[i].FullName</strong>
+                        <small>@passengers[i].Age years old &bull; @passengers[i].Sex</small>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    @* ---- REMINDER NOTE ---- *@
+    <div class="note-box">
+        <strong>Reminder:</strong> Please arrive at the port at least 2 hours before departure.
+        Bring a valid government-issued ID for boarding.
+    </div>
+
+    @* ---- ACTION BUTTONS ---- *@
+    <div class="d-flex gap-3 flex-wrap">
+        <a asp-controller="User" asp-action="Dashboard" class="btn-dashboard">
+            Go to My Dashboard
+        </a>
+        <a asp-controller="Booking" asp-action="BookNow" class="btn-book-again">
+            Book Another Trip
+        </a>
+    </div>
+
+</div>

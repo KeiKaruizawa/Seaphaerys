@@ -1,7 +1,21 @@
-﻿@{
-    // This removes the Navbar and Footer by disabling the layout
-    Layout = null;
+﻿@* ============================================================
+   Login.cshtml
+   📁 Location: Views/Home/Login.cshtml
+   🔁 Action: REPLACE existing file
+
+   The login page. Key addition from original:
+   - Hidden returnUrl field so that after login, the user is
+     redirected back to the page they were trying to visit
+     (e.g. BookingForm after clicking Select This Vessel)
+   ============================================================ *@
+
+@{
+    Layout = null; @* No navbar/footer on the login page *@
     ViewData["Title"] = "Login - Seaphaerys";
+
+    @* returnUrl is passed from the controller when redirecting to login
+       We keep it in ViewBag so we can put it in the form *@
+    var returnUrl = ViewBag.ReturnUrl as string ?? Context.Request.Query["ReturnUrl"].ToString();
 }
 
 <!DOCTYPE html>
@@ -12,7 +26,6 @@
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    <link rel="icon" type="image/x-icon" href="~/favicons.ico" asp-append-version="true" />
     <link rel="icon" href="~/favicons.ico" />
     <style>
         body, html {
@@ -22,7 +35,7 @@
             overflow: hidden;
         }
 
-        /* Nautical Background with Overlay */
+        /* Ocean background with dark overlay */
         .bg-overlay {
             background: linear-gradient(rgba(3, 57, 108, 0.7), rgba(0, 119, 182, 0.5)), url('https://images.unsplash.com/photo-1500514966906-fe245eea9344?auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
@@ -33,7 +46,7 @@
             justify-content: center;
         }
 
-        /* Glassmorphism Card */
+        /* Glassmorphism card */
         .login-card {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(15px);
@@ -50,21 +63,27 @@
 
         @@keyframes fadeIn {
             from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
+            opacity: 0;
+            transform: translateY(20px);
+        }
 
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         }
 
         .login-logo {
             height: 60px;
             margin-bottom: 15px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.4)) drop-shadow(0 0 15px rgba(0,180,216,0.3));
+            transition: transform 0.3s ease;
         }
+
+            .login-logo:hover {
+                transform: scale(1.05);
+            }
 
         h2 {
             font-weight: 800;
@@ -72,7 +91,7 @@
             margin-bottom: 30px;
         }
 
-        /* Input Customization */
+        /* White input fields */
         .form-control {
             background: rgba(255, 255, 255, 0.9) !important;
             border: none;
@@ -85,7 +104,29 @@
             color: #666;
         }
 
-        /* Button Styling */
+        /* Password field with extra top padding for the floating label */
+        #Password {
+            background: rgba(255, 255, 255, 0.9) !important;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 20px;
+            padding-top: 30px;
+            padding-left: 14px;
+            color: #03396c;
+        }
+
+        /* Show/hide password eye icon */
+        #eye1 {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: royalblue;
+            margin-top: 7px;
+        }
+
+        /* Sign In button */
         .btn-login {
             background: #fdfdfd;
             color: #03396c;
@@ -105,99 +146,63 @@
                 color: white;
                 transform: scale(1.02);
             }
-
-        .login-logo {
-            height: 60px;
-            margin-bottom: 15px;
-            /* A layered glow: first layer is sharp for clarity, second is soft for the halo effect */
-            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.4)) drop-shadow(0 0 15px rgba(0, 180, 216, 0.3));
-            transition: transform 0.3s ease;
-        }
-
-            .login-logo:hover {
-                transform: scale(1.05); /* Subtle interaction when hovering the logo */
-            }
-
-        .back-link {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-            .back-link:hover {
-                color: #caf0f8;
-            }
-   #Password{
-            background: rgba(255, 255, 255, 0.9) !important;
-            border: none;
-            border-radius: 12px;
-            padding: 12px 20px;
-            color: #03396c;
-            padding-top: 30px;
-            padding-left: 14px;
-   }
-
-   #eye1{
-
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: royalblue;
-            margin-top: 7px;
-   }
     </style>
 </head>
 <body>
 
     <div class="bg-overlay">
-     @*    <a asp-controller="Home" asp-action="Index" class="back-link">
-            <i class="fas fa-arrow-left me-2"></i> Back to Home
-        </a> *@
-
         <div class="login-card">
+
             <div class="text-center">
-                <img src="~/image/LOG.png" alt="Niezken Logo" class="login-logo" />
+                <img src="~/image/LOG.png" alt="Seaphaerys Logo" class="login-logo" />
                 <h2>WELCOME ABOARD</h2>
             </div>
 
+            @* --------------------------------------------------------
+               Form submits to Home/Login POST
+               returnUrl is passed as a hidden field so after login
+               the controller knows where to redirect the user back to
+               -------------------------------------------------------- *@
             <form asp-controller="Home" asp-action="Login" method="post">
+
+                @* Hidden field — carries the returnUrl through form submission *@
+                <input type="hidden" name="returnUrl" value="@returnUrl" />
+
                 <div class="form-floating mb-3">
-                    <input type="email" name="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
+                    <input type="email"
+                           name="email"
+                           class="form-control"
+                           id="emailInput"
+                           placeholder="name@example.com"
+                           required>
                     <label for="emailInput">Email address</label>
                 </div>
 
-             @*    <div class="form-floating mb-3">
-                    <input type="password" id="Password" class="form-control" name="password" placeholder="Password" required />
-                    <label for="emailInput">Password</label>
-                    <i class="fa fa-eye toggle-eye" id="eye" data-target="Password"></i>
-                </div> *@
                 <div class="form-floating mb-3">
-                    <input type="password" id="Password" class="form-control" name="password" placeholder="Password" required/>
-                    <label for="emailInput">Password</label>
+                    <input type="password"
+                           id="Password"
+                           class="form-control"
+                           name="password"
+                           placeholder="Password"
+                           required />
+                    <label for="Password">Password</label>
                     <i class="fa fa-eye toggle-eye" id="eye1" data-target="Password"></i>
-                   
                 </div>
-
-
-
 
                 <div class="d-flex justify-content-between mb-4">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" id="rememberMe">
                         <label class="form-check-label text-white" for="rememberMe">Remember me</label>
                     </div>
-                    <a asp-controller="Home" asp-action="Forgot" class="text-white-50 text-decoration-none small">
+                    <a asp-controller="Home" asp-action="Forgot"
+                       class="text-white-50 text-decoration-none small">
                         Forgot Password?
                     </a>
                 </div>
 
                 <button type="submit" class="btn-login">Sign In</button>
 
+                @* Show error message if login failed *@
                 @if (ViewBag.Error != null)
                 {
                     <div class="alert alert-danger mt-3 small">
@@ -208,17 +213,20 @@
                 <div class="text-center mt-4">
                     <p class="small mb-0">
                         Don't have an account?
-                        <a asp-controller="Home" asp-action="Register" class="text-info fw-bold text-decoration-none">
+                        <a asp-controller="Home" asp-action="Register"
+                           class="text-info fw-bold text-decoration-none">
                             Register
                         </a>
                     </p>
                 </div>
+
             </form>
 
         </div>
     </div>
 
-    <script src="~/js/site.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
+
 </body>
 </html>

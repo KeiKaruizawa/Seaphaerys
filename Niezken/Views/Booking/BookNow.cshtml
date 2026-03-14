@@ -1,0 +1,317 @@
+﻿@model Niezken.Models.BookSearchViewModel
+
+@{
+    ViewData["Title"] = "Book Now";
+    Layout = "_Layout";
+
+    @* Get the list of ports passed from the controller via ViewBag *@
+    var ports = ViewBag.Ports as List<string> ?? new List<string>();
+}
+
+<style>
+    /* Page heading — matches .section-title style from site.css */
+    .page-title {
+        color: #0077b6;
+        font-weight: 700;
+        margin-top: 40px;
+        margin-bottom: 5px;
+    }
+
+    /* Search form card */
+    .search-card {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+        margin-bottom: 40px;
+    }
+
+    /* Form labels */
+    .form-label {
+        font-weight: 600;
+        color: #03396c;
+        margin-bottom: 6px;
+    }
+
+    /* Inputs and selects — blue border on focus matching site style */
+    .form-select, .form-control {
+        border: 1.5px solid #d0e8f5;
+        border-radius: 10px;
+        padding: 10px 14px;
+        color: #03396c;
+    }
+
+        .form-select:focus, .form-control:focus {
+            border-color: #0077b6;
+            box-shadow: 0 0 0 3px rgba(0,119,182,0.1);
+        }
+
+    /* Search button — matches .btn-blue from site.css */
+    .btn-search {
+        background-color: #03396c;
+        color: white;
+        border: 1.5px solid #03396c;
+        border-radius: 10px;
+        padding: 11px 35px;
+        font-weight: 700;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+        .btn-search:hover {
+            background-color: white;
+            color: #03396c;
+        }
+
+    /* Results count title */
+    .results-title {
+        color: #03396c;
+        font-weight: 700;
+        margin-bottom: 20px;
+        font-size: 1rem;
+    }
+
+    /* Ship result card — same style as .ship-card in site.css */
+    .ship-result-card {
+        border-radius: 15px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+        background: white;
+        border: none;
+        height: 100%;
+    }
+
+        .ship-result-card:hover {
+            transform: scale(1.03);
+        }
+
+    /* Ship image */
+    .ship-result-img {
+        height: 180px;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    /* Ship name */
+    .ship-result-name {
+        font-weight: 700;
+        color: #03396c;
+        font-size: 1rem;
+        margin-bottom: 4px;
+    }
+
+    /* Price */
+    .ship-result-price {
+        color: #0077b6;
+        font-weight: 700;
+        font-size: 0.95rem;
+        margin-bottom: 12px;
+    }
+
+    /* Select button — matches .btn-blue from site.css */
+    .btn-select {
+        background-color: #03396c;
+        color: white;
+        border: 1.5px solid #03396c;
+        border-radius: 8px;
+        padding: 7px 0;
+        font-weight: 600;
+        width: 100%;
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        transition: 0.3s;
+        font-size: 0.9rem;
+    }
+
+        .btn-select:hover {
+            background-color: white;
+            color: #03396c;
+        }
+
+    /* No results box */
+    .no-results {
+        text-align: center;
+        padding: 50px 20px;
+        color: #888;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+
+    /* Swap button between origin and destination */
+    .swap-btn {
+        background: #e3f2fd;
+        border: none;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        color: #0077b6;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+    }
+
+        .swap-btn:hover {
+            background: #0077b6;
+            color: white;
+        }
+</style>
+
+<div class="mt-2">
+
+    @* Page heading *@
+    <h2 class="page-title">Book Your Ferry</h2>
+    <p class="text-muted mb-4">Search available vessels for your route and travel date.</p>
+
+    @* ============================================================
+       SEARCH FORM
+       Submits via POST to BookNow action in BookingController
+       ============================================================ *@
+    <div class="search-card">
+        <form asp-action="BookNow" method="post">
+
+            <div class="row align-items-end g-3">
+
+                @* Origin port dropdown — options come from ViewBag.Ports *@
+                <div class="col-md-4">
+                    <label class="form-label">From</label>
+                    <select asp-for="Origin" class="form-select">
+                        <option value="">-- Select Origin --</option>
+                        @foreach (var port in ports)
+                        {
+                            @* Keeps the selected value after the form is submitted *@
+                            <option value="@port" selected="@(Model.Origin == port)">@port</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Origin" class="text-danger small"></span>
+                </div>
+
+                @* Swap button — swaps origin and destination via JavaScript *@
+                <div class="col-auto d-none d-md-flex justify-content-center">
+                    <button type="button" class="swap-btn" onclick="swapPorts()" title="Swap">⇄</button>
+                </div>
+
+                @* Destination port dropdown *@
+                <div class="col-md-4">
+                    <label class="form-label">To</label>
+                    <select asp-for="Destination" class="form-select">
+                        <option value="">-- Select Destination --</option>
+                        @foreach (var port in ports)
+                        {
+                            <option value="@port" selected="@(Model.Destination == port)">@port</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Destination" class="text-danger small"></span>
+                </div>
+
+                @* Travel date — min is today so past dates can't be selected *@
+                <div class="col-md-3">
+                    <label class="form-label">Travel Date</label>
+                    <input asp-for="TravelDate"
+                           type="date"
+                           class="form-control"
+                           min="@DateTime.Today.ToString("yyyy-MM-dd")" />
+                    <span asp-validation-for="TravelDate" class="text-danger small"></span>
+                </div>
+
+            </div>
+
+            @* Validation errors (e.g. same origin and destination) *@
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger mt-3 mb-0 py-2 small">
+                    <div asp-validation-summary="ModelOnly" class="mb-0"></div>
+                </div>
+            }
+
+            <div class="mt-4">
+                <button type="submit" class="btn-search">Search Vessels</button>
+            </div>
+
+        </form>
+    </div>
+
+    @* ============================================================
+       SEARCH RESULTS
+       Only shown after form is submitted (AvailableShips is not null)
+       ============================================================ *@
+    @if (Model.AvailableShips != null)
+    {
+        <hr style="border-color: #d0e8f5;" />
+
+        @if (!Model.AvailableShips.Any())
+        {
+            @* No ships found for the searched route *@
+            <div class="no-results">
+                <p class="fw-bold mb-1">No vessels found for this route.</p>
+                <p class="text-muted small mb-0">Try a different origin or destination.</p>
+            </div>
+        }
+        else
+        {
+            @* Show result count and searched route *@
+            <p class="results-title mt-4">
+                @Model.AvailableShips.Count vessel(s) found —
+                @Model.Origin to @Model.Destination on
+                @Model.TravelDate.ToString("MMMM dd, yyyy")
+            </p>
+
+            <div class="row g-4">
+                @foreach (var ship in Model.AvailableShips)
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6">
+                        <div class="ship-result-card">
+
+                            @* Ship image — falls back to placeholder if missing *@
+                            <img src="~/image/@ship.Image"
+                                 class="ship-result-img"
+                                 alt="@ship.Name"
+                                 onerror="this.src='https://images.unsplash.com/photo-1516495312540-a148643b22d3?w=400'" />
+
+                            <div class="p-3">
+                                <div class="ship-result-name">@ship.Name</div>
+                                <div class="text-muted small mb-1">@ship.Route</div>
+                                <div class="ship-result-price">@ship.Price <span class="text-muted fw-normal small">/ person</span></div>
+
+                                @* Clicking this goes to BookingForm (Step 2)
+                                   If not logged in, [Authorize] redirects to Login first *@
+                                <a asp-controller="Booking"
+                                   asp-action="BookingForm"
+                                   asp-route-shipId="@ship.Id"
+                                   asp-route-route="@ship.Route"
+                                   asp-route-price="@ship.Price"
+                                   asp-route-travelDate="@Model.TravelDate.ToString("yyyy-MM-dd")"
+                                   class="btn-select">
+                                    Select This Vessel
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    }
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Swaps Origin and Destination dropdown values
+        function swapPorts() {
+            const origin = document.querySelector('[name="Origin"]');
+            const dest = document.querySelector('[name="Destination"]');
+            const temp = origin.value;
+            origin.value = dest.value;
+            dest.value = temp;
+        }
+    </script>
+}

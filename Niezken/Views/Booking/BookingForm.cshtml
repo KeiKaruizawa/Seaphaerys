@@ -1,0 +1,433 @@
+﻿@* ============================================================
+   BookingForm.cshtml
+   📁 Location: Views/Booking/BookingForm.cshtml
+   🔁 Action: REPLACE existing file
+
+   STEP 2 of the booking flow. Requires login.
+   - Accommodation type shown with REAL ship images
+     (room = Cabin, bal = Balcony, in = Suite/Interior)
+   - Contact number and passenger count
+   - Per passenger: Full Name, Age, Sex
+   ============================================================ *@
+
+@model Niezken.Models.BookingFormViewModel
+
+@{
+    ViewData["Title"] = "Booking Details";
+    Layout = "_Layout";
+
+    @* ShipId is used to build image filenames e.g. room1.jfif, bal1.jfif *@
+    var shipId = Model.ShipId;
+}
+
+<style>
+    /* Trip summary bar — dark blue matching site header */
+    .trip-summary {
+        background-color: #03396c;
+        color: white;
+        border-radius: 15px;
+        padding: 20px 28px;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+        .trip-summary h5 {
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        /* Info pills inside the summary bar */
+        .trip-summary .badge-info {
+            background: rgba(255,255,255,0.15);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-right: 8px;
+            margin-top: 4px;
+        }
+
+    /* White section cards */
+    .section-card {
+        background: white;
+        border-radius: 15px;
+        padding: 28px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+        margin-bottom: 24px;
+    }
+
+        .section-card h5 {
+            color: #03396c;
+            font-weight: 700;
+            border-bottom: 2px solid #e3f2fd;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+    /* Form labels */
+    .form-label {
+        font-weight: 600;
+        color: #03396c;
+        font-size: 0.9rem;
+    }
+
+    /* Inputs */
+    .form-control, .form-select {
+        border: 1.5px solid #d0e8f5;
+        border-radius: 10px;
+        padding: 10px 14px;
+        color: #03396c;
+    }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #0077b6;
+            box-shadow: 0 0 0 3px rgba(0,119,182,0.1);
+        }
+
+    /* Accommodation cards — image based */
+    .acc-option {
+        border: 2px solid #d0e8f5;
+        border-radius: 12px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: 0.25s;
+        background: white;
+        height: 100%;
+    }
+
+        .acc-option:hover {
+            border-color: #0077b6;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Blue border + shadow when selected */
+        .acc-option.selected {
+            border-color: #03396c;
+            box-shadow: 0 0 0 3px rgba(3,57,108,0.2);
+        }
+
+    /* The ship image */
+    .acc-img {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* Text below the image */
+    .acc-body {
+        padding: 10px 14px 12px;
+    }
+
+        .acc-body strong {
+            display: block;
+            color: #03396c;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .acc-body small {
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+    /* Checkmark shown when card is selected */
+    .acc-check {
+        display: none;
+        color: white;
+        background: #03396c;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 2px 10px;
+        border-radius: 20px;
+        margin-top: 5px;
+        width: fit-content;
+    }
+
+    .acc-option.selected .acc-check {
+        display: block;
+    }
+
+    /* Passenger detail blocks */
+    .passenger-block {
+        border: 1.5px solid #d0e8f5;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 16px;
+        background: #f8fbff;
+        position: relative;
+    }
+
+    /* Passenger number tag */
+    .passenger-tag {
+        position: absolute;
+        top: -12px;
+        left: 18px;
+        background: #03396c;
+        color: white;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 2px 14px;
+        border-radius: 20px;
+    }
+
+    /* Confirm button */
+    .btn-confirm {
+        background-color: #03396c;
+        color: white;
+        border: 1.5px solid #03396c;
+        border-radius: 10px;
+        padding: 12px 0;
+        font-weight: 700;
+        width: 100%;
+        font-size: 1rem;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+        .btn-confirm:hover {
+            background-color: white;
+            color: #03396c;
+        }
+
+    /* Back link */
+    .back-link {
+        color: #03396c;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 0.9rem;
+        display: block;
+        text-align: center;
+        margin-top: 12px;
+    }
+
+        .back-link:hover {
+            color: #0077b6;
+            text-decoration: underline;
+        }
+</style>
+
+@* ---- TRIP SUMMARY BAR ---- *@
+<div class="trip-summary">
+    <h5>@Model.ShipName</h5>
+    <span class="badge-info">@Model.Route</span>
+    <span class="badge-info">@Model.TravelDate.ToString("MMMM dd, yyyy")</span>
+    @* Use Html.Raw to safely render the peso sign without encoding issues *@
+    <span class="badge-info">@Html.Raw(Model.Price) / person</span>
+</div>
+
+@* Main booking form *@
+<form asp-action="BookingForm" method="post" id="bookingForm">
+
+    @* Hidden fields carry ship data through the form submission *@
+    <input type="hidden" asp-for="ShipId" />
+    <input type="hidden" asp-for="ShipName" />
+    <input type="hidden" asp-for="Route" />
+    <input type="hidden" asp-for="Price" />
+    <input type="hidden" asp-for="TravelDate" />
+
+    @* ============================================================
+       SECTION 1: Accommodation Type
+       Uses REAL images from the project:
+         room{id}.jfif  = Cabin
+         bal{id}.jfif   = Balcony
+         in{id}.jfif    = Interior/Suite
+       Clicking a card sets the hidden AccommodationType input
+       ============================================================ *@
+    <div class="section-card">
+        <h5>Select Accommodation Type</h5>
+
+        <div class="row g-3">
+
+            @* --- CABIN --- uses room image *@
+            <div class="col-md-4">
+                <div class="acc-option" onclick="selectAccommodation(this, 'Cabin')">
+                    <img src="~/image/room@(shipId).jfif"
+                         class="acc-img"
+                         alt="Cabin"
+                         onerror="this.src='https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=400'" />
+                    <div class="acc-body">
+                        <strong>Cabin</strong>
+                        <small>Standard air-conditioned room</small>
+                        <span class="acc-check">&#10003; Selected</span>
+                    </div>
+                </div>
+            </div>
+
+            @* --- BALCONY --- uses bal image *@
+            <div class="col-md-4">
+                <div class="acc-option" onclick="selectAccommodation(this, 'Balcony')">
+                    <img src="~/image/bal@(shipId).jfif"
+                         class="acc-img"
+                         alt="Balcony"
+                         onerror="this.src='https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=400'" />
+                    <div class="acc-body">
+                        <strong>Balcony</strong>
+                        <small>Private ocean view balcony</small>
+                        <span class="acc-check">&#10003; Selected</span>
+                    </div>
+                </div>
+            </div>
+
+            @* --- SUITE --- uses in (interior) image *@
+            <div class="col-md-4">
+                <div class="acc-option" onclick="selectAccommodation(this, 'Suite')">
+                    <img src="~/image/in@(shipId).jfif"
+                         class="acc-img"
+                         alt="Suite"
+                         onerror="this.src='https://images.unsplash.com/photo-1582719508461-905c673771fd?w=400'" />
+                    <div class="acc-body">
+                        <strong>Suite</strong>
+                        <small>Premium room with meal service</small>
+                        <span class="acc-check">&#10003; Selected</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        @* Hidden input that stores the chosen accommodation type value *@
+        <input type="hidden" asp-for="AccommodationType" id="accommodationInput" />
+        <span asp-validation-for="AccommodationType" class="text-danger small d-block mt-2"></span>
+    </div>
+
+    @* ============================================================
+       SECTION 2: Contact Info and Passenger Count
+       ============================================================ *@
+    <div class="section-card">
+        <h5>Contact Information</h5>
+
+        <div class="row g-3">
+
+            @* Contact number *@
+            <div class="col-md-6">
+                <label class="form-label">Contact Number</label>
+                <input asp-for="ContactNumber"
+                       class="form-control"
+                       placeholder="e.g. 09171234567"
+                       maxlength="15" />
+                <span asp-validation-for="ContactNumber" class="text-danger small"></span>
+            </div>
+
+            @* Number of passengers — changing this adds/removes passenger blocks *@
+            <div class="col-md-3">
+                <label class="form-label">Number of Passengers</label>
+                <input asp-for="PassengerCount"
+                       type="number"
+                       class="form-control"
+                       min="1" max="20"
+                       id="passengerCountInput"
+                       onchange="updatePassengerForms()" />
+                <span asp-validation-for="PassengerCount" class="text-danger small"></span>
+            </div>
+
+        </div>
+    </div>
+
+    @* ============================================================
+       SECTION 3: Passenger Details
+       One block per passenger, JS adds/removes based on count
+       ============================================================ *@
+    <div class="section-card">
+        <h5>Passenger Details</h5>
+
+        <div id="passengerForms">
+
+            @* Passenger 1 is always shown *@
+            <div class="passenger-block" data-index="0">
+                <span class="passenger-tag">Passenger 1</span>
+                <div class="row g-3 mt-1">
+                    <div class="col-md-5">
+                        <label class="form-label">Full Name</label>
+                        <input type="text"
+                               name="Passengers[0].FullName"
+                               class="form-control"
+                               placeholder="e.g. Juan Dela Cruz"
+                               required />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Age</label>
+                        <input type="number"
+                               name="Passengers[0].Age"
+                               class="form-control"
+                               min="1" max="120"
+                               placeholder="Age"
+                               required />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Sex</label>
+                        <select name="Passengers[0].Sex" class="form-select" required>
+                            <option value="">-- Select --</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    @* Submit and back *@
+    <div class="mb-5">
+        <button type="submit" class="btn-confirm">Confirm Booking</button>
+        <a asp-action="BookNow" class="back-link">Back to Search</a>
+    </div>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Highlights the selected accommodation card and sets the hidden input value
+        function selectAccommodation(el, value) {
+            document.querySelectorAll('.acc-option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            document.getElementById('accommodationInput').value = value;
+        }
+
+        // Adds or removes passenger detail blocks based on the count input
+        function updatePassengerForms() {
+            const count = parseInt(document.getElementById('passengerCountInput').value) || 1;
+            const container = document.getElementById('passengerForms');
+            const existing = container.querySelectorAll('.passenger-block').length;
+
+            if (count > existing) {
+                for (let i = existing; i < count; i++) {
+                    const block = document.createElement('div');
+                    block.className = 'passenger-block';
+                    block.setAttribute('data-index', i);
+                    block.innerHTML = `
+                        <span class="passenger-tag">Passenger ${i + 1}</span>
+                        <div class="row g-3 mt-1">
+                            <div class="col-md-5">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" name="Passengers[${i}].FullName"
+                                       class="form-control" placeholder="e.g. Juan Dela Cruz" required />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Age</label>
+                                <input type="number" name="Passengers[${i}].Age"
+                                       class="form-control" min="1" max="120" placeholder="Age" required />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Sex</label>
+                                <select name="Passengers[${i}].Sex" class="form-select" required>
+                                    <option value="">-- Select --</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+                        </div>`;
+                    container.appendChild(block);
+                }
+            } else {
+                const blocks = container.querySelectorAll('.passenger-block');
+                for (let i = existing - 1; i >= count; i--) {
+                    blocks[i].remove();
+                }
+            }
+        }
+    </script>
+}

@@ -37,8 +37,10 @@ namespace Niezken.Controllers
             _context = context;
         }
 
+        // --------------------------------------------------------
         // PUBLIC HOME PAGES
         // These pages are visible to EVERYONE — no login needed
+        // --------------------------------------------------------
 
         // GET: /Home/Index  (or just "/" — this is the homepage)
         public IActionResult Index()
@@ -46,17 +48,32 @@ namespace Niezken.Controllers
             return View();
         }
 
+        // GET: /Home/Accommodation
         public IActionResult Accommodation() => View();
 
+        // GET: /Home/Outlets
         public IActionResult Outlets() => View();
 
+        // GET: /Home/Contact
         public IActionResult Contact() => View();
 
+        // GET: /Home/faq
         public IActionResult faq() => View();
 
+        // GET: /Home/Forgot
         public IActionResult Forgot() => View();
 
+        // GET: /Home/AccessDenied
+        // Shown when a logged-in user tries to access a page they don't have permission for
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
+        // --------------------------------------------------------
         // REGISTER
+        // --------------------------------------------------------
+
         // GET: /Home/Register
         // Shows the registration form
         [HttpGet]
@@ -84,6 +101,7 @@ namespace Niezken.Controllers
             // Check if all form fields are valid (e.g. email format, password rules)
             if (!ModelState.IsValid)
             {
+                // If not valid, show the form again with error messages
                 return View(model);
             }
 
@@ -105,7 +123,7 @@ namespace Niezken.Controllers
                 Email = model.Email,
                 Role = "Passenger",             // All self-registered users are Passengers
                 IsActive = true,                // Account is active by default
-                PasswordHash = HashPassword(model.Password)
+                PasswordHash = HashPassword(model.Password) // Never store plain passwords!
             };
 
             // Add the user to the database
@@ -116,7 +134,10 @@ namespace Niezken.Controllers
             return RedirectToAction("Login");
         }
 
+        // --------------------------------------------------------
         // LOGIN
+        // --------------------------------------------------------
+
         // GET: /Home/Login
         // Shows the login form
         [HttpGet]
@@ -135,59 +156,54 @@ namespace Niezken.Controllers
         }
 
         // POST: /Home/Login
-        // Processes the login form when submitted
+        // returnUrl = the page the user tried to visit before being sent to Login
+        // Example: clicking "Select This Vessel" while not logged in sets
+        // returnUrl = /Booking/BookingForm?shipId=1...
+        // After successful login, we redirect them back there so the flow continues
         [HttpPost]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login(string email, string password, string returnUrl = null)
         {
-            // Make sure both fields are filled in
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
             {
                 ViewBag.Error = "Email and Password are required.";
+                ViewBag.ReturnUrl = returnUrl;
                 return View();
             }
 
             string hashedPassword = HashPassword(password);
 
-            // Look for a user in the database with matching email AND password hash
             var user = await _context.Users
                 .FirstOrDefaultAsync(u => u.Email == email && u.PasswordHash == hashedPassword);
 
-            // If no user found, credentials are wrong
             if (user == null)
             {
                 ViewBag.Error = "Invalid email or password.";
+                ViewBag.ReturnUrl = returnUrl;
                 return View();
             }
 
-            // If the admin disabled this account, don't allow login
             if (!user.IsActive)
             {
                 ViewBag.Error = "Your account has been disabled. Please contact support.";
+                ViewBag.ReturnUrl = returnUrl;
                 return View();
             }
 
-            // CREATE THE LOGIN COOKIE (CLAIMS)
-            // Claims are pieces of info stored in the cookie:
-            //   - ClaimTypes.Name  = the user's email (used as their identity)
-            //   - ClaimTypes.Role  = "Admin" or "Passenger"
+            // Build the login cookie with the user's email and role
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Email),  // This becomes User.Identity.Name
-                new Claim(ClaimTypes.Role, user.Role),   // This enables User.IsInRole("Admin")
-                new Claim("FirstName", user.FirstName),  // Bonus: store first name in cookie
+                new Claim(ClaimTypes.Name, user.Email),
+                new Claim(ClaimTypes.Role, user.Role),
+                new Claim("FirstName", user.FirstName),
             };
 
-            // Wrap claims in an identity using Cookie authentication
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-            // Sign in — this creates the browser cookie
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity)
             );
 
-            // LOG THIS ACTION
-            // Records in the database that this user logged in
             _context.ActivityLogs.Add(new ActivityLog
             {
                 UserEmail = user.Email,
@@ -195,21 +211,29 @@ namespace Niezken.Controllers
             });
             await _context.SaveChangesAsync();
 
-            // REDIRECT BASED ON ROLE
-            // Admin  → Admin Dashboard
-            // Passenger → Public Home page (they can browse & book)
+            // REDIRECT LOGIC:
+            // 1. Admin always goes to Admin Dashboard
+            // 2. If returnUrl exists (came from BookingForm etc.), go back there
+            // 3. Otherwise go to Home
             if (user.Role == "Admin")
             {
                 return RedirectToAction("AdminDashboard", "Admin");
             }
+            else if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+            {
+                // Url.IsLocalUrl() prevents open redirect attacks
+                return Redirect(returnUrl);
+            }
             else
             {
-                // Passenger stays on the public site
                 return RedirectToAction("Index", "Home");
             }
         }
 
+        // --------------------------------------------------------
         // LOGOUT
+        // --------------------------------------------------------
+
         // GET: /Home/Logout
         public async Task<IActionResult> Logout()
         {
@@ -228,8 +252,10 @@ namespace Niezken.Controllers
             return RedirectToAction("Index");
         }
 
+        // --------------------------------------------------------
         // ACCOMMODATION DETAILS
         // Shows detailed info for a specific ship (by ID)
+        // --------------------------------------------------------
         public IActionResult AccommodationDetails(int id)
         {
             // These 8 ships are hardcoded for now
@@ -256,7 +282,9 @@ namespace Niezken.Controllers
             return View(ship);
         }
 
+        // --------------------------------------------------------
         // ERROR PAGE
+        // --------------------------------------------------------
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -266,7 +294,13 @@ namespace Niezken.Controllers
             });
         }
 
+        // --------------------------------------------------------
         // PRIVATE HELPER: PASSWORD HASHING
+        // Converts a plain text password into a SHA256 hash.
+        // We NEVER store plain passwords — always store the hash.
+        // The same password always produces the same hash,
+        // so we can compare hashes at login time.
+        // --------------------------------------------------------
         private string HashPassword(string password)
         {
             using var sha256 = SHA256.Create();
