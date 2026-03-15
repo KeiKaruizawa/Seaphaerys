@@ -1,5 +1,263 @@
-﻿
-@model Niezken.Views.Home.ContactModel
-@{
-    ViewData["Title"] = "Contacts";
+﻿@{
+    ViewData["Title"] = "Contact Us";
+    Layout = "_Layout";
 }
+
+<style>
+    .page-title {
+        color: #0077b6;
+        font-weight: 700;
+        margin-top: 40px;
+        margin-bottom: 5px;
+    }
+
+    .contact-card {
+        background: white;
+        border-radius: 15px;
+        padding: 28px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+        height: 100%;
+    }
+
+        .contact-card h5 {
+            color: #03396c;
+            font-weight: 700;
+            border-bottom: 2px solid #e3f2fd;
+            padding-bottom: 10px;
+            margin-bottom: 18px;
+        }
+
+    .contact-item {
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+        margin-bottom: 16px;
+        font-size: 0.9rem;
+    }
+
+    .contact-icon {
+        background: #e3f2fd;
+        color: #0077b6;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-size: 0.85rem;
+    }
+
+    .contact-label {
+        font-weight: 600;
+        color: #03396c;
+        font-size: 0.82rem;
+        margin-bottom: 2px;
+    }
+
+    .contact-value {
+        color: #555;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #03396c;
+        font-size: 0.9rem;
+    }
+
+    .form-control, .form-select {
+        border: 1.5px solid #d0e8f5;
+        border-radius: 10px;
+        padding: 10px 14px;
+        color: #03396c;
+    }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #0077b6;
+            box-shadow: 0 0 0 3px rgba(0,119,182,0.1);
+        }
+
+    .btn-submit {
+        background-color: #03396c;
+        color: white;
+        border: 1.5px solid #03396c;
+        border-radius: 10px;
+        padding: 11px 35px;
+        font-weight: 700;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+        .btn-submit:hover {
+            background-color: white;
+            color: #03396c;
+        }
+
+    /* Hotline banner */
+    .hotline-banner {
+        background: #03396c;
+        color: white;
+        border-radius: 15px;
+        padding: 22px 30px;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .hotline-number {
+        font-size: 1.2rem;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+    }
+
+    .hotline-label {
+        font-size: 0.82rem;
+        opacity: 0.75;
+        margin-bottom: 3px;
+    }
+</style>
+
+<div class="container mt-2 mb-5">
+
+    <h2 class="page-title">Contact Us</h2>
+    <p class="text-muted mb-4">
+        We're here to help! Reach out to us for bookings, cancellations, cargo inquiries, or any concerns.
+    </p>
+
+    @* Hotline banner — numbers only, no word substitutes *@
+    <div class="hotline-banner">
+        <div>
+            <div class="hotline-label">Customer Hotline</div>
+            <div class="hotline-number">(032) 888-3379</div>
+        </div>
+        <div>
+            <div class="hotline-label">Toll-Free (Globe / TM)</div>
+            <div class="hotline-number">1-800-10-888-3379</div>
+        </div>
+        <div>
+            <div class="hotline-label">SMS / Viber</div>
+            <div class="hotline-number">0917-888-3379</div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+
+        @* Left — contact info *@
+        <div class="col-md-5">
+            <div class="contact-card">
+                <h5>Get in Touch</h5>
+
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                    <div>
+                        <div class="contact-label">Email</div>
+                        <div class="contact-value">support@seaphaerys.com.ph</div>
+                        <div class="contact-value">booking@seaphaerys.com.ph</div>
+                    </div>
+                </div>
+
+                @* Head office in Cebu *@
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <div class="contact-label">Head Office</div>
+                        <div class="contact-value">
+                            3/F Seaphaerys Building, Pier 1,<br />
+                            Cebu City Port Area, Cebu City 6000
+                        </div>
+                    </div>
+                </div>
+
+                @* 8-hour office hours *@
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fas fa-clock"></i></div>
+                    <div>
+                        <div class="contact-label">Office Hours</div>
+                        <div class="contact-value">Monday – Friday: 8:00 AM – 5:00 PM</div>
+                        <div class="contact-value">Saturday: 8:00 AM – 12:00 PM</div>
+                        <div class="contact-value">Sunday & Holidays: Closed</div>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fab fa-facebook-f"></i></div>
+                    <div>
+                        <div class="contact-label">Facebook</div>
+                        <div class="contact-value">facebook.com/SeaphaerysOfficial</div>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fab fa-instagram"></i></div>
+                    <div>
+                        <div class="contact-label">Instagram</div>
+                        @* @@ renders a literal @ in Razor *@
+                        <div class="contact-value">@@seaphaerys_ph</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        @* Right — inquiry form *@
+        <div class="col-md-7">
+            <div class="contact-card">
+                <h5>Send Us a Message</h5>
+
+                <form>
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" placeholder="Juan Dela Cruz" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Email Address</label>
+                            <input type="email" class="form-control" placeholder="you@email.com" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Contact Number</label>
+                            <input type="text" class="form-control" placeholder="09171234567" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Inquiry Type</label>
+                            <select class="form-select">
+                                <option value="">-- Select --</option>
+                                <option>Booking Inquiry</option>
+                                <option>Cancellation / Refund</option>
+                                <option>Payment Inquiry</option>
+                                <option>Cargo Rates</option>
+                                <option>Schedule Information</option>
+                                <option>Lost & Found</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Message</label>
+                            <textarea class="form-control"
+                                      rows="4"
+                                      placeholder="Type your message here..."></textarea>
+                        </div>
+
+                        <div class="col-12">
+                            <button type="button" class="btn-submit"
+                                    onclick="alert('Thank you! We will get back to you within 24 hours.')">
+                                Send Message
+                            </button>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>

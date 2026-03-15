@@ -2,114 +2,203 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="container-fluid px-0">
-<div id="vesselCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#vesselCarousel" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#vesselCarousel" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#vesselCarousel" data-bs-slide-to="2"></button>
+@* ---- CAROUSEL ----
+   Box shadow applied to the whole carousel wrapper. *@
+<style>
+    .carousel-wrapper {
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        margin-top: 30px;
+        margin-bottom: 10px;
+    }
+
+    .carousel-full-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.45);
+        z-index: 1;
+    }
+
+    .carousel-caption {
+        z-index: 2;
+        background: none !important; /* Remove the small rectangle box */
+        bottom: 25% !important;
+    }
+</style>
+<div class="carousel-wrapper">
+    <div id="vesselCarousel" class="carousel slide" data-bs-ride="carousel">
+
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#vesselCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#vesselCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#vesselCarousel" data-bs-slide-to="2"></button>
+        </div>
+
+        <div class="carousel-inner shadow-lg">
+
+            @* Slide 1 — Elite Fast Craft
+               Button links to Accommodation page to browse vessels *@
+            <div class="carousel-item active">
+                <img src="https://images.unsplash.com/photo-1556224542-250166cc2285?q=80&w=1744&auto=format&fit=crop"
+                     class="card-img-top" alt="Elite Fast Craft">
+                <div class="carousel-full-overlay"></div>
+                <div class="carousel-caption d-none d-md-block">
+                    <h2>Elite Fast Craft</h2>
+                    <p>Reach your destination in record time with our high-speed jet ferries.</p>
+                    @* Links to the Accommodation page to view our fleet *@
+                    <a asp-controller="Home"
+                       asp-action="Accommodation"
+                       class="btn btn-warning">
+                        View Schedule
+                    </a>
+                </div>
+            </div>
+
+            @* Slide 2 — Ro-Ro Cargo Vessels
+               Button links to Contact page for cargo inquiries *@
+            <div class="carousel-item">
+                <img src="https://images.unsplash.com/photo-1599640842225-85d111c60e6b?q=80&w=1074&auto=format&fit=crop"
+                     class="card-img-top" alt="Ro-Ro Cargo">
+                <div class="carousel-full-overlay"></div>
+                <div class="carousel-caption d-none d-md-block">
+                    <h2>Ro-Ro Cargo Vessels</h2>
+                    <p>Bringing your vehicles and heavy cargo safely across the sea.</p>
+                    @* Links to Contact page for cargo rate inquiries *@
+                    <a asp-controller="Home"
+                       asp-action="Contact"
+                       class="btn btn-warning">
+                        Cargo Rates
+                    </a>
+                </div>
+            </div>
+
+            @* Slide 3 — Night Liners
+               Button links to Book Now page *@
+            <div class="carousel-item">
+                <img src="https://images.unsplash.com/photo-1516495312540-a148643b22d3?q=80&w=1074&auto=format&fit=crop"
+                     class="card-img-top" alt="Night Liners">
+                <div class="carousel-full-overlay"></div>
+                <div class="carousel-caption d-none d-md-block">
+                    <h2>Night Liners</h2>
+                    <p>Enjoy a comfortable overnight stay while sailing to the islands.</p>
+                    @* Links directly to Book Now page *@
+                    <a asp-controller="Booking"
+                       asp-action="BookNow"
+                       class="btn btn-warning">
+                        Book Now
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="carousel-control-prev" type="button"
+                data-bs-target="#vesselCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button"
+                data-bs-target="#vesselCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+
     </div>
-    <div class="carousel-inner shadow-lg">
-        <div class="carousel-item active">
-                <img src="https://images.unsplash.com/photo-1556224542-250166cc2285?q=80&w=1744&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="Suite">
-            <div class="carousel-caption d-none d-md-block">
-                <h2>Elite Fast Craft</h2>
-                <p>Reach your destination in record time with our high-speed jet ferries.</p>
-                <a href="#" class="btn btn-warning">View Schedule</a>
-            </div>
-        </div>
-        <div class="carousel-item">
-                <img src="https://images.unsplash.com/photo-1599640842225-85d111c60e6b?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="Suite">
-            <div class="carousel-caption d-none d-md-block">
-                <h2>Ro-Ro Cargo Vessels</h2>
-                <p>Bringing your vehicles and heavy cargo safely across the sea.</p>
-                <a href="#" class="btn btn-warning">Cargo Rates</a>
-            </div>
-        </div>
-        <div class="carousel-item">
-                <img src="https://images.unsplash.com/photo-1516495312540-a148643b22d3?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top" alt="Suite">
-            <div class="carousel-caption d-none d-md-block">
-                <h2>Night Liners</h2>
-                <p>Enjoy a comfortable overnight stay while sailing to the islands.</p>
-                <a href="#" class="btn btn-warning">Book Cabin</a>
-            </div>
-        </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#vesselCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#vesselCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-    </button>
 </div>
-</div>
+
+@* ---- PREMIUM ACCOMMODATIONS ----
+   Prices updated to ₱ and matched to actual vessel starting prices *@
 <div class="container-fluid px-5 text-center mb-5">
     <h2 class="section-title">Premium Accommodations</h2>
 
     <div class="row gx-0 gy-4 mt-4 justify-content-center tight-gutter">
 
+        @* Interior — cheapest option, starts at ₱1,100 (MV St. Francis) *@
         <div class="col-md-3 col-sm-6">
             <div class="card feature-card h-100">
-                <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=900&q=80" class="card-img-top" alt="Interior">
+                <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=900&q=80"
+                     class="card-img-top" alt="Interior">
                 <div class="card-body">
-                    <h5 class="card-title">Interior</h5>
-                    <p class="card-text text-muted small">Open-air seating with refreshing sea breezes.</p>
-                    <p class="fw-bold text-primary">Starts at $15.00</p>
+                    <h5 class="card-title">Interior Cabin</h5>
+                    <p class="card-text text-muted small">
+                        Standard air-conditioned cabin with comfortable bunk beds.
+                        Perfect for solo travelers and budget-conscious passengers.
+                    </p>
+                    <p class="fw-bold text-primary">Starts at ₱1,100</p>
                 </div>
             </div>
         </div>
 
+        @* Ocean View — mid range *@
         <div class="col-md-3 col-sm-6">
             <div class="card feature-card h-100">
-                <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=900&q=80" class="card-img-top" alt="Ocean View">
+                <img src="https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=900&q=80"
+                     class="card-img-top" alt="Ocean View">
                 <div class="card-body">
                     <h5 class="card-title">Ocean View</h5>
-                    <p class="card-text text-muted small">AC cabins with reclining seats.</p>
-                    <p class="fw-bold text-primary">Starts at $25.00</p>
+                    <p class="card-text text-muted small">
+                        Air-conditioned cabins with a window view of the sea.
+                        Ideal for passengers who enjoy the scenery while at sea.
+                    </p>
+                    <p class="fw-bold text-primary">Starts at ₱1,500</p>
                 </div>
             </div>
         </div>
 
+        @* Balcony — premium option *@
         <div class="col-md-3 col-sm-6">
             <div class="card feature-card h-100">
-                <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80" class="card-img-top" alt="Balcony">
+                <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80"
+                     class="card-img-top" alt="Balcony">
                 <div class="card-body">
                     <h5 class="card-title">Balcony</h5>
-                    <p class="card-text text-muted small">Private cabins with en-suite bathrooms.</p>
-                    <p class="fw-bold text-primary">Starts at $75.00</p>
+                    <p class="card-text text-muted small">
+                        Private cabins with an outdoor balcony overlooking the sea.
+                        Enjoy fresh ocean air and stunning views throughout your voyage.
+                    </p>
+                    <p class="fw-bold text-primary">Starts at ₱1,800</p>
                 </div>
             </div>
         </div>
 
+        @* Suite — most premium *@
         <div class="col-md-3 col-sm-6">
             <div class="card feature-card h-100">
-                <img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=900&q=80" class="card-img-top" alt="Suite">
+                <img src="https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=900&q=80"
+                     class="card-img-top" alt="Suite">
                 <div class="card-body">
                     <h5 class="card-title">Suite</h5>
-                    <p class="card-text text-muted small">Premium cabins with meal service.</p>
-                    <p class="fw-bold text-primary">Starts at $75.00</p>
+                    <p class="card-text text-muted small">
+                        Luxury suite with full meal service, premium amenities,
+                        and dedicated crew assistance for the most comfortable voyage.
+                    </p>
+                    <p class="fw-bold text-primary">Starts at ₱2,200</p>
                 </div>
             </div>
         </div>
 
     </div>
 </div>
+
+@* ---- TRUST BADGES ---- *@
 <div class="bg-white py-5 shadow-sm rounded-4 mb-5">
     <div class="row text-center px-4">
         <div class="col-md-4 border-end">
             <i class="fas fa-shield-alt fa-3x text-info mb-3"></i>
             <h4>Safety First</h4>
-            <p class="text-muted">International safety standards and trained crew.</p>
+            <p class="text-muted">International safety standards and trained crew on all vessels.</p>
         </div>
         <div class="col-md-4 border-end">
             <i class="fas fa-clock fa-3x text-info mb-3"></i>
             <h4>On-Time Departure</h4>
-            <p class="text-muted">98% punctuality rate across all sea routes.</p>
+            <p class="text-muted">98% punctuality rate across all sea routes nationwide.</p>
         </div>
         <div class="col-md-4">
             <i class="fas fa-anchor fa-3x text-info mb-3"></i>
             <h4>Island Coverage</h4>
-            <p class="text-muted">Connecting over 25 major ports nationwide.</p>
+            <p class="text-muted">Connecting over 25 major ports across the Philippine islands.</p>
         </div>
     </div>
 </div>

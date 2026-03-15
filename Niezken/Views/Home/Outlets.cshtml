@@ -1,5 +1,171 @@
-﻿
-@model Niezken.Views.Home.OutletsModel
-@{
+﻿@{
     ViewData["Title"] = "Outlets";
+    Layout = "_Layout";
 }
+
+<style>
+    .page-title {
+        color: #0077b6;
+        font-weight: 700;
+        margin-top: 40px;
+        margin-bottom: 5px;
+    }
+
+    .city-label {
+        background-color: #03396c;
+        color: white;
+        border-radius: 10px 10px 0 0;
+        padding: 11px 20px;
+        font-weight: 700;
+        font-size: 0.9rem;
+    }
+
+    .outlet-card {
+        background: white;
+        border: 1.5px solid #e3f2fd;
+        border-top: none;
+        border-radius: 0 0 10px 10px;
+        padding: 18px 20px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+
+    .outlet-name {
+        font-weight: 700;
+        color: #03396c;
+        font-size: 0.95rem;
+        margin-bottom: 5px;
+    }
+
+    .outlet-info {
+        font-size: 0.87rem;
+        color: #555;
+        margin-bottom: 2px;
+    }
+
+    .outlet-hours {
+        font-size: 0.82rem;
+        color: #0077b6;
+        font-weight: 600;
+        margin-top: 8px;
+    }
+
+    .badge-open {
+        background: #d1f5ea;
+        color: #1a7a56;
+        border-radius: 20px;
+        padding: 2px 10px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        margin-left: 8px;
+    }
+
+    .note-box {
+        background: #e3f2fd;
+        border-left: 4px solid #0077b6;
+        border-radius: 0 10px 10px 0;
+        padding: 12px 18px;
+        font-size: 0.88rem;
+        color: #03396c;
+        margin-bottom: 30px;
+    }
+</style>
+
+<div class="container mt-2 mb-5">
+
+    <h2 class="page-title">Ticket Outlets</h2>
+    <p class="text-muted mb-4">
+        Visit any of our port ticketing offices for walk-in purchases and inquiries.
+        You may also book conveniently through our
+        <a asp-controller="Booking" asp-action="BookNow"
+           class="fw-bold" style="color:#0077b6;">Book Now</a> page anytime.
+    </p>
+
+    <div class="row g-4">
+
+        @* Cebu *@
+        <div class="col-md-6">
+            <div class="city-label">Cebu</div>
+            <div class="outlet-card">
+                <div class="outlet-name">
+                    Cebu Pier 1 Main Terminal
+                    <span class="badge-open">Open Daily</span>
+                </div>
+                <div class="outlet-info">Pier 1, Cebu City Port Area, Cebu City</div>
+                <div class="outlet-info">Tel: (032) 255-1234</div>
+                <div class="outlet-hours">Monday – Sunday: 8:00 AM – 5:00 PM</div>
+            </div>
+        </div>
+
+        @* Manila *@
+        <div class="col-md-6">
+            <div class="city-label">Manila</div>
+            <div class="outlet-card">
+                <div class="outlet-name">
+                    Manila North Harbor Terminal
+                    <span class="badge-open">Open Daily</span>
+                </div>
+                <div class="outlet-info">Pier 2, North Harbor, Tondo, Manila</div>
+                <div class="outlet-info">Tel: (02) 8245-0987</div>
+                <div class="outlet-hours">Monday – Sunday: 8:00 AM – 5:00 PM</div>
+            </div>
+        </div>
+
+        @* Davao *@
+        <div class="col-md-6">
+            <div class="city-label">Davao</div>
+            <div class="outlet-card">
+                <div class="outlet-name">
+                    Sasa Wharf Terminal
+                    <span class="badge-open">Open Daily</span>
+                </div>
+                <div class="outlet-info">Sasa Port, Davao City, Davao del Sur</div>
+                <div class="outlet-info">Tel: (082) 234-5678</div>
+                <div class="outlet-hours">Monday – Sunday: 8:00 AM – 5:00 PM</div>
+            </div>
+        </div>
+
+        @* Iloilo *@
+        <div class="col-md-6">
+            <div class="city-label">Iloilo</div>
+            <div class="outlet-card">
+                <div class="outlet-name">
+                    Iloilo Ferry Terminal
+                    <span class="badge-open">Open Daily</span>
+                </div>
+                <div class="outlet-info">Parola Wharf, Iloilo City, Iloilo</div>
+                <div class="outlet-info">Tel: (033) 335-7890</div>
+                <div class="outlet-hours">Monday – Sunday: 8:00 AM – 5:00 PM</div>
+            </div>
+        </div>
+
+        @* Bacolod *@
+        <div class="col-md-6">
+            <div class="city-label">Bacolod</div>
+            <div class="outlet-card">
+                <div class="outlet-name">
+                    Bacolod Ferry Terminal
+                    <span class="badge-open">Open Daily</span>
+                </div>
+                <div class="outlet-info">Reclamation Area, Bacolod City, Negros Occidental</div>
+                <div class="outlet-info">Tel: (034) 432-1234</div>
+                <div class="outlet-hours">Monday – Sunday: 8:00 AM – 5:00 PM</div>
+            </div>
+        </div>
+
+        @* Palawan *@
+        <div class="col-md-6">
+            <div class="city-label">Palawan</div>
+            <div class="outlet-card">
+                <div class="outlet-name">
+                    Puerto Princesa Port Terminal
+                    <span class="badge-open">Open Daily</span>
+                </div>
+                <div class="outlet-info">Sta. Monica Port, Puerto Princesa City, Palawan</div>
+                <div class="outlet-info">Tel: (048) 433-5678</div>
+                <div class="outlet-hours">Monday – Sunday: 8:00 AM – 5:00 PM</div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,16 +1,4 @@
-﻿@* ============================================================
-   Confirmation.cshtml
-
-   STEP 3 — Final step of the booking flow.
-   Shown after a booking is successfully saved.
-   Displays a summary of:
-     - Booking reference number
-     - Ship, route, date, accommodation, price
-     - Contact info
-     - Passenger list
-   ============================================================ *@
-
-@model Niezken.Models.Booking
+﻿@model Niezken.Models.Booking
 @using Niezken.Models
 
 @{
@@ -230,6 +218,13 @@
             <span class="label">Base Price</span>
             <span class="value" style="color:#0077b6;">₱@Model.Price.ToString("N2")</span>
         </div>
+        @if (!string.IsNullOrEmpty(Model.DepartureTime))
+        {
+            <div class="detail-row">
+                <span class="label">Departure Time</span>
+                <span class="value">@Model.DepartureTime</span>
+            </div>
+        }
         <div class="detail-row">
             <span class="label">Status</span>
             <span class="value"><span class="status-badge">@Model.Status</span></span>
@@ -256,6 +251,13 @@
             <span class="label">Total Passengers</span>
             <span class="value">@Model.PassengerCount</span>
         </div>
+        @if (!string.IsNullOrEmpty(Model.PaymentMethod))
+        {
+            <div class="detail-row">
+                <span class="label">Payment Method</span>
+                <span class="value">@Model.PaymentMethod</span>
+            </div>
+        }
     </div>
 
     @* ---- PASSENGER LIST ---- *@

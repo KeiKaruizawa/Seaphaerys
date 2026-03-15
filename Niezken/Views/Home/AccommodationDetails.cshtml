@@ -1,102 +1,436 @@
 ﻿@model Niezken.Models.ShipViewModel
+
 @{
     ViewData["Title"] = "Ship Details";
+    Layout = "_Layout";
+
+    @* Routes from DB — both directions for this ship *@
+    var routes = ViewBag.Routes as List<string> ?? new List<string>();
+    var defaultRoute = routes.FirstOrDefault() ?? "";
+    var defaultParts = defaultRoute.Split(" to ");
+    var defaultOrigin = defaultParts.Length > 0 ? defaultParts[0] : "";
+    var defaultDest = defaultParts.Length > 1 ? defaultParts[1] : "";
+
+    @* Check if user came from the Accommodation page
+       Used to decide whether to show the Back to Fleet button *@
+    var referer = Context.Request.Headers["Referer"].ToString();
+    var cameFromAccommodation = referer.Contains("/Home/Accommodation") ||
+                                referer.Contains("/Accommodation");
 }
 
-<div class="container mt-5">
-    <div class="row">
+<style>
+    /* ---- Columns layout ---- */
+    .details-row {
+        display: flex;
+        align-items: flex-start; 
+        gap: 40px;
+        margin-top: 30px;
+        margin-bottom: 50px;
+    }
 
-        <!-- LEFT SIDE - IMAGE SLIDER -->
-        <div class="col-md-6">
+    /* Left column */
+    .details-left {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
 
-            <div id="shipCarousel" class="carousel slide shadow rounded" data-bs-ride="carousel">
+    /* Right column */
+    .details-right {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
 
-                <div class="carousel-inner rounded">
+    .carousel-wrapper {
+        height: 420px; /* Fixed — never changes regardless of image */
+    }
 
-                    <!-- Room Image -->
-                    <div class="carousel-item active">
-                        <img src="@Url.Content("~/image/room" + Model.Id + ".jfif")"
-                             class="d-block w-100 detail-img"
-                             alt="Room">
-                        <div class="carousel-caption bg-opacity-50 rounded" id="bcolor">
-                            <h6>Cabin Room</h6>
+    #shipCarousel,
+    #shipCarousel .carousel-inner,
+    #shipCarousel .carousel-item {
+        height: 420px; /* Must match .carousel-wrapper */
+    }
+
+    /* Images fill the fixed box — cropped not stretched */
+    .detail-img {
+        width: 100%;
+        height: 420px; /* Fixed height — object-fit handles cropping */
+        object-fit: cover; /* Crops to fit, never distorts */
+        border-radius: 15px;
+        display: block;
+    }
+
+    /* Carousel caption overlay */
+    #bcolor {
+        background: rgba(3, 57, 108, 0.55);
+        color: white;
+        padding: 7px 20px;
+        border-radius: 8px;
+        margin: 0 60px;
+    }
+
+    /* ---- Right side content ---- */
+    .ship-title {
+        color: #03396c;
+        font-weight: 800;
+        font-size: 1.8rem;
+        margin-bottom: 6px;
+    }
+
+    .price-badge {
+        background: #e3f2fd;
+        color: #0077b6;
+        font-weight: 700;
+        font-size: 0.95rem;
+        border-radius: 20px;
+        padding: 5px 16px;
+        display: inline-block;
+        margin-bottom: 14px;
+    }
+
+    .ship-description {
+        color: #555;
+        font-size: 0.92rem;
+        line-height: 1.65;
+        margin-bottom: 4px;
+    }
+
+    /* ---- Section labels ---- */
+    .section-label {
+        color: #03396c;
+        font-weight: 700;
+        font-size: 0.88rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+        margin-top: 16px;
+    }
+
+    /* ---- HORIZONTAL route direction cards ---- */
+    .routes-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap; /* Wraps on small screens */
+    }
+
+    .route-option {
+        flex: 1;
+        min-width: 140px;
+        border: 2px solid #d0e8f5;
+        border-radius: 12px;
+        padding: 10px 14px;
+        cursor: pointer;
+        transition: 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: white;
+        white-space: nowrap;
+    }
+
+        .route-option:hover {
+            border-color: #0077b6;
+            background: #f0f8ff;
+        }
+
+        .route-option.selected {
+            border-color: #03396c;
+            background: #e3f2fd;
+        }
+
+        .route-option input[type="radio"] {
+            accent-color: #03396c;
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+        }
+
+    .route-text {
+        font-weight: 600;
+        color: #03396c;
+        font-size: 0.88rem;
+    }
+
+    .route-arrow {
+        color: #0077b6;
+        font-size: 0.8rem;
+        margin: 0 3px;
+    }
+
+    /* ---- Features list ---- */
+    .features-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        columns: 2; /* Two columns to save vertical space */
+        column-gap: 20px;
+    }
+
+        .features-list li {
+            padding: 4px 0;
+            color: #444;
+            font-size: 0.88rem;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            break-inside: avoid;
+        }
+
+            .features-list li::before {
+                content: "✓";
+                color: #0077b6;
+                font-weight: 700;
+                font-size: 0.82rem;
+                flex-shrink: 0;
+            }
+
+    /* ---- Buttons ---- */
+    .btn-booknow {
+        background-color: #03396c;
+        color: white;
+        border: 1.5px solid #03396c;
+        border-radius: 10px;
+        padding: 10px 28px;
+        font-weight: 700;
+        font-size: 0.92rem;
+        text-decoration: none;
+        display: inline-block;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+        .btn-booknow:hover {
+            background-color: white;
+            color: #03396c;
+        }
+
+    .btn-back {
+        background-color: white;
+        color: #03396c;
+        border: 1.5px solid #03396c;
+        border-radius: 10px;
+        padding: 10px 22px;
+        font-weight: 600;
+        font-size: 0.92rem;
+        text-decoration: none;
+        display: inline-block;
+        transition: 0.3s;
+    }
+
+        .btn-back:hover {
+            background-color: #03396c;
+            color: white;
+        }
+
+    /* No route error */
+    .no-route-msg {
+        color: #dc3545;
+        font-size: 0.82rem;
+        margin-top: 6px;
+        display: none;
+    }
+
+    /* Mobile: stack columns */
+    @@media (max-width: 768px) {
+        .details-row {
+            flex-direction: column;
+        }
+
+        .details-left {
+            flex: none;
+            max-width: 100%;
+        }
+
+        .carousel-wrapper {
+            min-height: 260px;
+        }
+
+        .features-list {
+            columns: 1;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="details-row">
+
+        @* ============================================================
+           LEFT — Image Carousel (equal height with right column)
+           ============================================================ *@
+        <div class="details-left">
+            <div class="carousel-wrapper">
+
+                <div id="shipCarousel"
+                     class="carousel slide shadow rounded h-100"
+                     data-bs-ride="carousel">
+
+                    <div class="carousel-inner rounded h-100">
+
+                        @* Cabin image *@
+                        <div class="carousel-item active h-100">
+                            <img src="@Url.Content("~/image/room" + Model.Id + ".jfif")"
+                                 class="detail-img" alt="Cabin Room" />
+                            <div class="carousel-caption rounded" id="bcolor">
+                                <h6 class="mb-0">Cabin Room</h6>
+                            </div>
                         </div>
+
+                        @* Balcony image *@
+                        <div class="carousel-item h-100">
+                            <img src="@Url.Content("~/image/bal" + Model.Id + ".jfif")"
+                                 class="detail-img" alt="Balcony View" />
+                            <div class="carousel-caption rounded" id="bcolor">
+                                <h6 class="mb-0">Balcony View</h6>
+                            </div>
+                        </div>
+
+                        @* Interior image *@
+                        <div class="carousel-item h-100">
+                            <img src="@Url.Content("~/image/in" + Model.Id + ".jfif")"
+                                 class="detail-img" alt="Interior Amenities" />
+                            <div class="carousel-caption rounded" id="bcolor">
+                                <h6 class="mb-0">Interior Amenities</h6>
+                            </div>
+                        </div>
+
                     </div>
 
-                    <!-- Balcony Image -->
-                    <div class="carousel-item">
-                        <img src="@Url.Content("~/image/bal" + Model.Id + ".jfif")"
-                             class="d-block w-100 detail-img"
-                             alt="Balcony">
-                        <div class="carousel-caption  bg-opacity-50 rounded" id="bcolor">
-                            <h6>Balcony View</h6>
-                        </div>
-                    </div>
-
-                    <!-- Inside Image -->
-                    <div class="carousel-item">
-                       <img src="@Url.Content("~/image/in" + Model.Id + ".jfif")"
-                            class="d-block w-100 detail-img"
-                            alt="Interior">
-                        <div class="carousel-caption bg-opacity-50 rounded" id="bcolor">
-                            <h6>Interior Amenities</h6>
-                        </div>
-                    </div>
+                    <button class="carousel-control-prev" type="button"
+                            data-bs-target="#shipCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button"
+                            data-bs-target="#shipCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
 
                 </div>
 
-                <!-- Controls -->
-                <button class="carousel-control-prev" type="button"
-                        data-bs-target="#shipCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                </button>
+            </div>
+        </div>
 
-                <button class="carousel-control-next" type="button"
-                        data-bs-target="#shipCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                </button>
+        @* ============================================================
+           RIGHT — Ship Info
+           ============================================================ *@
+        <div class="details-right">
+
+            @* Name and price *@
+            <h2 class="ship-title">@Model.Name</h2>
+            <div class="price-badge">Starting at @Html.Raw(Model.Price) / person</div>
+
+            <hr style="border-color: #e3f2fd; margin: 10px 0 12px;" />
+
+            @* Description — longer and more detailed *@
+            <p class="ship-description">@Model.Description</p>
+
+            @* ---- ROUTE DIRECTION SELECTOR (HORIZONTAL) ----
+               Both directions shown side by side.
+               Passenger picks which way they want to travel.
+               Book Now button uses the selected direction. *@
+            @if (routes.Any())
+            {
+                <div class="section-label">Select Your Route</div>
+
+                @* Horizontal row of route cards *@
+                <div class="routes-row">
+                    @foreach (var route in routes)
+                    {
+                        var parts = route.Split(" to ");
+                        var origin = parts.Length > 0 ? parts[0] : "";
+                        var dest = parts.Length > 1 ? parts[1] : "";
+                        var isFirst = route == routes.First();
+
+                        <div class="route-option @(isFirst ? "selected" : "")"
+                             onclick="selectRoute(this, '@origin', '@dest')">
+                            <input type="radio"
+                                   name="routeSelection"
+                                   value="@route"
+                                   @(isFirst ? "checked" : "") />
+                            <span class="route-text">@origin</span>
+                            <span class="route-arrow">→</span>
+                            <span class="route-text">@dest</span>
+                        </div>
+                    }
+                </div>
+
+                <p class="no-route-msg" id="noRouteMsg">Please select a route first.</p>
+            }
+            else
+            {
+                <p class="text-muted small mt-2">No routes currently available for this vessel.</p>
+            }
+
+            @* ---- FEATURES ---- *@
+            <div class="section-label">Cruise Features</div>
+            <ul class="features-list">
+                <li>Air-conditioned Cabins</li>
+                <li>Private Balcony Rooms</li>
+                <li>Entertainment Lounge</li>
+                <li>Restaurant &amp; Dining Area</li>
+                <li>Free WiFi in Public Areas</li>
+                <li>24/7 Security &amp; Safety Equipment</li>
+            </ul>
+
+            @* ---- BUTTONS ----
+               - "Back to Fleet" only shown if user came from Accommodation page
+               - "Book Now" always shown if routes are available *@
+            <div class="d-flex gap-3 mt-3 flex-wrap">
+
+                @* Back to Fleet — only if came from Accommodation page *@
+                @if (cameFromAccommodation)
+                {
+                    <a asp-controller="Home"
+                       asp-action="Accommodation"
+                       class="btn-back">
+                        Back to Fleet
+                    </a>
+                }
+
+                @* Book Now button *@
+                @if (routes.Any())
+                {
+                    <button type="button" class="btn-booknow" onclick="goToBookNow()">
+                        Book Now
+                    </button>
+                }
 
             </div>
 
         </div>
 
-        <!-- RIGHT SIDE - SHIP DETAILS -->
-        <div class="col-md-6">
-
-            <h2 class="fw-bold text-pink">@Model.Name</h2>
-            <hr />
-
-            <p><strong>Route:</strong> @Model.Route</p>
-            <p><strong>Starting Price:</strong> @Model.Price</p>
-
-            <h5 class="mt-3">About This Cruise</h5>
-            <p>@Model.Description</p>
-
-            <h5 class="mt-3">Cruise Features</h5>
-            <ul>
-                <li>Air-conditioned Cabins</li>
-                <li>Private Balcony Rooms Available</li>
-                <li>Entertainment Lounge</li>
-                <li>Restaurant & Dining Area</li>
-                <li>Free WiFi in Public Areas</li>
-                <li>24/7 Security & Safety Equipment</li>
-            </ul>
-
-            <a asp-controller="Home"
-               asp-action="Accommodation"
-               class="btn btn-secondary mt-3" id="backfleet">
-                Back to Fleet
-            </a>
-
-            <a asp-controller="Booking"
-               asp-action="Create"
-               asp-route-id="@Model.Id"
-               asp-route-name="@Model.Name"
-               asp-route-route="@Model.Route"
-               asp-route-price="@Model.Price"
-               class="btn btn-success mt-3">
-                Book Now
-            </a>
-        </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        // Stores the currently selected origin and destination
+        let selectedOrigin = '@Html.Raw(defaultOrigin)';
+        let selectedDest   = '@Html.Raw(defaultDest)';
+
+        // Called when user clicks a route card
+        function selectRoute(el, origin, dest) {
+            document.querySelectorAll('.route-option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            el.querySelector('input[type="radio"]').checked = true;
+            selectedOrigin = origin;
+            selectedDest   = dest;
+            document.getElementById('noRouteMsg').style.display = 'none';
+        }
+
+        // Redirects to BookNow with origin and destination pre-filled.
+        // Also passes returnUrl=accommodation so BookingForm can show
+        // the "Back to Fleet" button when user came from this page.
+        function goToBookNow() {
+            if (!selectedOrigin || !selectedDest) {
+                document.getElementById('noRouteMsg').style.display = 'block';
+                return;
+            }
+            window.location.href = '/Booking/BookNow?origin='
+                + encodeURIComponent(selectedOrigin)
+                + '&destination='
+                + encodeURIComponent(selectedDest)
+                + '&from=accommodation';
+        }
+    </script>
+}

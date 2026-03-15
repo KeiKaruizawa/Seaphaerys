@@ -3,13 +3,12 @@
 @{
     ViewData["Title"] = "Book Now";
     Layout = "_Layout";
-
-    @* Get the list of ports passed from the controller via ViewBag *@
     var ports = ViewBag.Ports as List<string> ?? new List<string>();
+    // "from" tells BookingForm if user came from the Accommodation page
+    var fromParam = ViewBag.From as string ?? "";
 }
 
 <style>
-    /* Page heading — matches .section-title style from site.css */
     .page-title {
         color: #0077b6;
         font-weight: 700;
@@ -17,7 +16,6 @@
         margin-bottom: 5px;
     }
 
-    /* Search form card */
     .search-card {
         background: white;
         border-radius: 15px;
@@ -26,14 +24,12 @@
         margin-bottom: 40px;
     }
 
-    /* Form labels */
     .form-label {
         font-weight: 600;
         color: #03396c;
         margin-bottom: 6px;
     }
 
-    /* Inputs and selects — blue border on focus matching site style */
     .form-select, .form-control {
         border: 1.5px solid #d0e8f5;
         border-radius: 10px;
@@ -46,7 +42,11 @@
             box-shadow: 0 0 0 3px rgba(0,119,182,0.1);
         }
 
-    /* Search button — matches .btn-blue from site.css */
+        /* Red border on invalid fields after submit attempt */
+        .form-select.is-invalid, .form-control.is-invalid {
+            border-color: #dc3545 !important;
+        }
+
     .btn-search {
         background-color: #03396c;
         color: white;
@@ -63,7 +63,6 @@
             color: #03396c;
         }
 
-    /* Results count title */
     .results-title {
         color: #03396c;
         font-weight: 700;
@@ -71,7 +70,6 @@
         font-size: 1rem;
     }
 
-    /* Ship result card — same style as .ship-card in site.css */
     .ship-result-card {
         border-radius: 15px;
         overflow: hidden;
@@ -86,14 +84,12 @@
             transform: scale(1.03);
         }
 
-    /* Ship image */
     .ship-result-img {
         height: 180px;
         object-fit: cover;
         width: 100%;
     }
 
-    /* Ship name */
     .ship-result-name {
         font-weight: 700;
         color: #03396c;
@@ -101,7 +97,6 @@
         margin-bottom: 4px;
     }
 
-    /* Price */
     .ship-result-price {
         color: #0077b6;
         font-weight: 700;
@@ -109,7 +104,6 @@
         margin-bottom: 12px;
     }
 
-    /* Select button — matches .btn-blue from site.css */
     .btn-select {
         background-color: #03396c;
         color: white;
@@ -130,7 +124,6 @@
             color: #03396c;
         }
 
-    /* No results box */
     .no-results {
         text-align: center;
         padding: 50px 20px;
@@ -140,7 +133,6 @@
         box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     }
 
-    /* Swap button between origin and destination */
     .swap-btn {
         background: #e3f2fd;
         border: none;
@@ -162,73 +154,79 @@
             background: #0077b6;
             color: white;
         }
+
+    /* Error text — shown under each field individually */
+    .field-error {
+        color: #dc3545;
+        font-size: 0.82rem;
+        margin-top: 4px;
+        display: block;
+    }
 </style>
 
 <div class="mt-2">
 
-    @* Page heading *@
     <h2 class="page-title">Book Your Ferry</h2>
     <p class="text-muted mb-4">Search available vessels for your route and travel date.</p>
 
-    @* ============================================================
-       SEARCH FORM
-       Submits via POST to BookNow action in BookingController
-       ============================================================ *@
     <div class="search-card">
         <form asp-action="BookNow" method="post">
 
-            <div class="row align-items-end g-3">
+            <div class="row align-items-start g-3">
 
-                @* Origin port dropdown — options come from ViewBag.Ports *@
+                @* Origin dropdown — error shown inline below the field *@
                 <div class="col-md-4">
                     <label class="form-label">From</label>
-                    <select asp-for="Origin" class="form-select">
+                    <select asp-for="Origin"
+                            class="form-select @(ViewData.ModelState["Origin"]?.Errors.Count > 0 ? "is-invalid" : "")">
                         <option value="">-- Select Origin --</option>
                         @foreach (var port in ports)
                         {
-                            @* Keeps the selected value after the form is submitted *@
                             <option value="@port" selected="@(Model.Origin == port)">@port</option>
                         }
                     </select>
-                    <span asp-validation-for="Origin" class="text-danger small"></span>
+                    @* Validation error shown directly under the field *@
+                    <span asp-validation-for="Origin" class="field-error"></span>
                 </div>
 
-                @* Swap button — swaps origin and destination via JavaScript *@
+                @* Swap button *@
                 <div class="col-auto d-none d-md-flex justify-content-center">
                     <button type="button" class="swap-btn" onclick="swapPorts()" title="Swap">⇄</button>
                 </div>
 
-                @* Destination port dropdown *@
+                @* Destination dropdown *@
                 <div class="col-md-4">
                     <label class="form-label">To</label>
-                    <select asp-for="Destination" class="form-select">
+                    <select asp-for="Destination"
+                            class="form-select @(ViewData.ModelState["Destination"]?.Errors.Count > 0 ? "is-invalid" : "")">
                         <option value="">-- Select Destination --</option>
                         @foreach (var port in ports)
                         {
                             <option value="@port" selected="@(Model.Destination == port)">@port</option>
                         }
                     </select>
-                    <span asp-validation-for="Destination" class="text-danger small"></span>
+                    <span asp-validation-for="Destination" class="field-error"></span>
                 </div>
 
-                @* Travel date — min is today so past dates can't be selected *@
+                @* Travel date *@
                 <div class="col-md-3">
                     <label class="form-label">Travel Date</label>
                     <input asp-for="TravelDate"
                            type="date"
-                           class="form-control"
-                           min="@DateTime.Today.ToString("yyyy-MM-dd")" />
-                    <span asp-validation-for="TravelDate" class="text-danger small"></span>
+                           class="form-control @(ViewData.ModelState["TravelDate"]?.Errors.Count > 0 ? "is-invalid" : "")"
+                           min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" />
+                    <span asp-validation-for="TravelDate" class="field-error"></span>
                 </div>
 
             </div>
 
-            @* Validation errors (e.g. same origin and destination) *@
+            @* General errors (e.g. same origin and destination) shown inline, no big box *@
             @if (!ViewData.ModelState.IsValid)
             {
-                <div class="alert alert-danger mt-3 mb-0 py-2 small">
-                    <div asp-validation-summary="ModelOnly" class="mb-0"></div>
-                </div>
+                @foreach (var error in ViewData.ModelState[""]?.Errors ?? Enumerable.Empty<Microsoft.AspNetCore.Mvc.ModelBinding.ModelError>())
+                {
+                    <p class="field-error mt-2">@error.ErrorMessage</p>
+                }
             }
 
             <div class="mt-4">
@@ -238,17 +236,13 @@
         </form>
     </div>
 
-    @* ============================================================
-       SEARCH RESULTS
-       Only shown after form is submitted (AvailableShips is not null)
-       ============================================================ *@
+    @* Search results — only shown after form is submitted *@
     @if (Model.AvailableShips != null)
     {
         <hr style="border-color: #d0e8f5;" />
 
         @if (!Model.AvailableShips.Any())
         {
-            @* No ships found for the searched route *@
             <div class="no-results">
                 <p class="fw-bold mb-1">No vessels found for this route.</p>
                 <p class="text-muted small mb-0">Try a different origin or destination.</p>
@@ -256,7 +250,6 @@
         }
         else
         {
-            @* Show result count and searched route *@
             <p class="results-title mt-4">
                 @Model.AvailableShips.Count vessel(s) found —
                 @Model.Origin to @Model.Destination on
@@ -268,31 +261,37 @@
                 {
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="ship-result-card">
-
-                            @* Ship image — falls back to placeholder if missing *@
                             <img src="~/image/@ship.Image"
                                  class="ship-result-img"
                                  alt="@ship.Name"
                                  onerror="this.src='https://images.unsplash.com/photo-1516495312540-a148643b22d3?w=400'" />
-
                             <div class="p-3">
                                 <div class="ship-result-name">@ship.Name</div>
                                 <div class="text-muted small mb-1">@ship.Route</div>
-                                <div class="ship-result-price">@ship.Price <span class="text-muted fw-normal small">/ person</span></div>
-
-                                @* Clicking this goes to BookingForm (Step 2)
-                                   If not logged in, [Authorize] redirects to Login first *@
+                                <div class="ship-result-price">
+                                    @Html.Raw(ship.Price)
+                                    <span class="text-muted fw-normal small">/ person</span>
+                                </div>
+                                @* Show departure time for this route direction *@
+                                @if (!string.IsNullOrEmpty(ship.DepartureTime))
+                                {
+                                    <div class="text-muted small mb-2">
+                                        Departs: <strong style="color:#03396c;">@ship.DepartureTime</strong>
+                                    </div>
+                                }
+                                @* Clicking goes to BookingForm — [Authorize] redirects to Login if not logged in *@
+                                @* Pass fromParam so BookingForm knows to show back button *@
                                 <a asp-controller="Booking"
                                    asp-action="BookingForm"
                                    asp-route-shipId="@ship.Id"
                                    asp-route-route="@ship.Route"
                                    asp-route-price="@ship.Price"
                                    asp-route-travelDate="@Model.TravelDate.ToString("yyyy-MM-dd")"
+                                   asp-route-from="@fromParam"
                                    class="btn-select">
                                     Select This Vessel
                                 </a>
                             </div>
-
                         </div>
                     </div>
                 }
@@ -305,7 +304,6 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-        // Swaps Origin and Destination dropdown values
         function swapPorts() {
             const origin = document.querySelector('[name="Origin"]');
             const dest = document.querySelector('[name="Destination"]');

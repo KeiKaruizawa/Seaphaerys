@@ -1,5 +1,327 @@
-﻿
-@model Niezken.Views.Home.faqModel
-@{
+﻿@{
     ViewData["Title"] = "FAQs";
+    Layout = "_Layout";
 }
+
+<style>
+    .page-title {
+        color: #0077b6;
+        font-weight: 700;
+        margin-top: 40px;
+        margin-bottom: 5px;
+    }
+
+    /* FAQ category heading */
+    .faq-category {
+        color: #03396c;
+        font-weight: 700;
+        font-size: 1rem;
+        margin-top: 35px;
+        margin-bottom: 12px;
+        padding-left: 4px;
+        border-left: 4px solid #0077b6;
+        padding-left: 12px;
+    }
+
+    /* Override Bootstrap accordion styles to match site */
+    .accordion-button {
+        color: #03396c;
+        font-weight: 600;
+        font-size: 0.92rem;
+        background: white;
+    }
+
+        .accordion-button:not(.collapsed) {
+            color: #0077b6;
+            background: #f0f8ff;
+            box-shadow: none;
+        }
+
+        .accordion-button::after {
+            filter: hue-rotate(180deg); /* Blue arrow */
+        }
+
+    .accordion-item {
+        border: 1.5px solid #e3f2fd;
+        border-radius: 10px !important;
+        margin-bottom: 8px;
+        overflow: hidden;
+    }
+
+    .accordion-body {
+        font-size: 0.9rem;
+        color: #555;
+        line-height: 1.7;
+    }
+
+    /* Still need help box */
+    .help-box {
+        background: #03396c;
+        color: white;
+        border-radius: 15px;
+        padding: 28px;
+        text-align: center;
+        margin-top: 40px;
+    }
+
+        .help-box h5 {
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+    .btn-contact {
+        background: white;
+        color: #03396c;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 28px;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 12px;
+        transition: 0.3s;
+    }
+
+        .btn-contact:hover {
+            background: #e3f2fd;
+            color: #03396c;
+        }
+</style>
+
+<div class="mt-2 mb-5">
+
+    <h2 class="page-title">Frequently Asked Questions</h2>
+    <p class="text-muted mb-2">Find answers to the most common questions about Seaphaerys ferry services.</p>
+
+    @* ============================================================
+       BOOKING
+       ============================================================ *@
+    <div class="faq-category">Booking</div>
+    <div class="accordion" id="faqBooking">
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq1">
+                    How do I book a ticket online?
+                </button>
+            </h2>
+            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqBooking">
+                <div class="accordion-body">
+                    Click <strong>Book Now</strong> in the navigation bar or on the homepage.
+                    Select your origin, destination, and travel date, then choose your vessel.
+                    Fill in your passenger details, select your accommodation type, and confirm your booking.
+                    You will receive a booking reference number upon completion.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq2">
+                    How far in advance can I book?
+                </button>
+            </h2>
+            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqBooking">
+                <div class="accordion-body">
+                    You may book up to 60 days in advance. Bookings must be made at least
+                    <strong>1 day before</strong> your travel date. Same-day bookings are not accepted online
+                    — please visit the nearest ticketing outlet for last-minute purchases.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq3">
+                    Can I book for multiple passengers?
+                </button>
+            </h2>
+            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqBooking">
+                <div class="accordion-body">
+                    Yes! During the booking process, simply enter the number of passengers
+                    and fill in each passenger's name, age, and sex. You can book up to
+                    20 passengers in a single transaction.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq4">
+                    What payment methods are accepted?
+                </button>
+            </h2>
+            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqBooking">
+                <div class="accordion-body">
+                    We accept the following online payment methods:
+                    <ul class="mt-2">
+                        <li><strong>GCash</strong> — Send payment to our GCash number before your travel date</li>
+                        <li><strong>PayMaya</strong> — Send payment to our PayMaya account before your travel date</li>
+                    </ul>
+                    Payment details and account numbers will be provided in your booking confirmation email.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    @* ============================================================
+       CANCELLATION & RESCHEDULING
+       ============================================================ *@
+    <div class="faq-category">Cancellation & Rescheduling</div>
+    <div class="accordion" id="faqCancel">
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq5">
+                    Can I cancel my booking?
+                </button>
+            </h2>
+            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqCancel">
+                <div class="accordion-body">
+                    Yes. You may cancel your booking through your
+                    <strong>My Dashboard</strong> page. Click on your booking to view details,
+                    then click <strong>Cancel Booking</strong>. Cancellations made at least 48 hours
+                    before departure are eligible for a refund. Cancellations within 48 hours
+                    of departure are non-refundable.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq6">
+                    Can I reschedule my trip?
+                </button>
+            </h2>
+            <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqCancel">
+                <div class="accordion-body">
+                    Yes, rescheduling is allowed once per booking at no charge, provided the
+                    new travel date is at least 1 day ahead. Go to <strong>My Dashboard</strong>,
+                    click your booking, and select <strong>Reschedule</strong> to pick a new date.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq7">
+                    How do I get a refund?
+                </button>
+            </h2>
+            <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqCancel">
+                <div class="accordion-body">
+                    Refunds are processed within 7–14 business days after cancellation approval.
+                    All payments are refunded to the original payment account used during booking.
+                    GCash and PayMaya payments are refunded to the original account.
+                    Contact our support team at <strong>support@seaphaerys.com.ph</strong> for refund status.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    @* ============================================================
+       TRAVEL REQUIREMENTS
+       ============================================================ *@
+    <div class="faq-category">Travel Requirements</div>
+    <div class="accordion" id="faqTravel">
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq8">
+                    What IDs are accepted for boarding?
+                </button>
+            </h2>
+            <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#faqTravel">
+                <div class="accordion-body">
+                    Any of the following government-issued IDs are accepted:
+                    <ul class="mt-2">
+                        <li>Philippine Passport</li>
+                        <li>PhilSys National ID</li>
+                        <li>Driver's License</li>
+                        <li>SSS / GSIS / PhilHealth ID</li>
+                        <li>Voter's ID</li>
+                        <li>PRC ID</li>
+                    </ul>
+                    For minors (below 18), a birth certificate or school ID with parent/guardian ID is required.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq9">
+                    How early should I arrive at the port?
+                </button>
+            </h2>
+            <div id="faq9" class="accordion-collapse collapse" data-bs-parent="#faqTravel">
+                <div class="accordion-body">
+                    We recommend arriving at the port at least <strong>2 hours before departure</strong>
+                    to allow time for check-in, baggage processing, and boarding procedures.
+                    Passengers who arrive after boarding cutoff (30 minutes before departure) will
+                    not be accommodated and will be considered a no-show.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq10">
+                    What is the baggage allowance?
+                </button>
+            </h2>
+            <div id="faq10" class="accordion-collapse collapse" data-bs-parent="#faqTravel">
+                <div class="accordion-body">
+                    Each passenger is allowed:
+                    <ul class="mt-2">
+                        <li><strong>Cabin</strong> — 20kg checked baggage + 7kg hand carry</li>
+                        <li><strong>Balcony</strong> — 25kg checked baggage + 7kg hand carry</li>
+                        <li><strong>Suite</strong> — 30kg checked baggage + 10kg hand carry</li>
+                    </ul>
+                    Excess baggage is charged at ₱50 per kilogram. Prohibited items include
+                    flammable materials, sharp weapons, and live animals without proper permits.
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#faq11">
+                    Are meals included in the ticket price?
+                </button>
+            </h2>
+            <div id="faq11" class="accordion-collapse collapse" data-bs-parent="#faqTravel">
+                <div class="accordion-body">
+                    Meals are included for <strong>Suite</strong> passengers only.
+                    Cabin and Balcony passengers may purchase meals at the onboard restaurant
+                    or cafeteria, which is available on all vessels throughout the voyage.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    @* Still need help box *@
+    <div class="help-box">
+        <h5>Still have questions?</h5>
+        <p class="mb-0 opacity-75" style="font-size:0.9rem;">
+            Our customer support team is available 24/7 to assist you.
+        </p>
+        <a asp-controller="Home" asp-action="Contact" class="btn-contact">
+            Contact Us
+        </a>
+    </div>
+
+</div>

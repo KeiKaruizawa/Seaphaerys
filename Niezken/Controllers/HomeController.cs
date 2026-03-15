@@ -1,15 +1,4 @@
-﻿// ============================================================
-// HomeController.cs
-// Handles all PUBLIC pages that anyone can see:
-//   - Home, Accommodation, Outlets, Contact, FAQ
-//   - Login, Register, Logout, Forgot Password
-//
-// Also handles the LOGIN REDIRECT LOGIC:
-//   - Admin  → goes to Admin Dashboard
-//   - Passenger → stays on the public Home page
-// ============================================================
-
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -37,42 +26,26 @@ namespace Niezken.Controllers
             _context = context;
         }
 
-        // --------------------------------------------------------
-        // PUBLIC HOME PAGES
-        // These pages are visible to EVERYONE — no login needed
-        // --------------------------------------------------------
-
         // GET: /Home/Index  (or just "/" — this is the homepage)
         public IActionResult Index()
         {
             return View();
         }
 
-        // GET: /Home/Accommodation
         public IActionResult Accommodation() => View();
 
-        // GET: /Home/Outlets
         public IActionResult Outlets() => View();
 
-        // GET: /Home/Contact
         public IActionResult Contact() => View();
 
-        // GET: /Home/faq
         public IActionResult faq() => View();
 
-        // GET: /Home/Forgot
         public IActionResult Forgot() => View();
 
-        // GET: /Home/AccessDenied
-        // Shown when a logged-in user tries to access a page they don't have permission for
         public IActionResult AccessDenied()
         {
             return View();
         }
-
-        // --------------------------------------------------------
-        // REGISTER
-        // --------------------------------------------------------
 
         // GET: /Home/Register
         // Shows the registration form
@@ -123,7 +96,7 @@ namespace Niezken.Controllers
                 Email = model.Email,
                 Role = "Passenger",             // All self-registered users are Passengers
                 IsActive = true,                // Account is active by default
-                PasswordHash = HashPassword(model.Password) // Never store plain passwords!
+                PasswordHash = HashPassword(model.Password) 
             };
 
             // Add the user to the database
@@ -134,10 +107,8 @@ namespace Niezken.Controllers
             return RedirectToAction("Login");
         }
 
-        // --------------------------------------------------------
         // LOGIN
-        // --------------------------------------------------------
-
+        
         // GET: /Home/Login
         // Shows the login form
         [HttpGet]
@@ -230,9 +201,7 @@ namespace Niezken.Controllers
             }
         }
 
-        // --------------------------------------------------------
         // LOGOUT
-        // --------------------------------------------------------
 
         // GET: /Home/Logout
         public async Task<IActionResult> Logout()
@@ -252,39 +221,59 @@ namespace Niezken.Controllers
             return RedirectToAction("Index");
         }
 
-        // --------------------------------------------------------
         // ACCOMMODATION DETAILS
         // Shows detailed info for a specific ship (by ID)
+        // Also gets all routes for that ship name so the view
+        // can show direction options (e.g. Manila→Cebu / Cebu→Manila)
         // --------------------------------------------------------
-        public IActionResult AccommodationDetails(int id)
+        public async Task<IActionResult> AccommodationDetails(int id)
         {
-            // These 8 ships are hardcoded for now
-            // In the future, this should be pulled from the Ships table in the database
-            var ships = new List<ShipViewModel>
+            // Static ship info (images, descriptions) — keyed by RouteId 1-8
+            var shipInfo = new Dictionary<int, (string Name, string Image, string Description, string Price)>
             {
-                new ShipViewModel { Id = 1, Name = "MV St. Michael",    Image = "ship1.jpg", Route = "Manila to Cebu",    Price = "₱1,500", Description = "Modern passenger vessel with comfortable cabins and dining areas." },
-                new ShipViewModel { Id = 2, Name = "MV St. Joseph",     Image = "ship2.jpg", Route = "Cebu to Davao",     Price = "₱1,800", Description = "Spacious vessel designed for long-distance travel." },
-                new ShipViewModel { Id = 3, Name = "MV St. Augustine",  Image = "ship3.jpg", Route = "Manila to Bacolod", Price = "₱1,600", Description = "Reliable and fast ferry with premium seating." },
-                new ShipViewModel { Id = 4, Name = "MV St. Leo",        Image = "ship4.jpg", Route = "Cebu to Iloilo",    Price = "₱1,200", Description = "Affordable and comfortable sea travel experience." },
-                new ShipViewModel { Id = 5, Name = "MV St. John Paul",  Image = "ship5.jpg", Route = "Manila to Palawan", Price = "₱2,200", Description = "Luxury vessel with full onboard amenities." },
-                new ShipViewModel { Id = 6, Name = "MV St. Francis",    Image = "ship6.jpg", Route = "Davao to Cebu",     Price = "₱1,700", Description = "Efficient vessel for inter-island transport." },
-                new ShipViewModel { Id = 7, Name = "MV St. Peter",      Image = "ship7.jpg", Route = "Iloilo to Manila",  Price = "₱1,900", Description = "Premium ferry with modern navigation systems." },
-                new ShipViewModel { Id = 8, Name = "MV St. Benedict",   Image = "ship8.jpg", Route = "Cebu to Palawan",   Price = "₱2,000", Description = "High-capacity ship for long sea journeys." }
+                { 1, ("MV St. Nicholas",  "ship1.jpg", "A modern and spacious passenger vessel offering premium cabins, a full dining area, and entertainment facilities. Ideal for overnight inter-island voyages between Manila and Cebu.", "\u20b11,500") },
+                { 2, ("MV St. Joseph",    "ship2.jpg", "Designed for long-distance sea travel, MV St. Joseph features wide deck spaces, air-conditioned cabins, and a fully equipped galley serving hot meals throughout the journey.", "\u20b11,800") },
+                { 3, ("MV St. Augustine", "ship3.jpg", "A reliable and fast ferry with ergonomic premium seating, onboard Wi-Fi, and a dedicated family lounge. Perfect for the Manila-Bacolod overnight route.", "\u20b11,600") },
+                { 4, ("MV St. Leo",       "ship4.jpg", "An affordable yet comfortable vessel connecting Cebu and Iloilo. Offers clean economy cabins, a snack bar, and open-air deck seating with panoramic sea views.", "\u20b11,200") },
+                { 5, ("MV St. John Paul", "ship5.jpg", "Our flagship luxury vessel serving the Manila-Palawan corridor. Boasts premium suite cabins, a full-service restaurant, spa facilities, and a children\'s play area.", "\u20b12,200") },
+                { 6, ("MV St. Francis",   "ship6.jpg", "An efficient and well-maintained inter-island ferry covering the Cebu-Bacolod route. Features comfortable reclining seats, a cafeteria, and a spacious cargo deck.", "\u20b11,100") },
+                { 7, ("MV St. Peter",     "ship7.jpg", "Equipped with modern navigation systems and a full passenger manifest capacity, MV St. Peter is the go-to vessel for the Iloilo-Manila route with overnight cabin options.", "\u20b11,900") },
+                { 8, ("MV St. Benedict",  "ship8.jpg", "A high-capacity ship purpose-built for the Cebu-Palawan sea corridor. Offers multiple cabin classes, a sun deck, and onboard retail shops for a pleasant long-haul journey.", "\u20b12,000") },
             };
 
-            // Find the ship that matches the given ID
-            var ship = ships.FirstOrDefault(s => s.Id == id);
-
-            // If no ship found with that ID, return 404
-            if (ship == null)
+            // id here is the RouteId (1-8), not the DB ship ID
+            if (!shipInfo.ContainsKey(id))
                 return NotFound();
+
+            var info = shipInfo[id];
+
+            // Build the base ShipViewModel for the view
+            var ship = new ShipViewModel
+            {
+                Id = id,
+                Name = info.Name,
+                Image = info.Image,
+                Description = info.Description,
+                Price = info.Price,
+                Route = "" // Route is handled separately below
+            };
+
+            // Get all routes for this ship name from the database
+            // This gives us both directions e.g. ["Manila to Cebu", "Cebu to Manila"]
+            var routes = await _context.Ships
+                .Where(s => s.Name == info.Name)
+                .Select(s => s.Route)
+                .Distinct()
+                .ToListAsync();
+
+            // Pass routes to the view so it can show direction radio buttons
+            ViewBag.Routes = routes;
 
             return View(ship);
         }
 
-        // --------------------------------------------------------
+
         // ERROR PAGE
-        // --------------------------------------------------------
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -294,13 +283,6 @@ namespace Niezken.Controllers
             });
         }
 
-        // --------------------------------------------------------
-        // PRIVATE HELPER: PASSWORD HASHING
-        // Converts a plain text password into a SHA256 hash.
-        // We NEVER store plain passwords — always store the hash.
-        // The same password always produces the same hash,
-        // so we can compare hashes at login time.
-        // --------------------------------------------------------
         private string HashPassword(string password)
         {
             using var sha256 = SHA256.Create();

@@ -16,12 +16,9 @@ namespace Niezken.Controllers
             _context = context;
         }
 
-        // STEP 1 — GET: Show the Book Now search page
         [HttpGet]
-        public async Task<IActionResult> BookNow()
+        public async Task<IActionResult> BookNow(string origin = null, string destination = null, string from = null)
         {
-            // Get all unique ports from the ship routes stored in the DB
-            // Routes are stored as "Manila to Cebu", so we split by " to "
             var ships = await _context.Ships.ToListAsync();
 
             var ports = ships
@@ -32,7 +29,17 @@ namespace Niezken.Controllers
 
             ViewBag.Ports = ports;
 
-            return View(new BookSearchViewModel());
+            // Pass the "from" param to the view so it can be carried
+            // forward in the "Select This Vessel" link to BookingForm
+            ViewBag.From = from ?? "";
+
+            var model = new BookSearchViewModel
+            {
+                Origin = origin ?? "",
+                Destination = destination ?? ""
+            };
+
+            return View(model);
         }
 
         // STEP 1 — POST: Search for ships matching the route
@@ -58,10 +65,11 @@ namespace Niezken.Controllers
                 return View(model);
             }
 
-            // Validate: travel date must be today or in the future
-            if (model.TravelDate.Date < DateTime.Today)
+            // Validate: travel date must be at least 1 day ahead
+            // Passengers cannot book for today — they need at least 1 day notice
+            if (model.TravelDate.Date <= DateTime.Today)
             {
-                ModelState.AddModelError("TravelDate", "Travel date must be today or a future date.");
+                ModelState.AddModelError("TravelDate", "Travel date must be at least 1 day in advance.");
                 return View(model);
             }
 
@@ -79,7 +87,9 @@ namespace Niezken.Controllers
         // Requires login — redirect to login if not authenticated
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> BookingForm(int shipId, string route, string price, DateTime travelDate)
+        // from = "accommodation" if user came via AccommodationDetails → BookNow → here
+        // Passed to the view so it can show the "Back to Fleet" button
+        public async Task<IActionResult> BookingForm(int shipId, string route, string price, DateTime travelDate, string from = null)
         {
             var ship = await _context.Ships.FindAsync(shipId);
 
@@ -93,9 +103,13 @@ namespace Niezken.Controllers
                 Route = route,
                 Price = price,
                 TravelDate = travelDate,
+                DepartureTime = ship.DepartureTime ?? "",
                 PassengerCount = 1,
                 Passengers = new List<PassengerDetail> { new PassengerDetail() }
             };
+
+            // Tell the view whether to show the Back to Fleet button
+            ViewBag.From = from ?? "";
 
             return View(model);
         }
@@ -132,6 +146,8 @@ namespace Niezken.Controllers
                 Status = "Booked",
                 UserId = user.Id,
                 AccommodationType = model.AccommodationType,
+                PaymentMethod = model.PaymentMethod,
+                DepartureTime = model.DepartureTime,
                 ContactNumber = model.ContactNumber,
                 PassengerCount = model.PassengerCount,
                 PassengersJson = passengersJson

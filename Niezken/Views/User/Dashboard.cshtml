@@ -1,24 +1,12 @@
-﻿@* ============================================================
-   Dashboard.cshtml
-   📁 Location: Views/User/Dashboard.cshtml
-   🔁 Action: REPLACE the existing file
-
-   The passenger's personal dashboard. Shows:
-     - Welcome message with their name
-     - List of all their bookings
-     - Cancel button for active bookings
-     - Reschedule button for active bookings
-   ============================================================ *@
-
-@model Niezken.Models.User
+﻿@model Niezken.Models.User
+@using Niezken.Models
 
 @{
     ViewData["Title"] = "My Dashboard";
-    Layout = "_Layout"; @* Previously missing — this adds the navbar and footer *@
+    Layout = "_Layout";
 }
 
 <style>
-    /* Page heading */
     .page-title {
         color: #0077b6;
         font-weight: 700;
@@ -26,7 +14,7 @@
         margin-bottom: 4px;
     }
 
-    /* Stats cards row at the top */
+    /* Stats cards */
     .stat-card {
         background: white;
         border-radius: 15px;
@@ -40,17 +28,17 @@
             transform: translateY(-4px);
         }
 
-        .stat-card .stat-number {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #03396c;
-        }
+    .stat-number {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #03396c;
+    }
 
-        .stat-card .stat-label {
-            color: #888;
-            font-size: 0.88rem;
-            margin-top: 2px;
-        }
+    .stat-label {
+        color: #888;
+        font-size: 0.88rem;
+        margin-top: 2px;
+    }
 
     /* Bookings table card */
     .table-card {
@@ -67,7 +55,7 @@
             margin-bottom: 18px;
         }
 
-    /* Table header — dark blue matching site */
+    /* Table header */
     .table thead {
         background-color: #03396c;
         color: white;
@@ -80,89 +68,54 @@
             padding: 12px 14px;
         }
 
+    /* Clickable rows */
     .table tbody tr {
         font-size: 0.9rem;
         color: #03396c;
         vertical-align: middle;
+        cursor: pointer; /* Shows hand cursor to indicate clickable */
+        transition: 0.15s;
     }
 
         .table tbody tr:hover {
             background: #f0f8ff;
         }
 
-    /* Status badges */
-    .badge-booked {
-        background: #d1f5ea;
-        color: #1a7a56;
+    /* Hint text under table */
+    .click-hint {
+        color: #aaa;
+        font-size: 0.8rem;
+        margin-top: 8px;
+        text-align: center;
+    }
+
+    /* Status badges — only 2 colors: blue for active, grey for cancelled */
+    .badge-active {
+        background: #e3f2fd;
+        color: #0077b6;
         border-radius: 20px;
         padding: 3px 12px;
         font-size: 0.8rem;
         font-weight: 600;
+        white-space: nowrap;
     }
 
     .badge-cancelled {
-        background: #fde8e8;
-        color: #c1121f;
+        background: #f0f0f0;
+        color: #888;
         border-radius: 20px;
         padding: 3px 12px;
         font-size: 0.8rem;
         font-weight: 600;
     }
 
-    .badge-rescheduled {
-        background: #fff3cd;
-        color: #856404;
-        border-radius: 20px;
-        padding: 3px 12px;
-        font-size: 0.8rem;
-        font-weight: 600;
-    }
-
-    /* Action buttons inside the table */
-    .btn-cancel {
-        background: white;
-        color: #c1121f;
-        border: 1.5px solid #c1121f;
-        border-radius: 8px;
-        padding: 4px 12px;
-        font-size: 0.82rem;
-        font-weight: 600;
-        text-decoration: none;
-        transition: 0.2s;
-        display: inline-block;
-    }
-
-        .btn-cancel:hover {
-            background: #c1121f;
-            color: white;
-        }
-
-    /* Reschedule modal trigger button */
-    .btn-reschedule {
-        background: white;
-        color: #0077b6;
-        border: 1.5px solid #0077b6;
-        border-radius: 8px;
-        padding: 4px 12px;
-        font-size: 0.82rem;
-        font-weight: 600;
-        transition: 0.2s;
-        cursor: pointer;
-    }
-
-        .btn-reschedule:hover {
-            background: #0077b6;
-            color: white;
-        }
-
-    /* Empty state message */
+    /* Empty state */
     .empty-state {
         text-align: center;
         padding: 50px 20px;
         color: #888;
     }
 
-    /* Book Now CTA button */
     .btn-booknow {
         background-color: #03396c;
         color: white;
@@ -180,34 +133,186 @@
             background-color: white;
             color: #03396c;
         }
+
+    /* ---- Details Modal ---- */
+    .modal-content {
+        border-radius: 15px;
+        border: none;
+    }
+
+    .modal-header {
+        border-bottom: 2px solid #e3f2fd;
+        padding: 18px 24px;
+    }
+
+    .modal-title {
+        color: #03396c;
+        font-weight: 700;
+    }
+
+    .modal-body {
+        padding: 20px 24px;
+    }
+
+    .modal-footer {
+        border-top: 2px solid #e3f2fd;
+        padding: 14px 24px;
+    }
+
+    /* Detail rows inside modal */
+    .detail-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 7px 0;
+        border-bottom: 1px solid #f0f8ff;
+        font-size: 0.9rem;
+    }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-row .d-label {
+            color: #888;
+            font-weight: 500;
+        }
+
+        .detail-row .d-value {
+            font-weight: 600;
+            color: #03396c;
+            text-align: right;
+        }
+
+    /* Section inside modal */
+    .modal-section {
+        background: #f8fbff;
+        border-radius: 10px;
+        padding: 14px 16px;
+        margin-bottom: 14px;
+    }
+
+    .modal-section-title {
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: #0077b6;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 8px;
+    }
+
+    /* Passenger list inside modal */
+    .pax-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 0;
+        border-bottom: 1px solid #eef5fb;
+        font-size: 0.88rem;
+    }
+
+        .pax-item:last-child {
+            border-bottom: none;
+        }
+
+    .pax-num {
+        background: #03396c;
+        color: white;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    /* Modal action buttons — consistent style */
+    .btn-modal-cancel {
+        background: white;
+        color: #c1121f;
+        border: 1.5px solid #c1121f;
+        border-radius: 8px;
+        padding: 8px 20px;
+        font-weight: 600;
+        font-size: 0.88rem;
+        transition: 0.2s;
+        cursor: pointer;
+    }
+
+        .btn-modal-cancel:hover {
+            background: #c1121f;
+            color: white;
+        }
+
+    .btn-modal-reschedule {
+        background: #03396c;
+        color: white;
+        border: 1.5px solid #03396c;
+        border-radius: 8px;
+        padding: 8px 20px;
+        font-weight: 600;
+        font-size: 0.88rem;
+        transition: 0.2s;
+        cursor: pointer;
+    }
+
+        .btn-modal-reschedule:hover {
+            background: white;
+            color: #03396c;
+        }
+
+    /* Reschedule date input inside modal */
+    .reschedule-section {
+        display: none; /* Hidden until Reschedule button is clicked */
+        margin-top: 14px;
+        background: #f0f8ff;
+        border-radius: 10px;
+        padding: 14px 16px;
+    }
+
+        .reschedule-section.visible {
+            display: block;
+        }
+
+    .form-control-sm {
+        border: 1.5px solid #d0e8f5;
+        border-radius: 8px;
+        padding: 8px 12px;
+        color: #03396c;
+        font-size: 0.9rem;
+    }
+
+        .form-control-sm:focus {
+            border-color: #0077b6;
+            box-shadow: 0 0 0 3px rgba(0,119,182,0.1);
+            outline: none;
+        }
 </style>
 
-@* ---- WELCOME HEADER ---- *@
+@* ---- WELCOME ---- *@
 <h2 class="page-title">My Dashboard</h2>
-<p class="text-muted mb-4">Welcome back, <strong>@Model.FirstName @Model.LastName</strong>!</p>
+<p class="text-muted mb-4">
+    Welcome back, <strong>@Model.FirstName @Model.LastName</strong>!
+</p>
 
 @* ---- STATS CARDS ---- *@
 <div class="row g-3 mb-2">
-
-    @* Count all bookings *@
     <div class="col-md-4">
         <div class="stat-card">
             <div class="stat-number">@Model.Bookings.Count</div>
             <div class="stat-label">Total Bookings</div>
         </div>
     </div>
-
-    @* Count only active (Booked or Rescheduled) bookings *@
     <div class="col-md-4">
         <div class="stat-card">
             <div class="stat-number">
-                @Model.Bookings.Count(b => b.Status == "Booked" || b.Status == "Rescheduled")
+                @Model.Bookings.Count(b => b.Status != "Cancelled")
             </div>
             <div class="stat-label">Active Bookings</div>
         </div>
     </div>
-
-    @* Count only cancelled bookings *@
     <div class="col-md-4">
         <div class="stat-card">
             <div class="stat-number">
@@ -216,7 +321,6 @@
             <div class="stat-label">Cancelled</div>
         </div>
     </div>
-
 </div>
 
 @* ---- BOOKINGS TABLE ---- *@
@@ -225,7 +329,6 @@
 
     @if (!Model.Bookings.Any())
     {
-        @* No bookings yet — show a prompt to book *@
         <div class="empty-state">
             <p class="mb-0">You have no bookings yet.</p>
             <a asp-controller="Booking" asp-action="BookNow" class="btn-booknow">
@@ -242,60 +345,40 @@
                         <th>Ship</th>
                         <th>Route</th>
                         <th>Travel Date</th>
-                        <th>Accommodation</th>
-                        <th>Passengers</th>
+                        <th>Departure</th>
                         <th>Status</th>
-                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var booking in Model.Bookings.OrderByDescending(b => b.TravelDate))
                     {
-                        <tr>
+                        @* Each row is clickable — opens the details modal *@
+                        @* Data stored as attributes — avoids JS breaking on
+                           special characters like apostrophes or dashes *@
+                        <tr class="booking-row"
+                            data-id="@booking.Id"
+                            data-ship="@booking.ShipName"
+                            data-route="@booking.Route"
+                            data-date="@booking.TravelDate.ToString("MMMM dd, yyyy")"
+                            data-departure="@(booking.DepartureTime ?? "—")"
+                            data-accommodation="@(booking.AccommodationType ?? "—")"
+                            data-paxcount="@booking.PassengerCount"
+                            data-contact="@(booking.ContactNumber ?? "—")"
+                            data-payment="@(booking.PaymentMethod ?? "—")"
+                            data-status="@booking.Status"
+                            data-passengers="@Html.Raw(System.Web.HttpUtility.HtmlAttributeEncode(booking.PassengersJson ?? "[]"))">
                             <td><strong>@booking.ShipName</strong></td>
                             <td>@booking.Route</td>
                             <td>@booking.TravelDate.ToString("MMM dd, yyyy")</td>
-                            <td>@booking.AccommodationType</td>
-                            <td>@booking.PassengerCount pax</td>
-
-                            @* Status badge — color depends on status value *@
-                            <td>
-                                @if (booking.Status == "Booked")
-                                {
-                                    <span class="badge-booked">Booked</span>
-                                }
-                                else if (booking.Status == "Rescheduled")
-                                {
-                                    <span class="badge-rescheduled">Rescheduled</span>
-                                }
-                                else
-                                {
-                                    <span class="badge-cancelled">Cancelled</span>
-                                }
-                            </td>
-
-                            @* Action buttons — only shown for active bookings *@
+                            <td>@(booking.DepartureTime ?? "—")</td>
                             <td>
                                 @if (booking.Status == "Cancelled")
                                 {
-                                    <span class="text-muted small">—</span>
+                                    <span class="badge-cancelled">Cancelled</span>
                                 }
                                 else
                                 {
-                                    @* Cancel booking — asks for confirmation first *@
-                                    <a asp-controller="Booking"
-                                       asp-action="Cancel"
-                                       asp-route-id="@booking.Id"
-                                       class="btn-cancel me-1"
-                                       onclick="return confirm('Cancel this booking?')">
-                                        Cancel
-                                    </a>
-
-                                    @* Reschedule button — opens the reschedule modal *@
-                                    <button class="btn-reschedule"
-                                            onclick="openReschedule(@booking.Id)">
-                                        Reschedule
-                                    </button>
+                                    <span class="badge-active">@booking.Status</span>
                                 }
                             </td>
                         </tr>
@@ -303,65 +386,258 @@
                 </tbody>
             </table>
         </div>
+
+        @* Hint to tell user the rows are clickable *@
+        <p class="click-hint">Click any booking to view details</p>
     }
 </div>
 
 @* ============================================================
-   RESCHEDULE MODAL
-   Hidden by default. Opens when "Reschedule" button is clicked.
-   Submits to UserController.Reschedule via POST.
+   BOOKING DETAILS MODAL
+   Opened when user clicks a booking row.
+   Shows full info + Cancel & Reschedule buttons.
+   Cancel shows a confirmation before proceeding.
    ============================================================ *@
-<div class="modal fade" id="rescheduleModal" tabindex="-1">
+<div class="modal fade" id="bookingModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content" style="border-radius:15px;">
+        <div class="modal-content">
 
-            <div class="modal-header" style="border-bottom: 2px solid #e3f2fd;">
-                <h5 class="modal-title fw-bold" style="color:#03396c;">Reschedule Booking</h5>
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalShipName">Booking Details</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
-            @* Form submits to User/Reschedule with the booking ID and new date *@
-            <form asp-controller="User" asp-action="Reschedule" method="post">
-                <div class="modal-body">
+            <div class="modal-body">
 
-                    @* Hidden field — stores which booking is being rescheduled *@
-                    <input type="hidden" name="id" id="rescheduleBookingId" />
+                @* Trip details section *@
+                <div class="modal-section">
+                    <div class="modal-section-title">Trip Details</div>
+                    <div class="detail-row">
+                        <span class="d-label">Route</span>
+                        <span class="d-value" id="modalRoute">—</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="d-label">Travel Date</span>
+                        <span class="d-value" id="modalDate">—</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="d-label">Departure Time</span>
+                        <span class="d-value" id="modalDeparture">—</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="d-label">Accommodation</span>
+                        <span class="d-value" id="modalAccommodation">—</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="d-label">Status</span>
+                        <span class="d-value" id="modalStatus">—</span>
+                    </div>
+                </div>
 
-                    <label class="form-label fw-bold" style="color:#03396c;">Select New Travel Date</label>
+                @* Contact & payment section *@
+                <div class="modal-section">
+                    <div class="modal-section-title">Contact & Payment</div>
+                    <div class="detail-row">
+                        <span class="d-label">Passengers</span>
+                        <span class="d-value" id="modalPaxCount">—</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="d-label">Contact Number</span>
+                        <span class="d-value" id="modalContact">—</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="d-label">Payment Method</span>
+                        <span class="d-value" id="modalPayment">—</span>
+                    </div>
+                </div>
+
+                @* Passenger list section — filled by JS *@
+                <div class="modal-section" id="modalPaxSection" style="display:none;">
+                    <div class="modal-section-title">Passengers</div>
+                    <div id="modalPaxList"></div>
+                </div>
+
+                @* Reschedule date picker — hidden until Reschedule clicked *@
+                <div class="reschedule-section" id="rescheduleSection">
+                    <div class="modal-section-title mb-2">Select New Travel Date</div>
                     <input type="date"
-                           name="newDate"
-                           class="form-control"
-                           min="@DateTime.Today.ToString("yyyy-MM-dd")"
-                           required />
+                           id="newDateInput"
+                           class="form-control-sm w-100"
+                           min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" />
+                    <div class="d-flex gap-2 mt-3">
+                        <button type="button"
+                                class="btn-modal-reschedule"
+                                onclick="confirmReschedule()">
+                            Confirm Reschedule
+                        </button>
+                        <button type="button"
+                                class="btn btn-secondary btn-sm"
+                                onclick="hideReschedule()"
+                                style="border-radius:8px;">
+                            Back
+                        </button>
+                    </div>
+                </div>
 
-                </div>
-                <div class="modal-footer" style="border-top: 2px solid #e3f2fd;">
-                    <button type="button"
-                            class="btn btn-secondary"
-                            data-bs-dismiss="modal"
-                            style="border-radius:8px;">
-                        Cancel
-                    </button>
-                    <button type="submit"
-                            class="btn"
-                            style="background:#03396c; color:white; border-radius:8px; font-weight:600;">
-                        Confirm Reschedule
-                    </button>
-                </div>
-            </form>
+            </div>
+
+            @* Modal footer — action buttons, hidden for cancelled bookings *@
+            <div class="modal-footer" id="modalActions">
+                <button type="button"
+                        class="btn-modal-cancel"
+                        id="cancelBtn"
+                        onclick="confirmCancel()">
+                    Cancel Booking
+                </button>
+                <button type="button"
+                        class="btn-modal-reschedule"
+                        id="rescheduleBtn"
+                        onclick="showReschedule()">
+                    Reschedule
+                </button>
+            </div>
 
         </div>
     </div>
 </div>
 
+@* Hidden forms for cancel and reschedule — submitted by JS *@
+<form id="cancelForm" method="post" style="display:none;">
+    @Html.AntiForgeryToken()
+</form>
+
+<form id="rescheduleForm" method="post" style="display:none;">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="newDate" id="rescheduleNewDate" />
+</form>
+
 @section Scripts {
     <script>
-        // Opens the reschedule modal and sets the booking ID
-        // so the form knows which booking to reschedule
-        function openReschedule(bookingId) {
-            document.getElementById('rescheduleBookingId').value = bookingId;
-            const modal = new bootstrap.Modal(document.getElementById('rescheduleModal'));
+        // Stores the current booking ID being viewed
+        let currentBookingId = null;
+
+        // Attach click handler to all booking rows via event delegation
+        // This reads data from data-* attributes — safe from special characters
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.booking-row').forEach(function (row) {
+                row.addEventListener('click', function () {
+                    // Read all booking data from the row's data attributes
+                    const id            = row.dataset.id;
+                    const ship          = row.dataset.ship;
+                    const route         = row.dataset.route;
+                    const date          = row.dataset.date;
+                    const departure     = row.dataset.departure;
+                    const accommodation = row.dataset.accommodation;
+                    const paxCount      = row.dataset.paxcount;
+                    const contact       = row.dataset.contact;
+                    const payment       = row.dataset.payment;
+                    const status        = row.dataset.status;
+                    const passengersJson = row.dataset.passengers;
+
+                    openBookingModal(id, ship, route, date, departure,
+                                     accommodation, paxCount, contact,
+                                     payment, status, passengersJson);
+                });
+            });
+        });
+
+        // Opens the booking details modal with the provided data
+        function openBookingModal(id, ship, route, date, departure,
+                                  accommodation, paxCount, contact,
+                                  payment, status, passengersJson) {
+            currentBookingId = id;
+
+            // Populate modal fields
+            document.getElementById('modalShipName').textContent     = ship;
+            document.getElementById('modalRoute').textContent        = route;
+            document.getElementById('modalDate').textContent         = date;
+            document.getElementById('modalDeparture').textContent    = departure;
+            document.getElementById('modalAccommodation').textContent = accommodation;
+            document.getElementById('modalStatus').textContent       = status;
+            document.getElementById('modalPaxCount').textContent     = paxCount + ' passenger(s)';
+            document.getElementById('modalContact').textContent      = contact;
+            document.getElementById('modalPayment').textContent      = payment;
+
+            // Parse and display the passenger list
+            try {
+                const passengers = JSON.parse(passengersJson);
+                const paxSection = document.getElementById('modalPaxSection');
+                const paxList    = document.getElementById('modalPaxList');
+
+                if (passengers && passengers.length > 0) {
+                    paxList.innerHTML = passengers.map((p, i) => `
+                        <div class="pax-item">
+                            <div class="pax-num">${i + 1}</div>
+                            <div>
+                                <strong>${p.FullName || '—'}</strong>
+                                <span class="text-muted ms-2" style="font-size:0.82rem;">
+                                    ${p.Age || '—'} yrs &bull; ${p.Sex || '—'}
+                                </span>
+                            </div>
+                        </div>`).join('');
+                    paxSection.style.display = 'block';
+                } else {
+                    paxSection.style.display = 'none';
+                }
+            } catch (e) {
+                // If JSON parse fails, just hide the passenger section
+                document.getElementById('modalPaxSection').style.display = 'none';
+            }
+
+            // Reset reschedule section
+            hideReschedule();
+
+            // Hide action buttons for cancelled bookings
+            const actions = document.getElementById('modalActions');
+            actions.style.display = (status === 'Cancelled') ? 'none' : 'flex';
+
+            // Open the Bootstrap modal
+            const modal = new bootstrap.Modal(document.getElementById('bookingModal'));
             modal.show();
+        }
+
+        // Shows a browser confirmation before cancelling
+        // Only proceeds if user clicks OK
+        function confirmCancel() {
+            if (confirm('Are you sure you want to cancel this booking? This cannot be undone.')) {
+                // Submit to Booking/Cancel with the booking ID
+                const form   = document.getElementById('cancelForm');
+                form.action  = '/Booking/Cancel/' + currentBookingId;
+                form.submit();
+            }
+        }
+
+        // Shows the reschedule date picker inside the modal
+        function showReschedule() {
+            document.getElementById('rescheduleSection').classList.add('visible');
+            // Hide the main action buttons while reschedule is open
+            document.getElementById('cancelBtn').style.display    = 'none';
+            document.getElementById('rescheduleBtn').style.display = 'none';
+        }
+
+        // Hides the reschedule section and shows buttons again
+        function hideReschedule() {
+            document.getElementById('rescheduleSection').classList.remove('visible');
+            document.getElementById('cancelBtn').style.display    = '';
+            document.getElementById('rescheduleBtn').style.display = '';
+        }
+
+        // Submits the reschedule form after date is picked
+        function confirmReschedule() {
+            const newDate = document.getElementById('newDateInput').value;
+
+            if (!newDate) {
+                alert('Please select a new travel date.');
+                return;
+            }
+
+            // Confirm before submitting
+            if (confirm('Reschedule this booking to ' + newDate + '?')) {
+                const form    = document.getElementById('rescheduleForm');
+                form.action   = '/User/Reschedule/' + currentBookingId;
+                document.getElementById('rescheduleNewDate').value = newDate;
+                form.submit();
+            }
         }
     </script>
 }

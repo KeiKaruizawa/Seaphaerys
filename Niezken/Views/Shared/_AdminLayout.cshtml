@@ -7,7 +7,6 @@
     <title>Seaphaerys Admin - @ViewData["Title"]</title>
 
     <link rel="icon" href="~/favicons.ico" />
-
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -15,7 +14,7 @@
     <style>
         body {
             background: #f5fbff;
-            font-family: 'Segoe UI',sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -28,25 +27,30 @@
         }
 
         .navbar {
-            padding: 12px 20px;
+            padding: 8px 20px;
         }
 
         .navbar-brand img {
-            height: 50px;
+            height: 38px;
         }
 
         .nav-link {
             color: #03396c !important;
             font-weight: 600;
-            margin-right: 25px;
+            margin-right: 15px;
+            margin-left: 30px;
+            font-size: 0.95rem;
             position: relative;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
         }
 
+            /* Underline animation on hover */
             .nav-link::after {
                 content: "";
                 position: absolute;
                 left: 0;
-                bottom: -6px;
+                bottom: -4px;
                 width: 0;
                 height: 3px;
                 background: #0077b6;
@@ -57,28 +61,79 @@
                 width: 100%;
             }
 
+        /* Active page underline */
         .active-link::after {
-            width: 100%;
+            width: 100% !important;
         }
 
-        .logout-btn {
+        /* User dropdown button — identical to passenger layout */
+        .user-dropdown-btn {
             background: #0077b6;
-            color: white;
+            color: white !important;
+            border: none;
             border-radius: 25px;
-            padding: 8px 22px;
+            padding: 7px 16px;
+            font-size: 0.88rem;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            cursor: pointer;
+            transition: 0.3s;
             text-decoration: none;
         }
 
-            .logout-btn:hover {
-                background: #023e8a;
-                color: white;
+            .user-dropdown-btn::after {
+                display: none !important;
             }
+
+            .user-dropdown-btn:hover {
+                background: #023e8a;
+                color: white !important;
+            }
+
+        /* Dropdown menu */
+        .user-dropdown-menu {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            padding: 8px 0;
+            min-width: 190px;
+        }
+
+            .user-dropdown-menu .dropdown-item {
+                padding: 9px 18px;
+                font-size: 0.9rem;
+                font-weight: 500;
+                color: #03396c;
+                transition: 0.2s;
+            }
+
+                .user-dropdown-menu .dropdown-item:hover {
+                    background: #f0f8ff;
+                    color: #0077b6;
+                }
+
+            .user-dropdown-menu .dropdown-divider {
+                margin: 4px 0;
+                border-color: #e0f0ff;
+            }
+
+            /* Logout in red */
+            .user-dropdown-menu .logout-item {
+                color: #e63946;
+            }
+
+                .user-dropdown-menu .logout-item:hover {
+                    background: #fff0f1;
+                    color: #c1121f;
+                }
 
         .content-wrapper {
             flex: 1;
         }
-       /*  wavy */
+
+        /* Wave decoration */
         .ocean {
             position: relative;
             width: 100%;
@@ -91,9 +146,9 @@
             height: 80px;
         }
 
-        /* footer*/
+        /* Footer — same as passenger layout */
         .footer-dark {
-            padding: 20px;
+            padding: 40px 20px 20px;
             color: #f0f9ff;
             background-color: #282d32;
         }
@@ -126,14 +181,10 @@
                         opacity: 0.8;
                     }
 
-            .footer-dark .item.text {
-                margin-bottom: 36px;
+            .footer-dark .item.text p {
+                opacity: 0.6;
+                margin-bottom: 0;
             }
-
-                .footer-dark .item.text p {
-                    opacity: 0.6;
-                    margin-bottom: 0;
-                }
 
             .footer-dark .item.social {
                 text-align: center;
@@ -144,7 +195,6 @@
                     font-size: 18px;
                     width: 40px;
                     height: 40px;
-                    /* Use flexbox to center the icon perfectly inside the circle */
                     display: inline-flex;
                     align-items: center;
                     justify-content: center;
@@ -154,7 +204,7 @@
                     color: #fff;
                     opacity: 0.75;
                     transition: 0.3s;
-                    text-decoration: none; /* Removes underline if any */
+                    text-decoration: none;
                 }
 
                     .footer-dark .item.social > a:hover {
@@ -170,29 +220,6 @@
                 font-size: 13px;
                 margin-bottom: 0;
             }
-
-        .nav-link {
-            position: relative;
-        }
-
-            .nav-link::after {
-                content: "";
-                position: absolute;
-                left: 0;
-                bottom: -5px;
-                width: 0%;
-                height: 3px;
-                background-color: #0077b6;
-                transition: width 0.3s ease;
-            }
-
-            .nav-link:hover::after {
-                width: 100%;
-            }
-
-        .active-link::after {
-            width: 100%;
-        }
     </style>
 </head>
 
@@ -206,8 +233,9 @@
         <nav class="navbar navbar-expand-lg">
             <div class="container">
 
+                @* Logo — same size as passenger navbar *@
                 <a class="navbar-brand" asp-controller="Admin" asp-action="AdminDashboard">
-                    <img src="~/image/LOG.png">
+                    <img src="~/image/LOG.png" alt="Seaphaerys Logo">
                 </a>
 
                 <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar">
@@ -216,63 +244,97 @@
 
                 <div class="collapse navbar-collapse" id="navbar">
 
+                    @* LEFT SIDE: Admin nav links *@
                     <ul class="navbar-nav me-auto">
+
                         <li class="nav-item">
                             <a class="nav-link @(currentAction == "AdminDashboard" ? "active-link" : "")"
-                               asp-controller="Admin"
-                               asp-action="AdminDashboard">
+                               asp-controller="Admin" asp-action="AdminDashboard">
                                 Dashboard
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link @(currentAction == "Users" ? "active-link" : "")"
-                               asp-controller="Admin"
-                               asp-action="Users">
+                               asp-controller="Admin" asp-action="Users">
                                 Users
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link @(currentAction == "ActivityLogs" ? "active-link" : "")"
-                               asp-controller="Admin"
-                               asp-action="ActivityLogs">
+                               asp-controller="Admin" asp-action="ActivityLogs">
                                 Activity Logs
                             </a>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link @(currentAction == "Accommodation" ? "active-link" : "")"
-                               asp-controller="Admin"
-                               asp-action="Accommodation">
+                               asp-controller="Admin" asp-action="Accommodation">
                                 Accommodations
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link @(currentAction == "MyAccount" ? "active-link" : "")"
-                               asp-controller="Admin"
-                               asp-action="MyAccount">
-                                My Account
-                            </a>
-                        </li>
                     </ul>
 
-                    <div>
-                        <span class="me-3 fw-semibold">
-                            @User.Identity.Name
-                        </span>
+                    @* RIGHT SIDE: same dropdown as passenger layout *@
+                    <div class="d-flex align-items-center">
+                        <div class="dropdown">
 
-                        <a asp-controller="Home"
-                           asp-action="Logout"
-                           class="logout-btn">
-                            Logout
-                        </a>
+                            @* Toggle button — person icon + name before @ *@
+                            <a class="user-dropdown-btn dropdown-toggle"
+                               href="#"
+                               role="button"
+                               data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <i class="fas fa-user" style="font-size:0.85rem;"></i>
+                                @User.Identity.Name?.Split('@')[0]
+                            </a>
+
+                            @* Dropdown menu *@
+                            <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu">
+
+                                @* Full email — info only *@
+                                <li>
+                                    <span class="dropdown-item-text text-muted small px-3 py-1">
+                                        @User.Identity.Name
+                                    </span>
+                                </li>
+
+                                <li><hr class="dropdown-divider" /></li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-controller="Admin" asp-action="AdminDashboard">
+                                        Admin Dashboard
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-controller="Admin" asp-action="MyAccount">
+                                        My Account
+                                    </a>
+                                </li>
+
+                                <li><hr class="dropdown-divider" /></li>
+
+                                <li>
+                                    <a class="dropdown-item logout-item"
+                                       asp-controller="Home" asp-action="Logout">
+                                        Logout
+                                    </a>
+                                </li>
+
+                            </ul>
+                        </div>
                     </div>
 
                 </div>
             </div>
         </nav>
+
+        @* Wave decoration — same as passenger layout *@
         <div class="ocean">
             <svg class="wave-svg" viewBox="0 0 1440 120" preserveAspectRatio="none">
                 <path fill="#f5fbff" fill-opacity="1"
@@ -281,6 +343,7 @@
             </svg>
         </div>
     </header>
+
     <div class="content-wrapper">
         <main class="container pb-5">
             @RenderBody()
@@ -293,9 +356,9 @@
                 <div class="col-sm-6 col-md-3 item">
                     <h3>Services</h3>
                     <ul>
-                        <li><a href="#">Ticket Booking</a></li>
+                        <li><a asp-controller="Booking" asp-action="BookNow">Ticket Booking</a></li>
                         <li><a href="#">Ferry Schedule</a></li>
-                        <li><a href="#">Accommodation</a></li>
+                        <li><a asp-controller="Home" asp-action="Accommodation">Accommodation</a></li>
                     </ul>
                 </div>
                 <div class="col-sm-6 col-md-3 item">
@@ -308,7 +371,7 @@
                 </div>
                 <div class="col-md-6 item text">
                     <h3>Seaphaerys</h3>
-                    <p>Praesent sed lobortis mi. Suspendisse vel plo.</p>
+                    <p>Connecting the Philippine islands through safe, reliable, and comfortable sea travel.</p>
                 </div>
                 <div class="col item social">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -320,9 +383,8 @@
             <p class="copyright">Niezken Sea Ferry © 2026</p>
         </div>
     </footer>
-    <script src="~/js/site.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>

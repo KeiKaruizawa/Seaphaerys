@@ -3,68 +3,32 @@
   "WorkspaceRootPath": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|c:\\users\\leah marie bolasco\\downloads\\improvesea (2)\\improvesea\\niezken\\views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|solutionrelative:views\\home\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|c:\\users\\leah marie bolasco\\downloads\\improvesea (2)\\improvesea\\niezken\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|solutionrelative:views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Ship.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Ship.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|"
+      "AbsoluteMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|c:\\users\\leah marie bolasco\\downloads\\improvesea (2)\\improvesea\\niezken\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|c:\\users\\leah marie bolasco\\downloads\\improvesea (2)\\improvesea\\niezken\\views\\home\\outlets.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|solutionrelative:views\\home\\outlets.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|c:\\users\\leah marie bolasco\\downloads\\improvesea (2)\\improvesea\\niezken\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|c:\\users\\leah marie bolasco\\downloads\\improvesea (2)\\improvesea\\niezken\\views\\home\\contact.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|solutionrelative:views\\home\\contact.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|c:\\users\\leah marie bolasco\\downloads\\improvesea (2)\\improvesea\\niezken\\views\\home\\faq.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|solutionrelative:views\\home\\faq.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|c:\\users\\leah marie bolasco\\downloads\\improvesea (2)\\improvesea\\niezken\\views\\booking\\bookingform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|solutionrelative:views\\booking\\bookingform.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|c:\\users\\leah marie bolasco\\downloads\\improvesea (2)\\improvesea\\niezken\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/SeaphaerysDb/True/SqlTable/dbo.Ships.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/SeaphaerysDb/True/SqlTable/dbo.ActivityLogs.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/SeaphaerysDb/True/SqlTable/dbo.Bookings.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Ship1.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Ship1.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|c:\\users\\leah marie bolasco\\downloads\\improvesea (2)\\improvesea\\niezken\\views\\user\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|solutionrelative:views\\user\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|c:\\users\\leah marie bolasco\\downloads\\improvesea (2)\\improvesea\\niezken\\views\\booking\\confirmation.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|solutionrelative:views\\booking\\confirmation.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|c:\\users\\leah marie bolasco\\downloads\\improvesea (2)\\improvesea\\niezken\\views\\booking\\booknow.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|solutionrelative:views\\booking\\booknow.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|c:\\users\\leah marie bolasco\\downloads\\improvesea (2)\\improvesea\\niezken\\views\\booking\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2E27209C-03C9-4190-92C9-BC988EA04428}|Niezken.csproj|solutionrelative:views\\booking\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/SeaphaerysDb/True/SqlTable/dbo.Users.sql||{0058A1F7-65F3-4DB9-B3D0-CA7E64DD73CD}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Ship1.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Ship1.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Ship1.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|ResultFrame",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Ship1.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|ResultFrame"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Ship.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Ship.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Ship.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|ResultFrame",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Ship.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|ResultFrame"
     }
   ],
   "DocumentGroupContainers": [
@@ -74,7 +38,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -82,155 +46,93 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Ship.sql ",
-              "DocumentMoniker": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Ship.sql",
-              "RelativeDocumentMoniker": "Ship.sql",
-              "ToolTip": "Ship.sql ",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2026-03-14T19:17:18.663Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "HomeController.cs",
-              "DocumentMoniker": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Controllers\\HomeController.cs",
-              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
-              "ToolTip": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Controllers\\HomeController.cs",
-              "RelativeToolTip": "Controllers\\HomeController.cs",
-              "ViewState": "AgIAAMgAAAAAAAAAAAAswCwBAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-14T19:16:23.081Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Login.cshtml",
-              "DocumentMoniker": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Home\\Login.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\Login.cshtml",
-              "ToolTip": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Home\\Login.cshtml",
-              "RelativeToolTip": "Views\\Home\\Login.cshtml",
-              "ViewState": "AgIAADYAAAAAAAAAAADgv0UAAAAMAAAAAAAAAA==",
+              "Title": "_AdminLayout.cshtml",
+              "DocumentMoniker": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Shared\\_AdminLayout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_AdminLayout.cshtml",
+              "ToolTip": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Shared\\_AdminLayout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_AdminLayout.cshtml",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAADgAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-14T19:15:24.171Z",
+              "WhenOpened": "2026-03-15T15:05:16.686Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAADkAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-15T14:21:22.863Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "dbo.Ships [Data]",
-              "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/SeaphaerysDb/True/SqlTable/dbo.Ships.sql",
-              "ToolTip": "dbo.Ships [Data]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2026-03-14T18:55:46.556Z",
+              "Title": "Contact.cshtml",
+              "DocumentMoniker": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Home\\Contact.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Contact.cshtml",
+              "ToolTip": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Home\\Contact.cshtml",
+              "RelativeToolTip": "Views\\Home\\Contact.cshtml",
+              "ViewState": "AgIAAP0AAAAAAAAAAADwvxMBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-15T14:22:00.293Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAMoAAAAAAAAAAADwv+AAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-15T14:21:49.945Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "BookingForm.cshtml",
-              "DocumentMoniker": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Booking\\BookingForm.cshtml",
-              "RelativeDocumentMoniker": "Views\\Booking\\BookingForm.cshtml",
-              "ToolTip": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Booking\\BookingForm.cshtml",
-              "RelativeToolTip": "Views\\Booking\\BookingForm.cshtml",
-              "ViewState": "AgIAAJsBAAAAAAAAAADwv58BAAATAAAAAAAAAA==",
+              "Title": "Outlets.cshtml",
+              "DocumentMoniker": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Home\\Outlets.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Outlets.cshtml",
+              "ToolTip": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Home\\Outlets.cshtml",
+              "RelativeToolTip": "Views\\Home\\Outlets.cshtml",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAhwFkAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-14T18:24:00.169Z",
+              "WhenOpened": "2026-03-15T14:21:37.089Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "dbo.ActivityLogs [Data]",
-              "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/SeaphaerysDb/True/SqlTable/dbo.ActivityLogs.sql",
-              "ToolTip": "dbo.ActivityLogs [Data]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2026-03-14T18:56:03.508Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Ship1.sql ",
-              "DocumentMoniker": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Ship1.sql",
-              "RelativeDocumentMoniker": "Ship1.sql",
-              "ToolTip": "Ship1.sql ",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2026-03-14T18:54:49.465Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Confirmation.cshtml",
-              "DocumentMoniker": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Booking\\Confirmation.cshtml",
-              "RelativeDocumentMoniker": "Views\\Booking\\Confirmation.cshtml",
-              "ToolTip": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Booking\\Confirmation.cshtml",
-              "RelativeToolTip": "Views\\Booking\\Confirmation.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAWAAAAAAAAAA==",
+              "Title": "faq.cshtml",
+              "DocumentMoniker": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Home\\faq.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\faq.cshtml",
+              "ToolTip": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Home\\faq.cshtml",
+              "RelativeToolTip": "Views\\Home\\faq.cshtml",
+              "ViewState": "AgIAADsBAAAAAAAAAADwv1EBAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-14T18:24:48.177Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "BookNow.cshtml",
-              "DocumentMoniker": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Booking\\BookNow.cshtml",
-              "RelativeDocumentMoniker": "Views\\Booking\\BookNow.cshtml",
-              "ToolTip": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Booking\\BookNow.cshtml",
-              "RelativeToolTip": "Views\\Booking\\BookNow.cshtml",
-              "ViewState": "AgIAACkBAAAAAAAAAAAAAPUAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-14T18:24:27.588Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Create.cshtml",
-              "DocumentMoniker": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Booking\\Create.cshtml",
-              "RelativeDocumentMoniker": "Views\\Booking\\Create.cshtml",
-              "ToolTip": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Booking\\Create.cshtml",
-              "RelativeToolTip": "Views\\Booking\\Create.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-14T18:24:06.284Z",
+              "WhenOpened": "2026-03-15T14:21:10.465Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "dbo.Bookings [Data]",
-              "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/SeaphaerysDb/True/SqlTable/dbo.Bookings.sql",
-              "ToolTip": "dbo.Bookings [Data]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2026-03-14T13:20:01.147Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Dashboard.cshtml",
-              "DocumentMoniker": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\User\\Dashboard.cshtml",
-              "RelativeDocumentMoniker": "Views\\User\\Dashboard.cshtml",
-              "ToolTip": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\User\\Dashboard.cshtml",
-              "RelativeToolTip": "Views\\User\\Dashboard.cshtml",
-              "ViewState": "AgIAAEMBAAAAAAAAAAAqwFwBAAAdAAAAAAAAAA==",
+              "Title": "BookingForm.cshtml",
+              "DocumentMoniker": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Booking\\BookingForm.cshtml",
+              "RelativeDocumentMoniker": "Views\\Booking\\BookingForm.cshtml",
+              "ToolTip": "C:\\Users\\Leah Marie Bolasco\\Downloads\\improvesea (2)\\improvesea\\Niezken\\Views\\Booking\\BookingForm.cshtml",
+              "RelativeToolTip": "Views\\Booking\\BookingForm.cshtml",
+              "ViewState": "AgIAABIDAAAAAAAAAAAAACgDAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-14T18:22:37.097Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "dbo.Users [Data]",
-              "DocumentMoniker": "ViewDataWindow_MSSQL__/_localdb__MSSQLLocalDB/SeaphaerysDb/True/SqlTable/dbo.Users.sql",
-              "ToolTip": "dbo.Users [Data]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
-              "WhenOpened": "2026-03-14T10:04:25.04Z",
+              "WhenOpened": "2026-03-15T11:18:48.055Z",
               "EditorCaption": ""
             }
           ]

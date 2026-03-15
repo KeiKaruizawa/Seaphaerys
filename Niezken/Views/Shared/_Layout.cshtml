@@ -1,4 +1,18 @@
-﻿<!DOCTYPE html>
+﻿@* ============================================================
+   _Layout.cshtml
+   📁 Location: Views/Shared/_Layout.cshtml
+   🔁 Action: REPLACE the existing file
+
+   This is the SHARED LAYOUT used by ALL public-facing pages.
+   It contains the Navbar, Footer, and common CSS.
+
+   The navbar is SMART — it changes based on login state:
+   - Not logged in → shows Login button
+   - Logged in as Passenger → shows Account + Book Now + Logout
+   - Logged in as Admin → shows Admin Panel link + Logout
+   ============================================================ *@
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -37,7 +51,8 @@
         .nav-link {
             color: #03396c !important;
             font-weight: 600;
-            margin: 24px; 
+            margin-right: 15px;
+            margin-left: 30px;
             font-size: 0.95rem;
             position: relative;
             padding-left: 0 !important;
@@ -92,7 +107,6 @@
             background: #0077b6 !important;
         }
 
-        /* User dropdown button — looks like a pill with avatar icon */
         .user-dropdown-btn {
             background: #0077b6;
             color: white !important;
@@ -176,7 +190,7 @@
 
         /* Footer styles */
         .footer-dark {
-            padding: 20px;
+            padding: 40px 20px 20px; /* More top padding for breathing room */
             color: #f0f9ff;
             background-color: #282d32;
         }
@@ -276,95 +290,127 @@
 
                 <div class="collapse navbar-collapse" id="navbar">
 
-                    @* LEFT SIDE: Navigation Links *@
-                    <ul class="navbar-nav me-auto">
+                    @* -------------------------------------------------------
+                       Navbar changes based on who is logged in:
+                       - Not logged in       → passenger nav + Login button
+                       - Logged in Passenger → passenger nav + user dropdown
+                       - Logged in Admin     → admin nav + admin dropdown
+                       ------------------------------------------------------- *@
 
-                        <li class="nav-item">
-                            <a class="nav-link @(currentAction == "Index" ? "active-link" : "")"
-                               asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        @* ---- ADMIN NAVBAR ---- *@
+                        <ul class="navbar-nav me-auto">
 
-                        <li class="nav-item">
-                            <a class="nav-link @(currentAction == "Accommodation" ? "active-link" : "")"
-                               asp-controller="Home" asp-action="Accommodation">Accommodation</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link @(currentAction == "Outlets" ? "active-link" : "")"
-                               asp-controller="Home" asp-action="Outlets">Outlets</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link @(currentAction == "Contact" ? "active-link" : "")"
-                               asp-controller="Home" asp-action="Contact">Contact</a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link @(currentAction == "faq" ? "active-link" : "")"
-                               asp-controller="Home" asp-action="faq">FAQs</a>
-                        </li>
-
-                        @* Book Now is ALWAYS visible — logged in or not.
-                           If not logged in, clicking it will redirect to login
-                           (handled by [Authorize] in BookingController) *@
-                        <li class="nav-item">
-                            <a class="nav-link booknow-link @(currentAction == "BookNow" ? "active-link" : "")"
-                               asp-controller="Booking" asp-action="BookNow">Book Now</a>
-                        </li>
-
-                        @* Admin gets an extra "Admin Panel" nav link *@
-                        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
-                        {
                             <li class="nav-item">
                                 <a class="nav-link @(currentAction == "AdminDashboard" ? "active-link" : "")"
-                                   asp-controller="Admin" asp-action="AdminDashboard">Admin Panel</a>
+                                   asp-controller="Admin" asp-action="AdminDashboard">Dashboard</a>
                             </li>
-                        }
 
-                    </ul>
+                            <li class="nav-item">
+                                <a class="nav-link @(currentAction == "Users" ? "active-link" : "")"
+                                   asp-controller="Admin" asp-action="Users">Users</a>
+                            </li>
 
-                    @* RIGHT SIDE: Login button OR user dropdown *@
-                    <div class="d-flex align-items-center">
+                            <li class="nav-item">
+                                <a class="nav-link @(currentAction == "ActivityLogs" ? "active-link" : "")"
+                                   asp-controller="Admin" asp-action="ActivityLogs">Activity Logs</a>
+                            </li>
 
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            @* DROPDOWN — shows username as the toggle button *@
+                            <li class="nav-item">
+                                <a class="nav-link @(currentAction == "Accommodation" ? "active-link" : "")"
+                                   asp-controller="Admin" asp-action="Accommodation">Accommodations</a>
+                            </li>
+
+                        </ul>
+
+                        @* Admin dropdown — My Account + Logout only *@
+                        <div class="d-flex align-items-center">
                             <div class="dropdown">
-
-                                @* Toggle button — shows just the name before @ *@
                                 <a class="user-dropdown-btn dropdown-toggle"
-                                   href="#"
-                                   role="button"
+                                   href="#" role="button"
                                    data-bs-toggle="dropdown"
                                    aria-expanded="false">
+                                    <i class="fas fa-user me-1" style="font-size:0.85rem;"></i>
                                     @User.Identity.Name?.Split('@')[0]
                                 </a>
-
-                                @* Dropdown menu *@
                                 <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu">
-
-                                    @* Full email shown at top — info only, not clickable *@
                                     <li>
                                         <span class="dropdown-item-text text-muted small px-3 py-1">
                                             @User.Identity.Name
                                         </span>
                                     </li>
-
                                     <li><hr class="dropdown-divider" /></li>
+                                    <li>
+                                        <a class="dropdown-item"
+                                           asp-controller="Admin" asp-action="MyAccount">My Account</a>
+                                    </li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li>
+                                        <a class="dropdown-item logout-item"
+                                           asp-controller="Home" asp-action="Logout">Logout</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        @* ---- PASSENGER NAVBAR (logged in or not) ---- *@
+                        <ul class="navbar-nav me-auto">
 
-                                    @if (User.IsInRole("Admin"))
-                                    {
+                            <li class="nav-item">
+                                <a class="nav-link @(currentAction == "Index" ? "active-link" : "")"
+                                   asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link @(currentAction == "Accommodation" ? "active-link" : "")"
+                                   asp-controller="Home" asp-action="Accommodation">Accommodation</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link @(currentAction == "Outlets" ? "active-link" : "")"
+                                   asp-controller="Home" asp-action="Outlets">Outlets</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link @(currentAction == "Contact" ? "active-link" : "")"
+                                   asp-controller="Home" asp-action="Contact">Contact</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link @(currentAction == "faq" ? "active-link" : "")"
+                                   asp-controller="Home" asp-action="faq">FAQs</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link booknow-link @(currentAction == "BookNow" ? "active-link" : "")"
+                                   asp-controller="Booking" asp-action="BookNow">Book Now</a>
+                            </li>
+
+                        </ul>
+
+                        <div class="d-flex align-items-center">
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                @* Passenger dropdown *@
+                                <div class="dropdown">
+                                    <a class="user-dropdown-btn dropdown-toggle"
+                                       href="#" role="button"
+                                       data-bs-toggle="dropdown"
+                                       aria-expanded="false">
+                                        <i class="fas fa-user me-1" style="font-size:0.85rem;"></i>
+                                        @User.Identity.Name?.Split('@')[0]
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu">
                                         <li>
-                                            <a class="dropdown-item"
-                                               asp-controller="Admin" asp-action="MyAccount">My Account</a>
+                                            <span class="dropdown-item-text text-muted small px-3 py-1">
+                                                @User.Identity.Name
+                                            </span>
                                         </li>
-                                        <li>
-                                            <a class="dropdown-item"
-                                               asp-controller="Admin" asp-action="AdminDashboard">Admin Dashboard</a>
-                                        </li>
-                                    }
-                                    else
-                                    {
+                                        <li><hr class="dropdown-divider" /></li>
                                         <li>
                                             <a class="dropdown-item"
                                                asp-controller="User" asp-action="Dashboard">My Dashboard</a>
@@ -373,25 +419,22 @@
                                             <a class="dropdown-item"
                                                asp-controller="User" asp-action="EditProfile">Edit Profile</a>
                                         </li>
-                                    }
+                                        <li><hr class="dropdown-divider" /></li>
+                                        <li>
+                                            <a class="dropdown-item logout-item"
+                                               asp-controller="Home" asp-action="Logout">Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            }
+                            else
+                            {
+                                @* Not logged in — Login button *@
+                                <a asp-controller="Home" asp-action="Login" class="login-btn">Login</a>
+                            }
 
-                                    <li><hr class="dropdown-divider" /></li>
-
-                                    <li>
-                                        <a class="dropdown-item logout-item"
-                                           asp-controller="Home" asp-action="Logout">Logout</a>
-                                    </li>
-
-                                </ul>
-                            </div>
-                        }
-                        else
-                        {
-                            @* Not logged in — show Login button only *@
-                            <a asp-controller="Home" asp-action="Login" class="login-btn">Login</a>
-                        }
-
-                    </div>
+                        </div>
+                    }
 
                 </div>
 
