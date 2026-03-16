@@ -1,1 +1,0 @@
-﻿SELECT Id, Name, Route, Price FROM Ships ORDER BY RouteId;
